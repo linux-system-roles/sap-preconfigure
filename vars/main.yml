@@ -1,0 +1,11 @@
+---
+# vars file for prep-sap-install
+    prep_sap_install_packages:
+      - uuidd
+      - libnsl
+      - tcsh
+      - psmisc
+#      - tuned-profiles-sap
+
+    prep_sap_install_size_of_tmpfs_gb: "{{ ((0.75 * ( ansible_memtotal_mb + ansible_swaptotal_mb )) / 1024) | round | int }}"
+

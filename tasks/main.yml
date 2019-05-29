@@ -1,0 +1,12 @@
+---
+# tasks file for prep-sap-install
+
+- import_tasks: installation.yml
+  tags:
+    - 'role::prep-sap-install'
+    - 'role::prep-sap-install:installation'
+
+- import_tasks: configuration.yml
+  tags:
+    - 'role::prep-sap-install'
+    - 'role::prep-sap-install:configuration'

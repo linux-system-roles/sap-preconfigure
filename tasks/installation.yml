@@ -1,0 +1,8 @@
+---
+# tasks file for prep-sap-install: installation
+
+- import_tasks: sapnote/2772999/01-install-additional-software-packages-sap.yml
+  tags:
+    - 'role::prep-sap-install'
+    - 'role::prep-sap-install:installation'
+    - 'role::prep-sap-install:sapnote:2772999:01-install-additional-software-packages-sap'

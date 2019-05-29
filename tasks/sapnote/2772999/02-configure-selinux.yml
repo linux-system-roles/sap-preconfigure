@@ -1,0 +1,16 @@
+---
+# tasks file for prep-sap-install: configuration
+
+# 02-configure-selinux.yml
+  - debug:
+      msg: "SAP note 2772999 Step 2: Configure SELinux"
+  - name: "Disable SELinux"
+    selinux:
+      state: disabled
+      policy: targeted
+
+  - name: "Check for SELinux"
+    command: getenforce
+    register: getenforce_result
+  - debug:
+      var: getenforce_result.stdout_lines
