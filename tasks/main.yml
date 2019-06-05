@@ -3,10 +3,10 @@
 
 - import_tasks: installation.yml
   tags:
-    - 'role::prep-sap-install'
-    - 'role::prep-sap-install:installation'
+    - 'role::sap-preconfigure'
+    - 'role::sap-preconfigure:install'
 
 - import_tasks: configuration.yml
   tags:
-    - 'role::prep-sap-install'
-    - 'role::prep-sap-install:configuration'
+    - 'role::sap-preconfigure'
+    - 'role::sap-preconfigure:config'

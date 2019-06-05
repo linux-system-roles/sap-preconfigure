@@ -1,56 +1,56 @@
 ---
-# tasks file for prep-sap-install: configuration
+# tasks file for sap-preconfigure configuration
 
 - import_tasks: sapnote/2772999/02-configure-selinux.yml
   tags:
-    - 'role::prep-sap-install'
-    - 'role::prep-sap-install:configuration'
-    - 'role::prep-sap-install:sapnote:2772999:02-configure-selinux'
+    - 'role::sap-preconfigure'
+    - 'role::sap-preconfigure:config'
+    - 'role::sap-preconfigure:config:2772999:02-configure-selinux'
 
 - import_tasks: sapnote/2772999/03-configure-hostname.yml
   tags:
-    - 'role::prep-sap-install'
-    - 'role::prep-sap-install:configuration'
-    - 'role::prep-sap-install:sapnote:2772999:03-configure-hostname'
+    - 'role::sap-preconfigure'
+    - 'role::sap-preconfigure:config'
+    - 'role::sap-preconfigure:config:2772999:03-configure-hostname'
 
 - import_tasks: sapnote/2772999/04-configure-network-time-and-date.yml
   tags:
-    - 'role::prep-sap-install'
-    - 'role::prep-sap-install:configuration'
-    - 'role::prep-sap-install:sapnote:2772999:04-configure-network-time-and-date'
+    - 'role::sap-preconfigure'
+    - 'role::sap-preconfigure:config'
+    - 'role::sap-preconfigure:config:2772999:04-configure-network-time-and-date'
 
 - import_tasks: sapnote/2772999/05-configure-firewall.yml
   tags:
-    - 'role::prep-sap-install'
-    - 'role::prep-sap-install:configuration'
-    - 'role::prep-sap-install:sapnote:2772999:05-configure-firewall'
+    - 'role::sap-preconfigure'
+    - 'role::sap-preconfigure:config'
+    - 'role::sap-preconfigure:config:2772999:05-configure-firewall'
 
 - import_tasks: sapnote/2772999/06-configure-uuidd.yml
   tags:
-    - 'role::prep-sap-install'
-    - 'role::prep-sap-install:configuration'
-    - 'role::prep-sap-install:sapnote:2772999:06-configure-uuidd'
+    - 'role::sap-preconfigure'
+    - 'role::sap-preconfigure:config'
+    - 'role::sap-preconfigure:config:2772999:06-configure-uuidd'
 
 - import_tasks: sapnote/2772999/07-configure-tmpfs.yml
   tags:
-    - 'role::prep-sap-install'
-    - 'role::prep-sap-install:configuration'
-    - 'role::prep-sap-install:sapnote:2772999:07-configure-tmpfs'
+    - 'role::sap-preconfigure'
+    - 'role::sap-preconfigure:config'
+    - 'role::sap-preconfigure:config:2772999:07-configure-tmpfs'
 
 - import_tasks: sapnote/2772999/08-configure-linux-kernel-parameters.yml
   tags:
-    - 'role::prep-sap-install'
-    - 'role::prep-sap-install:configuration'
-    - 'role::prep-sap-install:sapnote:2772999:08-configure-linux-kernel-parameters'
+    - 'role::sap-preconfigure'
+    - 'role::sap-preconfigure:config'
+    - 'role::sap-preconfigure:config:2772999:08-configure-linux-kernel-parameters'
 
 - import_tasks: sapnote/2772999/09-configure-process-resource-limits.yml
   tags:
-    - 'role::prep-sap-install'
-    - 'role::prep-sap-install:configuration'
-    - 'role::prep-sap-install:sapnote:2772999:09-configure-process-resource-limits'
+    - 'role::sap-preconfigure'
+    - 'role::sap-preconfigure:config'
+    - 'role::sap-preconfigure:config:2772999:09-configure-process-resource-limits'
 
 - import_tasks: sapnote/2772999/10-configure-systemd-tmpfiles.yml
   tags:
-    - 'role::prep-sap-install'
-    - 'role::prep-sap-install:configuration'
-    - 'role::prep-sap-install:sapnote:2772999:10-configure-systemd-tmpfiles.yml'
+    - 'role::sap-preconfigure'
+    - 'role::sap-preconfigure:config'
+    - 'role::sap-preconfigure:config:2772999:10-configure-systemd-tmpfiles.yml'
