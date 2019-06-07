@@ -12,9 +12,12 @@ Role Variables
 --------------
 
 vars/main.yml:
-sap_preconfigure_packages: contains the additional packages which are not contained in the "Server" environment group and which are needed for any SAP software
-sap_preconfigure_size_of_tmpfs_gb: Formula for setting the size of TMPFS
+sap_preconfigure_packages: contains the additional packages which are not contained in the "Server" environment group and which are needed for any SAP software.
+
+sap_preconfigure_size_of_tmpfs_gb: Formula for setting the size of TMPFS.
+
 sap_preconfigure_locale: Locale to be checked.
+
 sap_preconfigure_db_group_name: Name of the RHEL group which is used for the database processes.
 
 Dependencies
