@@ -11,7 +11,8 @@ To use this role, your system needs to be installed according to SAP note 277299
 Role Variables
 --------------
 
-vars/main.yml:
+set in vars/main.yml:
+
 sap_preconfigure_packages: contains the additional packages which are not contained in the "Server" environment group and which are needed for any SAP software.
 
 sap_preconfigure_size_of_tmpfs_gb: Formula for setting the size of TMPFS.
