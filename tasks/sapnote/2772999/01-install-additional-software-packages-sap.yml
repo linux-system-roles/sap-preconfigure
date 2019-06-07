@@ -1,5 +1,5 @@
 ---
-# tasks file for prep-sap-install: installation
+# tasks file for sap-preconfigure: installation
 
 # 01-install-additional-software-packages-sap.yml
   - debug:
@@ -16,7 +16,7 @@
     package:
       name: "{{ item }}"
       state: present
-    with_items: "{{ prep_sap_install_packages }}"
+    with_items: "{{ sap_preconfigure_packages }}"
     when:
       - ansible_facts['distribution'] == "RedHat"
       - ansible_facts['distribution_major_version'] == "8"
