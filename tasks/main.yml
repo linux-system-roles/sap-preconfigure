@@ -1,5 +1,5 @@
 ---
-# tasks file for prep-sap-install
+# tasks file for sap-preconfigure
 
 - import_tasks: installation.yml
   tags:

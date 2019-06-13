@@ -1,5 +1,5 @@
 ---
-# tasks file for prep-sap-install: configuration
+# tasks file for sap-preconfigure: configuration
 
 # 02-configure-selinux.yml
   - debug:

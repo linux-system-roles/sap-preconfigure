@@ -1,40 +1,46 @@
-Role Name
-=========
+sap-preconfigure
+================
 
-A brief description of the role goes here.
+This role configures a RHEL 8 system according to applicable SAP notes so that any SAP software can be installed.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+To use this role, your system needs to be installed according to SAP note 2772999, section "Installing Red Hat Enterprise Linux 8". Most important here: Choose the "Server" Base Environment (=environment group) in the installer, without any add-ons.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+set in vars/main.yml:
+
+sap_preconfigure_packages: contains the additional packages which are not contained in the "Server" environment group and which are needed for any SAP software.
+
+sap_preconfigure_size_of_tmpfs_gb: Formula for setting the size of TMPFS.
+
+sap_preconfigure_locale: Locale to be checked.
+
+sap_preconfigure_db_group_name: Name of the RHEL group which is used for the database processes.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+This role does not depend on any other role.
 
 Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
+    - hosts: all
       roles:
-         - { role: username.rolename, x: 42 }
+         - role: sap-preconfigure
 
 License
 -------
 
-BSD
+GNU General Public License v3.0
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
-# sap_preconfigure
-preconfigure a server for any SAP software installations
+Bernd Finger

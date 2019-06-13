@@ -1,14 +1,14 @@
 ---
-# tasks file for prep-sap-install: configuration
+# tasks file for sap-preconfigure: configuration
 
 # 07-configure-tmpfs.yml
   - debug:
-      msg: "SAP note 2772999 Step 7: Configure tmpfs; memtotal_mb = {{ ansible_memtotal_mb }}; swaptotal_mb = {{ ansible_swaptotal_mb }}; prep_sap_install_size_of_tmpfs_gb = {{ prep_sap_install_size_of_tmpfs_gb }}"
+      msg: "SAP note 2772999 Step 7: Configure tmpfs; memtotal_mb = {{ ansible_memtotal_mb }}; swaptotal_mb = {{ ansible_swaptotal_mb }}; sap_preconfigure_size_of_tmpfs_gb = {{ sap_preconfigure_size_of_tmpfs_gb }}"
   - name: "Check and configure the size of tmpfs"
     lineinfile:
       path: /etc/fstab
       regexp: '/dev/shm'
-      line: "none     /dev/shm       tmpfs   defaults,size={{ prep_sap_install_size_of_tmpfs_gb }}G        0 0"
+      line: "none     /dev/shm       tmpfs   defaults,size={{ sap_preconfigure_size_of_tmpfs_gb }}G        0 0"
       state: present
 
   - name: "grep /dev/shm /etc/fstab"
