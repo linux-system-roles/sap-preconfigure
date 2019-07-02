@@ -1,7 +1,7 @@
 sap-preconfigure
 ================
 
-This role configures a RHEL 8 system according to applicable SAP notes so that any SAP software can be installed.
+This role configures a RHEL 7 or RHEL 8 system according to applicable SAP notes so that any SAP software can be installed.
 
 Requirements
 ------------
