@@ -16,3 +16,5 @@
     ignore_errors: True
   - debug:
       var: command_result.stdout_lines, command_result.stderr_lines
+
+...

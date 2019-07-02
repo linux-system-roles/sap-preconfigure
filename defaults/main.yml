@@ -1,2 +1,10 @@
 ---
 # defaults file for sap-preconfigure
+
+sap_preconfigure_min_package_check: false
+
+sap_preconfigure_installation_check_only: false
+
+sap_preconfigure_update: false
+
+...

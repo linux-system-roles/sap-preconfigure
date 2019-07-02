@@ -1,9 +1,10 @@
 ---
 # tasks file for sap-preconfigure: configuration
 
-# 09-configure-process-resource-limits.yml
+# 04-process-resource-limits.yml
   - debug:
-      msg: "SAP note 2772999 Step 9: Configure Process Resource Limits"
+      msg: "SAP note 2002167 Step 5: Process Resource Limits"
+
   - name: "Create file /etc/security/limits.d/99-sap.conf if it does not exist"
     file:
       path: /etc/security/limits.d/99-sap.conf
