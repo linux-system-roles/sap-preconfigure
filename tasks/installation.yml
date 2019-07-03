@@ -1,8 +1,33 @@
 ---
 # tasks file for sap-preconfigure: installation
 
-- import_tasks: sapnote/2772999/01-install-additional-software-packages-sap.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:install'
-    - 'role::sap-preconfigure:install:2772999:01-install-additional-software-packages-sap'
+- name: ensure minimal required packages are installed
+  package:
+    state: present
+    name: "{{ sap_preconfigure_min_pkgs }}"
+  when: 
+    - sap_preconfigure_min_package_check 
+    - not( (sap_preconfigure_min_pkgs is undefined) or (sap_preconfigure_min_pkgs is none) or (sap_preconfigure_min_pkgs | trim == '') ) 
+- name: ensure required package groups are installed
+  package: 
+    state: present 
+    name: "{{ sap_preconfigure_packagegroups }}"
+  check_mode: "{{ sap_preconfigure_installation_check_only }}"
+
+# temporary
+- name: ensure required packages are installed
+  package:
+    state: present
+    name: "{{ sap_preconfigure_packages }}"
+  check_mode: "{{ sap_preconfigure_installation_check_only }}"
+  register: sap_preconfigure_register_groupinstall
+
+- name: ensure system is updated to the latest patchlevel
+  package:
+    state: latest
+    name: "*"
+  when: sap_preconfigure_update
+  check_mode: "{{ sap_preconfigure_installation_check_only }}"
+  register: sap_preconfigure_register_packageinstall
+
+...

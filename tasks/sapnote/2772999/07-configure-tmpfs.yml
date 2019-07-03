@@ -28,3 +28,5 @@
     register: shell_result
   - debug:
       var: shell_result.stdout_lines, shell_result.stderr_lines
+
+...
