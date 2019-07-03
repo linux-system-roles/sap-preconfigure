@@ -9,9 +9,9 @@ sap_preconfigure_sapnotes:
 sap_preconfigure_packagegroups_x86_64:
   - "@base"
   - "@compat-libraries"
-#  - "@large-systems"
+  - "@large-systems"
   - "@network-file-system-client"
-#  - "@performance"
+  - "@performance"
 
 sap_preconfigure_packagegroups_ppc64le:
   - "@base"
@@ -21,10 +21,10 @@ sap_preconfigure_packagegroups: "{{ lookup('vars','sap_preconfigure_packagegroup
 
 sap_preconfigure_packages:
   - uuidd
-#  - libnsl
   - tcsh
   - psmisc
-#  - tuned-profiles-sap
+#  - compat-libstdc++-33
+  - tuned-profiles-sap
 
 sap_preconfigure_size_of_tmpfs_gb: "{{ ((0.75 * ( ansible_memtotal_mb + ansible_swaptotal_mb )) / 1024) | round | int }}"
 
