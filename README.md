@@ -16,13 +16,20 @@ Role Variables
 - set in vars/RedHat_7.yml and vars/RedHat_8.yml:
 
 sap_preconfigure_sapnotes: List of applicable SAP notes. Used to include yml files from directory tasks/sapnote/<SAP Note number>.
-sap_preconfigure_packagegroups_x86_64: Package group (environment group) to check or install (x86_64)
-sap_preconfigure_packagegroups_ppc64le: Package group (environment group) to check or install (ppc64le)
-sap_preconfigure_packagegroups: Automatically set from one of the two variables above
+
+sap_preconfigure_packagegroups_x86_64: Package group (environment group) to check or install (x86_64).
+
+sap_preconfigure_packagegroups_ppc64le: Package group (environment group) to check or install (ppc64le).
+
+sap_preconfigure_packagegroups: Automatically set from one of the two variables above.
+
 sap_preconfigure_packages: Contains the additional packages which are not contained in sap_preconfigure_packagegroups and which are
    needed for SAP software installation.
+
 sap_preconfigure_size_of_tmpfs_gb: Formula for setting the size of TMPFS. See also SAP note 941735.
+
 sap_preconfigure_locale: Locale to be checked. This is currently not implemented.
+
 sap_preconfigure_db_group_name: Name of the RHEL group which is used for the database processes.
 
 Dependencies
