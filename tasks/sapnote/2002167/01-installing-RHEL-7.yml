@@ -1,6 +1,7 @@
 ---
 # tasks file for sap-preconfigure: installation
 
+# This is all done in tasks/installation.yml so this yml file will not be called from 2002167.yml:
 # 01-install-additional-software-packages-sap.yml
   - debug:
       msg: "SAP note 2002167 Step 1: Installing Red Hat Enterprise Linux 7"

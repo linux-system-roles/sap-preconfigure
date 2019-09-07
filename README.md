@@ -1,7 +1,7 @@
 sap-preconfigure
 ================
 
-This role configures a RHEL 7 or RHEL 8 system according to applicable SAP notes so that any SAP software can be installed.
+This role configures a RHEL 7 or RHEL 8 system according to applicable SAP notes so that any SAP software can be installed. Future implementation may reduce the scope of this role, for example if certain installation or configuration steps are done in more specialized roles.
 
 Requirements
 ------------
@@ -15,22 +15,44 @@ Role Variables
 
 - set in vars/RedHat_7.yml and vars/RedHat_8.yml:
 
-sap_preconfigure_sapnotes: List of applicable SAP notes. Used to include yml files from directory tasks/sapnote/<SAP Note number>.
+### SAP notes to apply
+The following variable contains a list of all SAP notes which are used for this role. This is used to include yml files
+from directories tasks/sapnote/<SAP Note number>.
+```yaml
+sap_preconfigure_sapnotes
+```
 
-sap_preconfigure_packagegroups_x86_64: Package group (environment group) to check or install (x86_64).
+### required package groups
+The following variables define the required package groups. Note that variable sap_preconfigure_packagegroups is automatically filled from either sap_preconfigure_packagegroups_x86_64 or sap_preconfigure_packagegroups_ppc64le:
+```yaml
+sap_preconfigure_packagegroups_x86_64
+sap_preconfigure_packagegroups_ppc64le
+sap_preconfigure_packagegroups
+```
 
-sap_preconfigure_packagegroups_ppc64le: Package group (environment group) to check or install (ppc64le).
+### required packages
+The following variable defines the required additional packages:
+```yaml
+sap_preconfigure_packages
+```
 
-sap_preconfigure_packagegroups: Automatically set from one of the two variables above.
+### size of TMPFS in GB:
+The following variable contains a formula for setting the size of TMPFS according to SAP note 941735.
+```yaml
+sap_preconfigure_size_of_tmpfs_gb
+```
 
-sap_preconfigure_packages: Contains the additional packages which are not contained in sap_preconfigure_packagegroups and which are
-   needed for SAP software installation.
+### Locale
+The following variable contains the locale to be check. This check is currently not implemented.
+```yaml
+sap_preconfigure_locale
+```
 
-sap_preconfigure_size_of_tmpfs_gb: Formula for setting the size of TMPFS. See also SAP note 941735.
-
-sap_preconfigure_locale: Locale to be checked. This is currently not implemented.
-
-sap_preconfigure_db_group_name: Name of the RHEL group which is used for the database processes.
+### Linux group name of the database user
+The following variable contains the name of the group which is used for the database(s), e.g. dba.
+```yaml
+sap_preconfigure_db_group_name
+```
 
 Dependencies
 ------------
@@ -40,11 +62,17 @@ This role does not depend on any other role.
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
+```yaml
+---
     - hosts: all
       roles:
          - role: sap-preconfigure
+         - role: sap-hana-preconfigure
+```
+
+Example Usage
+-------------
+ansible-playbook -l remote_host site.yml
 
 License
 -------

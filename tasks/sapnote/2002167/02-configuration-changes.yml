@@ -4,7 +4,6 @@
 # 02-configuration-changes.yml
   - debug:
       msg: "SAP note 2002167 Step 2a: Configure the Firewall"
-
   - name: "Stop and disable service firewalld"
     systemd:
       name: firewalld
