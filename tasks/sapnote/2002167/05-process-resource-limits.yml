@@ -2,55 +2,55 @@
 # tasks file for sap-preconfigure: configuration
 
 # 04-process-resource-limits.yml
-  - debug:
-      msg: "SAP note 2002167 Step 5: Process Resource Limits"
+- debug:
+    msg: "SAP note 2002167 Step 5: Process Resource Limits"
 
-  - name: "Create file /etc/security/limits.d/99-sap.conf if it does not exist"
-    file:
-      path: /etc/security/limits.d/99-sap.conf
-      state: touch
-      mode: 0644
+- name: Create file /etc/security/limits.d/99-sap.conf if it does not exist
+  file:
+    path: /etc/security/limits.d/99-sap.conf
+    state: touch
+    mode: 0644
 
-  - name: "Set the hard limit for the max number of open files per process (nofile) to 32800 for group sapsys"
-    lineinfile:
-      path: /etc/security/limits.d/99-sap.conf
-      line: "@sapsys    hard    nofile    32800"
-      state: present
+- name: Set the hard limit for the max number of open files per process (nofile) to 32800 for group sapsys
+  lineinfile:
+    path: /etc/security/limits.d/99-sap.conf
+    line: "@sapsys    hard    nofile    32800"
+    state: present
 
-  - name: "Set the soft limit for the max number of open files per process (nofile) to 32800 for group sapsys"
-    lineinfile:
-      path: /etc/security/limits.d/99-sap.conf
-      line: "@sapsys    soft    nofile    32800"
-      state: present
+- name: Set the soft limit for the max number of open files per process (nofile) to 32800 for group sapsys
+  lineinfile:
+    path: /etc/security/limits.d/99-sap.conf
+    line: "@sapsys    soft    nofile    32800"
+    state: present
 
-  - name: "Set the hard and soft limit for the max number of open files per process (nofile) to 32800 for the database group"
-    block:
-      - name: "Set the hard limit for the max number of open files per process (nofile) to 32800 for the database group"
-        lineinfile:
-          path: /etc/security/limits.d/99-sap.conf
-          line: "@{{ sap_preconfigure_db_group_name }}    hard    nofile    32800"
-          state: present
+- name: Set the hard and soft limit for the max number of open files per process (nofile) to 32800 for the database group
+  block:
+    - name: Set the hard limit for the max number of open files per process (nofile) to 32800 for the database group
+      lineinfile:
+        path: /etc/security/limits.d/99-sap.conf
+        line: "@{{ sap_preconfigure_db_group_name }}    hard    nofile    32800"
+        state: present
 
-      - name: "Set the soft limit for the max number of open files per process (nofile) to 32800 for the database group"
-        lineinfile:
-          path: /etc/security/limits.d/99-sap.conf
-          line: "@{{ sap_preconfigure_db_group_name }}    soft    nofile    32800"
-          state: present
-    when:
-      - sap_preconfigure_db_group_name is defined
+    - name: Set the soft limit for the max number of open files per process (nofile) to 32800 for the database group
+      lineinfile:
+        path: /etc/security/limits.d/99-sap.conf
+        line: "@{{ sap_preconfigure_db_group_name }}    soft    nofile    32800"
+        state: present
+  when:
+    - sap_preconfigure_db_group_name is defined
 
-  - name: "Set soft limit for the max number of processes per user (nproc) to unlimited for group sapsys"
-    lineinfile:
-      path: /etc/security/limits.d/99-sap.conf
-      line: "@sapsys    soft    nproc    unlimited"
-      state: present
+- name: Set soft limit for the max number of processes per user (nproc) to unlimited for group sapsys
+  lineinfile:
+    path: /etc/security/limits.d/99-sap.conf
+    line: "@sapsys    soft    nproc    unlimited"
+    state: present
 
-  - name: "Set soft limit for the max number of processes per user (nproc) to unlimited for the database group"
-    lineinfile:
-      path: /etc/security/limits.d/99-sap.conf
-      line: "@{{ sap_preconfigure_db_group_name }}    soft    nproc    unlimited"
-      state: present
-    when:
-      - sap_preconfigure_db_group_name is defined
+- name: Set soft limit for the max number of processes per user (nproc) to unlimited for the database group
+  lineinfile:
+    path: /etc/security/limits.d/99-sap.conf
+    line: "@{{ sap_preconfigure_db_group_name }}    soft    nproc    unlimited"
+    state: present
+  when:
+    - sap_preconfigure_db_group_name is defined
 
 ...

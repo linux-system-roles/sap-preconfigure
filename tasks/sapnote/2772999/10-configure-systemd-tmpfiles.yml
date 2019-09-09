@@ -2,21 +2,16 @@
 # tasks file for sap-preconfigure: configuration
 
 # 10-configure-systemd-tmpfiles.yml
-  - debug:
-      msg: "SAP note 2772999 Step 10: Configure systemd-tmpfiles"
-  - name: "Create file /etc/tmpfiles.d/sap.conf if it does not exist"
-    file:
-      path: /etc/tmpfiles.d/sap.conf
-      state: touch
-      mode: 0644
+- debug:
+    msg: "SAP note 2772999 Step 10: Configure systemd-tmpfiles"
 
-  - name: "Copy file /etc/tmpfiles.d/sap.conf"
-    copy:
-      src: files/etc/tmpfiles.d/sap.conf
-      dest: /etc/tmpfiles.d/sap.conf
-      owner: root
-      group: root
-      mode: '0644'
-      backup: yes
+- name: Copy file /etc/tmpfiles.d/sap.conf
+  copy:
+    src: files/etc/tmpfiles.d/sap.conf
+    dest: /etc/tmpfiles.d/sap.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
 
 ...

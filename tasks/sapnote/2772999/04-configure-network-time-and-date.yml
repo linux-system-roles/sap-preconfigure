@@ -2,20 +2,21 @@
 # tasks file for sap-preconfigure: configuration
 
 # 04-configure-network-time-and-date.yml
-  - debug:
-      msg: "SAP note 2772999 Step 4: Configure Network Time and Date"
-  - name: "Start and enable service chronyd"
-    systemd:
-      name: chronyd
-      state: started
-      enabled: yes
+- debug:
+    msg: "SAP note 2772999 Step 4: Configure Network Time and Date"
 
-  - name: "Get status of chronyd"
-    command: bash -lc "systemctl status chronyd"
-    register: command_result
-    ignore_errors: True
-    changed_when: False
-  - debug:
-      var: command_result.stdout_lines, command_result.stderr_lines
+- name: Start and enable service chronyd
+  systemd:
+    name: chronyd
+    state: started
+    enabled: yes
+
+- name: Get status of chronyd
+  command: bash -lc "systemctl status chronyd"
+  register: command_result
+  ignore_errors: True
+  changed_when: False
+- debug:
+    var: command_result.stdout_lines, command_result.stderr_lines
 
 ...

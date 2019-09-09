@@ -2,40 +2,34 @@
 # tasks file for sap-preconfigure: configuration
 
 # 06-additional-notes-for-installing-sap-systems.yml
-  - debug:
-      msg: "SAP note 2002167 Step 6: Additional notes for installing SAP systems"
+- debug:
+    msg: "SAP note 2002167 Step 6: Additional notes for installing SAP systems"
 
-  - name: "Link LDAP library libldap"
-    file:
-      src: /usr/lib64/libldap-2.3.so.0
-      dest: /usr/lib64/libldap.so.199
-      state: link
-      owner: root
-      group: root
-      mode: '0644'
+- name: Link LDAP library libldap
+  file:
+    src: /usr/lib64/libldap-2.3.so.0
+    dest: /usr/lib64/libldap.so.199
+    state: link
+    owner: root
+    group: root
+    mode: '0644'
 
-  - name: "Link LDAP library liblber"
-    file:
-      src: /usr/lib64/liblber-2.3.so.0
-      dest: /usr/lib64/liblber.so.199
-      state: link
-      owner: root
-      group: root
-      mode: '0644'
+- name: Link LDAP library liblber
+  file:
+    src: /usr/lib64/liblber-2.3.so.0
+    dest: /usr/lib64/liblber.so.199
+    state: link
+    owner: root
+    group: root
+    mode: '0644'
 
-  - name: "Create file /etc/tmpfiles.d/sap.conf if it does not exist"
-    file:
-      path: /etc/tmpfiles.d/sap.conf
-      state: touch
-      mode: 0644
-
-  - name: "Copy file /etc/tmpfiles.d/sap.conf"
-    copy:
-      src: files/etc/tmpfiles.d/sap.conf
-      dest: /etc/tmpfiles.d/sap.conf
-      owner: root
-      group: root
-      mode: '0644'
-      backup: yes
+- name: Copy file /etc/tmpfiles.d/sap.conf
+  copy:
+    src: files/etc/tmpfiles.d/sap.conf
+    dest: /etc/tmpfiles.d/sap.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
 
 ...

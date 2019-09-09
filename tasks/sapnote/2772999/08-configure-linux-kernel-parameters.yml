@@ -2,18 +2,19 @@
 # tasks file for sap-preconfigure: configuration
 
 # 08-configure-linux-kernel-parameters.yml
-  - debug:
-      msg: "SAP note 2772999 Step 8: Configure Linux Kernel Parameters"
-  - name: "Create file /etc/sysctl.d/sap.conf if it does not exist"
-    file:
-      path: /etc/sysctl.d/sap.conf
-      state: touch
-      mode: 0644
+- debug:
+    msg: "SAP note 2772999 Step 8: Configure Linux Kernel Parameters"
 
-  - name: "Set kernel parameter vm.max_map_count"
-    lineinfile:
-      path: /etc/sysctl.d/sap.conf
-      line: "vm.max_map_count = 2147483647"
-      state: present
+- name: Create file /etc/sysctl.d/sap.conf if it does not exist
+  file:
+    path: /etc/sysctl.d/sap.conf
+    state: touch
+    mode: 0644
+
+- name: Set kernel parameter vm.max_map_count
+  lineinfile:
+    path: /etc/sysctl.d/sap.conf
+    line: "vm.max_map_count = 2147483647"
+    state: present
 
 ...
