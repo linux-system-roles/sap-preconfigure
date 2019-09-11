@@ -17,6 +17,13 @@ sap_preconfigure_packagegroups_ppc64le:
   - "@base"
   - "@compat-libraries"
 
+sap_preconfigure_packagegroups_s390x:
+  - "@base"
+  - "@compat-libraries"
+  - "@large-systems"
+  - "@network-file-system-client"
+  - "@performance"
+
 sap_preconfigure_packagegroups: "{{ lookup('vars','sap_preconfigure_packagegroups_' + ansible_architecture|string ) }}"
 
 sap_preconfigure_packages:

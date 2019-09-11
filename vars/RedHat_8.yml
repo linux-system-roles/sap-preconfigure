@@ -11,6 +11,9 @@ sap_preconfigure_packagegroups_x86_64:
 sap_preconfigure_packagegroups_ppc64le:
   - "@server"
 
+sap_preconfigure_packagegroups_s390x:
+  - "@server"
+
 sap_preconfigure_packagegroups: "{{ lookup('vars','sap_preconfigure_packagegroups_' + ansible_architecture|string ) }}"
 
 sap_preconfigure_packages:
