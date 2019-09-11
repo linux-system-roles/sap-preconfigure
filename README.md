@@ -22,7 +22,7 @@ from directories tasks/sapnote/<SAP Note number>.
 sap_preconfigure_sapnotes
 ```
 
-### required package groups
+### Required package groups
 The following variables define the required package groups. Note that variable sap_preconfigure_packagegroups is automatically filled from either sap_preconfigure_packagegroups_x86_64 or sap_preconfigure_packagegroups_ppc64le:
 ```yaml
 sap_preconfigure_packagegroups_x86_64
@@ -30,7 +30,7 @@ sap_preconfigure_packagegroups_ppc64le
 sap_preconfigure_packagegroups
 ```
 
-### required packages
+### Required packages
 The following variable defines the required additional packages:
 ```yaml
 sap_preconfigure_packages

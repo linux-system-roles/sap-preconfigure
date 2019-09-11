@@ -23,7 +23,6 @@ sap_preconfigure_packages:
   - uuidd
   - tcsh
   - psmisc
-#  - compat-libstdc++-33
 #  - tuned-profiles-sap    - now in role sap-netweaver-preconfigure
 
 sap_preconfigure_size_of_tmpfs_gb: "{{ ((0.75 * ( ansible_memtotal_mb + ansible_swaptotal_mb )) / 1024) | round | int }}"
