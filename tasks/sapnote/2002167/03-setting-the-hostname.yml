@@ -2,30 +2,30 @@
 # tasks file for sap-preconfigure: configuration
 
 # 03-setting-the-hostname.yml
-  - debug:
-      msg: "SAP note 2002167 Step 3: Configure Hostname"
+- debug:
+    msg: "SAP note 2002167 Step 3: Configure Hostname"
 
-  - name: "Make sure the short hostname is returned with \"hostname\" command and not FQDN"
-    shell: |
-       if [ $(hostname -s) == $(hostname) -a $(hostname -f) == $(hostname).$(hostname -d) ]; then
-          rc=0
-       else
-          hostnamectl set-hostname $(hostname -s)
-          rc=1
-       fi
-       exit $rc
-    register: change_hostname
-    changed_when: change_hostname.rc == 1
-    failed_when: change_hostname.rc >= 2
+- name: Make sure the short hostname is returned with "hostname" command and not FQDN
+  shell: |
+     if [ $(hostname -s) == $(hostname) -a $(hostname -f) == $(hostname).$(hostname -d) ]; then
+        rc=0
+     else
+        hostnamectl set-hostname $(hostname -s)
+        rc=1
+     fi
+     exit $rc
+  register: change_hostname
+  changed_when: change_hostname.rc == 1
+  failed_when: change_hostname.rc >= 2
 
-  - name: "Make sure server's IP address is in /etc/hosts"
-    lineinfile:
-      path: /etc/hosts
-      regexp: '^{{ ansible_default_ipv4.address }}'
-      insertbefore: '^127.0.0.1'
-      line: "{{ ansible_default_ipv4.address }} {{ ansible_fqdn }} {{ ansible_hostname }} "
-      state: present
-  - debug:
-      msg: "System {{ ansible_hostname }}, {{ ansible_fqdn }} has ipv4 address {{ ansible_default_ipv4.address }}"
+- name: Make sure server's IP address is in /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^{{ ansible_default_ipv4.address }}'
+    insertbefore: '^127.0.0.1'
+    line: "{{ ansible_default_ipv4.address }} {{ ansible_fqdn }} {{ ansible_hostname }} "
+    state: present
+- debug:
+    msg: "System {{ ansible_hostname }}, {{ ansible_fqdn }} has ipv4 address {{ ansible_default_ipv4.address }}"
 
 ...

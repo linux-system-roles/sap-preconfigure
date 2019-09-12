@@ -2,19 +2,21 @@
 # tasks file for sap-preconfigure: configuration
 
 # 06-configure-uuidd.yml
-  - debug:
-      msg: "SAP note 2772999 Step 6: Configure uuidd"
-  - name: "Start and enable service uuidd"
-    systemd:
-      name: uuidd
-      state: started
-      enabled: yes
+- debug:
+    msg: "SAP note 2772999 Step 6: Configure uuidd"
 
-  - name: "Get status of uuidd"
-    command: bash -lc "systemctl status uuidd"
-    register: command_result
-    ignore_errors: True
-  - debug:
-      var: command_result.stdout_lines, command_result.stderr_lines
+- name: Start and enable service uuidd
+  systemd:
+    name: uuidd
+    state: started
+    enabled: yes
+
+- name: Get status of uuidd
+  command: bash -lc "systemctl status uuidd"
+  register: command_result
+  ignore_errors: True
+  changed_when: false
+- debug:
+    var: command_result.stdout_lines, command_result.stderr_lines
 
 ...

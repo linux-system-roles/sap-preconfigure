@@ -6,7 +6,7 @@
     state: present
     name: "{{ sap_preconfigure_min_pkgs }}"
   when: 
-    - sap_preconfigure_min_package_check 
+    - sap_preconfigure_min_package_check|bool
     - not( (sap_preconfigure_min_pkgs is undefined) or (sap_preconfigure_min_pkgs is none) or (sap_preconfigure_min_pkgs | trim == '') ) 
 - name: ensure required package groups are installed
   package: 

@@ -2,20 +2,20 @@
 # tasks file for sap-preconfigure: configuration
 
 # Linux-UUID-solutions
-  - debug:
-      msg: "SAP note 1391070: Configure uuidd"
+- debug:
+    msg: "SAP note 1391070: Configure uuidd"
+- name: Start and enable service uuidd
+  systemd:
+    name: uuidd
+    state: started
+    enabled: yes
 
-  - name: "Start and enable service uuidd"
-    systemd:
-      name: uuidd
-      state: started
-      enabled: yes
-
-  - name: "Get status of uuidd"
-    command: bash -lc "systemctl status uuidd"
-    register: command_result
-    ignore_errors: True
-  - debug:
-      var: command_result.stdout_lines, command_result.stderr_lines
+- name: Get status of uuidd
+  command: bash -lc "systemctl status uuidd"
+  register: command_result
+  ignore_errors: True
+  changed_when: False
+- debug:
+    var: command_result.stdout_lines, command_result.stderr_lines
 
 ...
