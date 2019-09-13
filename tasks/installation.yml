@@ -14,7 +14,6 @@
     name: "{{ sap_preconfigure_packagegroups }}"
   check_mode: "{{ sap_preconfigure_installation_check_only }}"
 
-# temporary
 - name: ensure required packages are installed
   package:
     state: present
