@@ -5,22 +5,18 @@
 - debug:
     msg: "SAP note 2002167 Step 4: Linux Kernel Parameters"
 
-- name: Create file /etc/sysctl.d/sap.conf if it does not exist
-  file:
-    path: /etc/sysctl.d/sap.conf
-    state: touch
-    mode: 0644
-
-- name: Set kernel parameter kernel.sem
-  lineinfile:
-    path: /etc/sysctl.d/sap.conf
-    line: "kernel.sem=1250 256000 100 1024"
+- name: Set kernel parameters kernel.sem and vm.max_map_count
+  sysctl:
+    sysctl_file: /etc/sysctl.d/sap.conf
+    name: "{{ line_item.name }}"
+    value: "{{ line_item.value }}"
     state: present
-
-- name: Set kernel parameter vm.max_map_count
-  lineinfile:
-    path: /etc/sysctl.d/sap.conf
-    line: "vm.max_map_count = 2000000"
-    state: present
+    sysctl_set: yes
+    reload: yes
+  with_items:
+    - { name: kernel.sem, value: "1250 256000 100 1024" }
+    - { name: vm.max_map_count, value: 2000000 }
+  loop_control:
+    loop_var: line_item
 
 ...
