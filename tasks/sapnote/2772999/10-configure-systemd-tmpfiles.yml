@@ -7,7 +7,7 @@
 
 - name: Copy file /etc/tmpfiles.d/sap.conf
   copy:
-    src: files/etc/tmpfiles.d/sap.conf
+    src: etc/tmpfiles.d/sap.conf
     dest: /etc/tmpfiles.d/sap.conf
     owner: root
     group: root
