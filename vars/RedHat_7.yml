@@ -39,6 +39,6 @@ sap_preconfigure_locale: en_US.UTF-8
 # use the following variable to specify the name of the RHEL group which is used for the database processes
 # (if it exists, it will be used to configure process limits as per step
 #  "Configuring Process Resource Limits" of SAP note 2002167):
-#    sap_preconfigure_db_group_name: dba
+# sap_preconfigure_db_group_name: dba
 
 ...
