@@ -36,6 +36,8 @@ sap_preconfigure_size_of_tmpfs_gb: "{{ ((0.75 * ( ansible_memtotal_mb + ansible_
 
 sap_preconfigure_locale: en_US.UTF-8
 
+sap_preconfigure_modify_etc_hosts: no
+
 # use the following variable to specify the name of the RHEL group which is used for the database processes
 # (if it exists, it will be used to configure process limits as per step
 #  "Configuring Process Resource Limits" of SAP note 2002167):
