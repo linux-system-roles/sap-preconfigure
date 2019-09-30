@@ -49,6 +49,13 @@ The following variable contains the locale to be check. This check is currently 
 sap_preconfigure_locale
 ```
 
+### Modify /etc/hosts
+If you want the role to modify /etc/hosts, set the following variable to yes.
+If set to no, the role will only check if /etc/hosts is set according to SAP's requirements. Default is no.
+```yaml
+sap_preconfigure_modify_etc_hosts
+```
+
 ### Linux group name of the database user
 The following variable contains the name of the group which is used for the database(s), e.g. dba.
 ```yaml
