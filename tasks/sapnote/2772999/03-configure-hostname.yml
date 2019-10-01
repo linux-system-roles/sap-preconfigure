@@ -47,7 +47,8 @@
     path: /etc/hosts
     regexp: '^{{ ansible_default_ipv4.address }}'
     insertbefore: '^127.0.0.1'
-    line: "{{ ansible_default_ipv4.address }} {{ ansible_fqdn }} {{ ansible_hostname }} "
+#    line: "{{ ansible_default_ipv4.address }} {{ ansible_fqdn }} {{ ansible_hostname }} "
+    line: "{{ ansible_default_ipv4.address }} {{ ansible_hostname }}.{{ ansible_domain }} {{ ansible_hostname }} "
     state: present
   when:
     - sap_preconfigure_modify_etc_hosts
