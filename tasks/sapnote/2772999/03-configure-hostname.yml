@@ -6,17 +6,8 @@
     msg: "SAP note 2772999 Step 3: Configure Hostname"
 
 - name: Make sure the short hostname is returned with "hostname" command and not FQDN
-  shell: |
-     if [ $(hostname -s) == $(hostname) -a $(hostname -f) == $(hostname).$(hostname -d) ]; then
-        rc=0
-     else
-        hostnamectl set-hostname $(hostname -s)
-        rc=1
-     fi
-     exit $rc
-  register: change_hostname
-  changed_when: change_hostname.rc == 1
-  failed_when: change_hostname.rc >= 2
+  hostname:
+    name: "{{ ansible_hostname }}"
 
 - name: Check if ipv4 address, FQDN, and hostname are in /etc/hosts
   command: bash -lc "awk 'BEGIN{a=0}/{{ ansible_default_ipv4.address }}/&&/{{ ansible_hostname }}.{{ ansible_domain }}/&&/{{ ansible_hostname }}/{a++}END{print a}' /etc/hosts"
