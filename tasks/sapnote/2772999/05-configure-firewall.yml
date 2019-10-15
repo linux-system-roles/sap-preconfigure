@@ -15,6 +15,7 @@
   command: bash -lc "systemctl status firewalld"
   register: command_result
   ignore_errors: True
+  changed_when: false
 - debug:
     var: command_result.stdout_lines, command_result.stderr_lines
 
