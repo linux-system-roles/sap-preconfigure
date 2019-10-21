@@ -13,6 +13,7 @@
 - name: Check for SELinux
   command: getenforce
   register: getenforce_result
+  changed_when: false
 - debug:
     var: getenforce_result.stdout_lines
 

@@ -11,13 +11,6 @@
     state: stopped
     enabled: no
 
-- name: Get status of firewalld
-  command: bash -lc "systemctl status firewalld"
-  register: command_result
-  ignore_errors: True
-- debug:
-    var: command_result.stdout_lines, command_result.stderr_lines
-
 - debug:
     msg: "SAP note 2002167 Step 2b: Configure SELinux"
 - name: Disable SELinux
@@ -28,7 +21,7 @@
 - name: Check for SELinux
   command: getenforce
   register: getenforce_result
-  changed_when: False
+  changed_when: false
 - debug:
     var: getenforce_result.stdout_lines
 

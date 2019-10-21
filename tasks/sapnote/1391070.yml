@@ -10,12 +10,4 @@
     state: started
     enabled: yes
 
-- name: Get status of uuidd
-  command: bash -lc "systemctl status uuidd"
-  register: command_result
-  ignore_errors: True
-  changed_when: False
-- debug:
-    var: command_result.stdout_lines, command_result.stderr_lines
-
 ...

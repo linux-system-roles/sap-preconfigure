@@ -11,11 +11,4 @@
     state: stopped
     enabled: no
 
-- name: Get status of firewalld
-  command: bash -lc "systemctl status firewalld"
-  register: command_result
-  ignore_errors: True
-- debug:
-    var: command_result.stdout_lines, command_result.stderr_lines
-
 ...
