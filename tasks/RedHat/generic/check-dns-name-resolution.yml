@@ -1,0 +1,35 @@
+---
+
+- debug:
+    msg: "imported RedHat/generic/check-dns-name-resolution.yml"
+
+- name: verify if the DNS domain is set
+  assert:
+    that:
+      not( (sap_domain is undefined) or (sap_domain is none) or (sap_domain | trim == '') )
+    msg: "The current value of sap_domain is: {{ sap_domain }}\nYou need to define 'sap_domain'. SAP will not install properly without proper Domain set."
+
+### DNS is not that necessary and as such the errors are ignored
+### for production it is strongly recommended to have proper DNS setup
+- name: ensure dig command is installed
+  package:
+    name: bind-utils
+    state: present
+
+- name: check dns forward settings
+  shell: test "$(dig {{ sap_hostname }}.{{ sap_domain }} +short)" = "{{ sap_ip }}"
+  changed_when: false
+  ignore_errors: true
+
+### BUG: dig does not use search path in resolv.con on PPCle
+- name: check resolv.conf settings
+  shell: test "$(dig {{ sap_hostname }} +search +short)" = "{{ sap_ip }}"
+  changed_when: false
+  ignore_errors: true
+
+- name: check dns reverse settings
+  shell: test "$(dig -x {{ sap_ip }} +short)" = "{{ sap_hostname }}.{{ sap_domain }}."
+  changed_when: false
+  ignore_errors: true
+
+...
