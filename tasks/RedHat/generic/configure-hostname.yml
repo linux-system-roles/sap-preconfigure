@@ -3,32 +3,36 @@
 - debug:
     msg: "imported RedHat/generic/configure-hostname.yml"
 
-# The hostname module fails if it is run from an initrd_t context
+- debug:
+    msg:
+      - "sap_hostname = {{ sap_hostname }}"
+
+# The hostname module fails if it is run from an initrc_t context
 # See also: https://github.com/ansible/ansible/issues/19814
-# The following applies an appropriate selinux rule if the role is run in initrd_t context
-- name: Get current SE Linux context
+# The following applies an appropriate selinux rule if the role is run in initrc_t context
+- name: Get current SELinux context
   command: "id -Z"
   register: sap_base_settings_register_selinux_context
   changed_when: false
   ignore_errors: true
 
-- name: Debug current SE Linux context
+- name: Debug current SELinux context
   debug:
-    msg: "the current context is {{ sap_base_settings_register_selinux_context.stdout.split(':')[2] }} "
+    msg: "The current SELinux context is {{ sap_base_settings_register_selinux_context.stdout.split(':')[2] }} "
   ignore_errors: true
 
-- name: Adding SE Linux rule so that hostname will work from initrd_t context
+- name: Adding SELinux rule so that hostname will work from initrc_t context
   block:
-    - name: copy SE Linux Rule
+    - name: copy SELinux Rule
       copy:
-        src=hostnamectl-fix.pp
-        dest=/root/hostnamectl-fix.pp
-    - name: apply SE Linux Rule
-      command: semodule -i /root/hostnamectl-fix.pp
+        src=tmp/hostnamectl-fix.pp
+        dest=/tmp/hostnamectl-fix.pp
+    - name: apply SELinux Rule
+      command: semodule -i /tmp/hostnamectl-fix.pp
   when: sap_base_settings_register_selinux_context.stdout.split(':')[2] is defined and sap_base_settings_register_selinux_context.stdout.split(':')[2] == 'initrc_t'
 
-- name: ensure short system hostname is set
+- name: Ensure short system hostname is set
   hostname:
-    name: '{{ sap_hostname }}'
+    name: "{{ sap_hostname }}"
 
 ...

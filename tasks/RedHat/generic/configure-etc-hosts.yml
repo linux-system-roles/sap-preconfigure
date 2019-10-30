@@ -3,9 +3,15 @@
 - debug:
     msg: "imported RedHat/generic/configure-etc-hosts.yml"
 
-- name: get all hostaliases of {{ sap_ip }}
+- debug:
+    msg:
+      - "sap_hostname = {{ sap_hostname }}"
+      - "sap_domain = {{ sap_domain }}"
+      - "sap_ip = {{ sap_ip }}"
+
+- name: Get all hostname aliases of {{ sap_ip }}
   shell: |
-    awk ' ( $1 == "{{ sap_ip }}" ) {
+    awk '( $1 == "{{ sap_ip }}" ) {
       for (i=2; i<=NF; ++i) { 
         if (( $i != "{{ sap_hostname }}" ) && ( $i != "{{ sap_hostname }}.{{ sap_domain }}" )) { printf $i" " } 
       } 
@@ -13,30 +19,30 @@
   register: sap_base_settings_register_hostname_aliases
   changed_when: false
 
-- name: print aliases
+- name: Print hostname aliases
   debug:
     var=sap_hostname_aliases
 
-- name: ensure hostentry is correct
+- name: Ensure that the entry in /etc/hosts is correct
   lineinfile:
     path: /etc/hosts
     regexp: '^{{ sap_ip }}\s'
-          line: '{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }} {{ sap_base_settings_register_hostname_aliases.stdout }}'
+    line: "{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }} {{ sap_base_settings_register_hostname_aliases.stdout }}"
 
-- name: check for double entries of {{ sap_ip }} in /etc/hosts
+- name: Check for duplicate entries of {{ sap_ip }} in /etc/hosts
   shell: |
     n=$(grep "^{{ sap_ip }}\s" /etc/hosts | wc -l)
     if [ $n -eq 1 ]; then
       exit 0
     else
-      echo "Duplicate IP Entry in /etc/hosts"
+      echo "Duplicate IP entry in /etc/hosts!"
       exit 1
     fi
   changed_when: false
 
-- name: check for double entries of hostnames in /etc/hosts
+- name: Check for duplicate entries of hostname and fqdn in /etc/hosts
   shell: |
-    n=$(grep -w "{{ item }}" /etc/hosts | wc -l)
+    n=$(grep -w "{{ line_item }}" /etc/hosts | wc -l)
     if [ $n -eq 1 ]; then
       exit 0
     else
@@ -46,8 +52,10 @@
     - '{{ sap_hostname }}.{{ sap_domain }}'
     - '{{ sap_hostname }}'
   changed_when: false
+  loop_control:
+    loop_var: line_item
 
-- name: check hostname settings
+- name: Check hostname -s and hostname -f settings
   shell: test "$(hostname -s)" = "$(hostname)" -a "$(hostname -f)" = "$(hostname).$(hostname -d)"
   changed_when: false
 
