@@ -5,54 +5,8 @@
 - debug:
     msg: "SAP note 2002167 Step 3: Setting the Hostname"
 
-- name: Make sure the short hostname is returned with "hostname" command and not FQDN
-  shell: |
-     if [ $(hostname -s) == $(hostname) -a $(hostname -f) == $(hostname).$(hostname -d) ]; then
-        rc=0
-     else
-        hostnamectl set-hostname $(hostname -s)
-        rc=1
-     fi
-     exit $rc
-  register: change_hostname
-  changed_when: change_hostname.rc == 1
-  failed_when: change_hostname.rc >= 2
-
-- name: Check if ipv4 address, FQDN, and hostname are in /etc/hosts
-  command: bash -lc "awk 'BEGIN{a=0}/{{ ansible_default_ipv4.address }}/&&/{{ ansible_hostname }}.{{ ansible_domain }}/&&/{{ ansible_hostname }}/{a++}END{print a}' /etc/hosts"
-  register: command_result
-  changed_when: no
-- debug:
-    var: command_result.stdout_lines, command_result.stderr_lines
-  when:
-    - not sap_preconfigure_modify_etc_hosts | bool
-
-- debug:
-    msg:
-      - "Expected:"
-      - "{{ ansible_default_ipv4.address }} {{ ansible_hostname }}.{{ ansible_domain }} {{ ansible_hostname }}"
-  when:
-    - command_result.stdout != "1"
-    - not sap_preconfigure_modify_etc_hosts | bool
-
-- fail:
-    msg:
-    - "Server's ipv4 address, FQDN, or hostname are not in /etc/hosts!"
-  when:
-    - command_result.stdout != "1"
-    - not sap_preconfigure_modify_etc_hosts | bool
-
-- name: Make sure server's IP address is in /etc/hosts
-  lineinfile:
-    path: /etc/hosts
-    regexp: '^{{ ansible_default_ipv4.address }}'
-    insertbefore: '^127.0.0.1'
-#    line: "{{ ansible_default_ipv4.address }} {{ ansible_fqdn }} {{ ansible_hostname }}"
-    line: "{{ ansible_default_ipv4.address }} {{ ansible_hostname }}.{{ ansible_domain }} {{ ansible_hostname }}"
-    state: present
-  when:
-    - sap_preconfigure_modify_etc_hosts | bool
-- debug:
-    msg: "System {{ ansible_hostname }}, {{ ansible_hostname }}.{{ ansible_domain }} has ipv4 address {{ ansible_default_ipv4.address }}"
+- import_tasks: ../../RedHat/generic/configure-hostname.yml
+- import_tasks: ../../RedHat/generic/configure-etc-hosts.yml
+- import_tasks: ../../RedHat/generic/check-dns-name-resolution.yml
 
 ...
