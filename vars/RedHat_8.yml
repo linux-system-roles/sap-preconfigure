@@ -21,6 +21,7 @@ sap_preconfigure_packages:
   - libnsl
   - tcsh
   - psmisc
-#  - tuned-profiles-sap    - now in role sap-netweaver-preconfigure
+  - nfs-utils
+  - bind-utils
 
 ...
