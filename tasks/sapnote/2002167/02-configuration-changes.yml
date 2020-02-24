@@ -22,6 +22,7 @@
   command: getenforce
   register: getenforce_result
   changed_when: false
+  when: not ansible_check_mode
 - debug:
     var: getenforce_result.stdout_lines
 

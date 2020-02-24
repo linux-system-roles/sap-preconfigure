@@ -16,12 +16,14 @@
   command: bash -lc "grep /dev/shm /etc/fstab"
   register: shell_result
   changed_when: False
+  when: not ansible_check_mode
 - debug:
     var: shell_result.stdout_lines, shell_result.stderr_lines
 
 - name: Remount /dev/shm
   command: bash -lc "mount -o remount /dev/shm"
   register: shell_result
+  when: not ansible_check_mode
 - debug:
     var: shell_result.stdout_lines, shell_result.stderr_lines
 
@@ -29,6 +31,7 @@
   command: bash -lc "df -k /dev/shm"
   register: shell_result
   changed_when: False
+  when: not ansible_check_mode
 - debug:
     var: shell_result.stdout_lines, shell_result.stderr_lines
 
