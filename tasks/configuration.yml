@@ -5,6 +5,11 @@
   debug:
     var: sap_preconfigure_sapnotes | difference([''])
 
+# SAP note 2772999 disables firewalld, we want to check if it is installed
+- name: Gather facts about install packages
+  package_facts:
+    manager: auto
+
 - name: include configuration actions for required sapnotes
   include_tasks: "sapnote/{{ item }}.yml"
   with_items: "{{ sap_preconfigure_sapnotes | difference(['']) }}"
