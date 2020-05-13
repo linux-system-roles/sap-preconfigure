@@ -10,18 +10,12 @@
     src: /usr/lib64/libldap-2.3.so.0
     dest: /usr/lib64/libldap.so.199
     state: link
-    owner: root
-    group: root
-    mode: '0644'
 
 - name: Link LDAP library liblber
   file:
     src: /usr/lib64/liblber-2.3.so.0
     dest: /usr/lib64/liblber.so.199
     state: link
-    owner: root
-    group: root
-    mode: '0644'
 
 - name: Copy file /etc/tmpfiles.d/sap.conf
   copy:
