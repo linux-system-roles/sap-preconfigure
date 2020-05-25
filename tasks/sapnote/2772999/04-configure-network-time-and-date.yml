@@ -11,12 +11,4 @@
     state: started
     enabled: yes
 
-- name: Get status of chronyd
-  command: bash -lc "systemctl status chronyd"
-  register: command_result
-  ignore_errors: True
-  changed_when: False
-- debug:
-    var: command_result.stdout_lines, command_result.stderr_lines
-
 ...
