@@ -5,7 +5,16 @@
 - debug:
     msg: "SAP note 2772999 Step 10: Configure systemd-tmpfiles"
 
-- name: Copy file /etc/tmpfiles.d/sap.conf
+- name: Test if file /usr/lib/tmpfiles.d/sap.conf exists
+  stat:
+    path: /usr/lib/tmpfiles.d/sap.conf
+  register: systemd_sap_conf
+  failed_when: no
+
+- debug:
+    var: systemd_sap_conf.stat.exists
+
+- name: Copy file /etc/tmpfiles.d/sap.conf if necessary
   copy:
     src: etc/tmpfiles.d/sap.conf
     dest: /etc/tmpfiles.d/sap.conf
@@ -13,5 +22,6 @@
     group: root
     mode: '0644'
     backup: yes
+  when: not systemd_sap_conf.stat.exists
 
 ...
