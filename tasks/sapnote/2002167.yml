@@ -2,33 +2,18 @@
 # tasks file for sap-preconfigure configuration
 
 - import_tasks: 2002167/02-configuration-changes.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
-    - 'role::sap-preconfigure:config:2002167:02-configuration-changes'
+  when: sap_preconfigure_config_all is undefined or sap_preconfigure_config_all or (sap_preconfigure_2002167_02 is defined and sap_preconfigure_2002167_02)
 
 - import_tasks: 2002167/03-setting-the-hostname.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
-    - 'role::sap-preconfigure:config:2002167:03-setting-the-hostname'
+  when: sap_preconfigure_config_all is undefined or sap_preconfigure_config_all or (sap_preconfigure_2002167_03 is defined and sap_preconfigure_2002167_03)
 
 - import_tasks: 2002167/04-linux-kernel-parameters.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
-    - 'role::sap-preconfigure:config:2002167:04-linux-kernel-parameters'
+  when: sap_preconfigure_config_all is undefined or sap_preconfigure_config_all or (sap_preconfigure_2002167_04 is defined and sap_preconfigure_2002167_04)
 
 - import_tasks: 2002167/05-process-resource-limits.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
-    - 'role::sap-preconfigure:config:2002167:05-process-resource-limits'
+  when: sap_preconfigure_config_all is undefined or sap_preconfigure_config_all or (sap_preconfigure_2002167_05 is defined and sap_preconfigure_2002167_05)
 
 - import_tasks: 2002167/06-additional-notes-for-installing-sap-systems.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
-    - 'role::sap-preconfigure:config:2002167:06-additional-notes-for-installing-sap-systems'
+  when: sap_preconfigure_config_all is undefined or sap_preconfigure_config_all or (sap_preconfigure_2002167_06 is defined and sap_preconfigure_2002167_06)
 
 ...

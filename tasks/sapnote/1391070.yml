@@ -5,6 +5,8 @@
 - debug:
     msg: "SAP note 1391070: Configure uuidd"
 
-- import_tasks: ../../RedHat/generic/configure-uuidd.yml
+- import_tasks: ../RedHat/generic/configure-uuidd.yml
+  when: sap_preconfigure_config_all is undefined or sap_preconfigure_config_all or (sap_preconfigure_1391070 is defined and sap_preconfigure_1391070)
+
 
 ...

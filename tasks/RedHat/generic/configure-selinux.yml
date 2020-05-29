@@ -1,0 +1,12 @@
+---
+# tasks file for sap-preconfigure: configuration
+
+- debug:
+    msg: "imported RedHat/generic/configure-selinux.yml"
+
+- name: Disable SELinux
+  selinux:
+    state: disabled
+    policy: targeted
+
+...

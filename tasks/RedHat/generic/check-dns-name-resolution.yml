@@ -22,7 +22,7 @@
 #     name: bind-utils
 #     state: present
 
-- name: Check dns forward settings
+- name: Check dns forwarding settings
   shell: test "$(dig {{ sap_hostname }}.{{ sap_domain }} +short)" = "{{ sap_ip }}"
   changed_when: false
   ignore_errors: true
