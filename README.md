@@ -15,7 +15,21 @@ Role Variables
 
 - set in defaults/main.yml:
 
-### Minimum package check:
+### Execute only certain steps of SAP notes
+If the following variable is set to no, only certain steps of SAP notes will be executed or checked. This variable does not need to be defined, in which case all steps will be executed.
+```yaml
+sap_preconfigure_config_all
+```
+
+### Define configuration steps of SAP notes
+For defining one or more steps of SAP notes to be executed only, set variable sap_preconfigure_config_all to no and one or more of the following variables to yes:
+```yaml
+sap_preconfigure_2002167_0[2...6], example: sap_preconfigure_2002167_03
+sap_preconfigure_1391070
+sap_preconfigure_2772999_[02...10], example: sap_preconfigure_2772999_10
+```
+
+### Minimum package check
 The following variable will check miminum package versions. Default is no.
 ```yaml
 sap_preconfigure_min_package_check
@@ -32,8 +46,6 @@ If the following variable is set to yes, the role will run a yum update before p
 ```yaml
 sap_preconfigure_update
 ```
-
-
 
 ### size of TMPFS in GB:
 The following variable contains a formula for setting the size of TMPFS according to SAP note 941735.
