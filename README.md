@@ -13,30 +13,6 @@ To use this role, your system needs to be installed according to:
 Role Variables
 --------------
 
-- set in vars/RedHat_7.yml, vars/RedHat_8.yml, vars/RedHat_8.0.yml, and vars/RedHat_8.1.yml:
-
-### SAP notes to apply
-The following variable contains a list of all SAP notes which are used for this role. This is used to include yml files
-from directories tasks/sapnote/<SAP Note number>.
-```yaml
-sap_preconfigure_sapnotes
-```
-
-### Required package groups
-The following variables define the required package groups. Variable sap_preconfigure_packagegroups is automatically filled from the variable sap_preconfigure_packagegroups_<arch>:
-```yaml
-sap_preconfigure_packagegroups_x86_64
-sap_preconfigure_packagegroups_ppc64le
-sap_preconfigure_packagegroups_s390x
-sap_preconfigure_packagegroups
-```
-
-### Required packages
-The following variable defines the required additional packages:
-```yaml
-sap_preconfigure_packages
-```
-
 - set in defaults/main.yml:
 
 ### Minimum package check:
