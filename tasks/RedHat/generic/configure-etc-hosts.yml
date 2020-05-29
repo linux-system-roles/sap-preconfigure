@@ -12,9 +12,9 @@
 - name: Get all hostname aliases of {{ sap_ip }}
   shell: |
     awk '( $1 == "{{ sap_ip }}" ) {
-      for (i=2; i<=NF; ++i) { 
-        if (( $i != "{{ sap_hostname }}" ) && ( $i != "{{ sap_hostname }}.{{ sap_domain }}" )) { printf $i" " } 
-      } 
+      for (i=2; i<=NF; ++i) {
+        if (( $i != "{{ sap_hostname }}" ) && ( $i != "{{ sap_hostname }}.{{ sap_domain }}" )) { printf $i" " }
+      }
     }' /etc/hosts
   register: sap_base_settings_register_hostname_aliases
   changed_when: false
