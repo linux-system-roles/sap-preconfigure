@@ -12,13 +12,13 @@
 - name: ensure required package groups are installed
   package:
     state: present
-    name: "{{ sap_preconfigure_packagegroups }}"
+    name: "{{ _sap_preconfigure_packagegroups }}"
   check_mode: "{{ sap_preconfigure_installation_check_only }}"
 
 - name: ensure required packages are installed
   package:
     state: present
-    name: "{{ sap_preconfigure_packages }}"
+    name: "{{ _sap_preconfigure_packages }}"
   check_mode: "{{ sap_preconfigure_installation_check_only }}"
   register: sap_preconfigure_register_groupinstall
 

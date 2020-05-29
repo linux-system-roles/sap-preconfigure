@@ -3,7 +3,7 @@
 
 - name: list of required SAP Notes
   debug:
-    var: sap_preconfigure_sapnotes | difference([''])
+    var: _sap_preconfigure_sapnotes | difference([''])
 
 # SAP note 2772999 disables firewalld, we want to check if it is installed
 - name: Gather facts about installed packages
@@ -12,7 +12,7 @@
 
 - name: include configuration actions for required sapnotes
   include_tasks: "sapnote/{{ item }}.yml"
-  with_items: "{{ sap_preconfigure_sapnotes | difference(['']) }}"
+  with_items: "{{ _sap_preconfigure_sapnotes | difference(['']) }}"
 #- include: "{{ './' + ansible_distribution + ansible_distribution_major_version + '/recommendations.yml' }}"
 
 ...
