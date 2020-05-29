@@ -23,5 +23,6 @@ __sap_preconfigure_packages:
   - psmisc
   - nfs-utils
   - bind-utils
+  - compat-sap-c++-9
 
 ...

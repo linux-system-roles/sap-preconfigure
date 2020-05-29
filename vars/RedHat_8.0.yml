@@ -24,5 +24,6 @@ __sap_preconfigure_packages:
   - nfs-utils
   - bind-utils
   - setup-2.12.2-2.el8_0.1
+  - compat-sap-c++-9
 
 ...
