@@ -10,11 +10,11 @@
 #sap_preconfigure_2772999_02: yes
 #sap_preconfigure_2772999_10: yes
 
-sap_preconfigure_min_package_check: false
+sap_preconfigure_min_package_check: no
 
-sap_preconfigure_installation_check_only: false
+sap_preconfigure_installation_check_only: no
 
-sap_preconfigure_update: false
+sap_preconfigure_update: no
 
 sap_preconfigure_size_of_tmpfs_gb: "{{ ((0.75 * ( ansible_memtotal_mb + ansible_swaptotal_mb )) / 1024) | round | int }}"
 
