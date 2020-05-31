@@ -35,6 +35,18 @@ The following variable will make sure packages are installed at minimum required
 sap_preconfigure_min_package_check
 ```
 
+### How to behave if reboot is required
+The following variable will ensure that the role will fail if a reboot is required, if undefined or set to `yes`, which is also the default. Rebooting the managed node can be done in the playbook which is calling this role. By setting the variable to `no`, the role will not fail if a reboot is required.
+```yaml
+sap_preconfigure_fail_if_reboot_required: yes
+```
+
+### Define SELinux state
+The following variable allows for defining the desired SELinux state. Default is `disabled`.
+```yaml
+sap_preconfigure_selinux_state: disabled
+```
+
 ### Perform a yum update
 If the following variable is set to `yes`, the role will run a `yum update` before performing configuration changes. Default is `no`. \
 *Note*: The outcome of a `yum update` depends on the managed node's configuration for sticky OS minor version, see the description of the release option in `man subscription-manager`. For SAP HANA installations, setting a certain minor version with `subscscription-manager release --set=X.Y` is a strict requirement.

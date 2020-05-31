@@ -1,18 +1,18 @@
 ---
 # tasks file for sap-preconfigure: installation
 
-- name: ensure required package groups are installed
+- name: Ensure required package groups are installed
   package:
     state: present
     name: "{{ __sap_preconfigure_packagegroups }}"
 
-- name: ensure required packages are installed
+- name: Ensure required packages are installed
   package:
     state: present
     name: "{{ __sap_preconfigure_packages }}"
   register: sap_preconfigure_register_groupinstall
 
-- name: ensure minimum packages are installed
+- name: Ensure minimum packages are installed
   block:
     - name: check if minimum release needs to be installed
       shell: |
@@ -51,11 +51,36 @@
     - sap_preconfigure_min_package_check|bool
     - not( (__sap_preconfigure_min_pkgs is undefined) or (__sap_preconfigure_min_pkgs is none) or (__sap_preconfigure_min_pkgs | trim == '') )
 
-- name: ensure system is updated to the latest patchlevel
+- name: Ensure system is updated to the latest patchlevel
   package:
     state: latest
     name: "*"
   when: sap_preconfigure_update
   register: sap_preconfigure_register_packageinstall
+
+- set_fact:
+    needs_restarting_command: "needs-restarting -r"
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version == '7'
+
+- set_fact:
+    needs_restarting_command: "yum needs-restarting -r"
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version == '8'
+
+- name: Check if system needs to be restarted
+  shell: "{{ needs_restarting_command }}"
+  register: needs_restarting_result
+  ignore_errors: true
+  changed_when: false
+  args:
+    warn: false
+
+- name: Call Reboot handler if necessary
+  command: /bin/true
+  notify: "Reboot Required handler"
+  when: needs_restarting_result.rc == 1
 
 ...

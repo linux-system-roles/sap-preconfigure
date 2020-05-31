@@ -4,7 +4,7 @@
 # For executing just some of the configuration steps, set sap_preconfigure_config_all to "no"
 # and set one or more of the SAP notes related variables to "yes":
 #sap_preconfigure_config_all: no
-#sap_preconfigure_2002167_03: yes
+#sap_preconfigure_2002167_02: yes
 #sap_preconfigure_2002167_06: yes
 #sap_preconfigure_1391070: yes
 #sap_preconfigure_2772999_02: yes
@@ -13,6 +13,10 @@
 sap_preconfigure_min_package_check: yes
 
 sap_preconfigure_update: no
+
+sap_preconfigure_fail_if_reboot_required: yes
+
+sap_preconfigure_selinux_state: disabled
 
 sap_preconfigure_size_of_tmpfs_gb: "{{ ((0.75 * ( ansible_memtotal_mb + ansible_swaptotal_mb )) / 1024) | round | int }}"
 
