@@ -71,7 +71,7 @@
     - ansible_distribution_major_version == '8'
 
 - name: Check if system needs to be restarted
-  shell: "{{ needs_restarting_command }}"
+  command: "{{ needs_restarting_command }}"
   register: needs_restarting_result
   ignore_errors: true
   changed_when: false
