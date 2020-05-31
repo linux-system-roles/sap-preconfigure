@@ -22,7 +22,7 @@ sap_preconfigure_config_all
 ```
 
 ### Define configuration steps of SAP notes
-For defining one or more steps of SAP notes to be executed or checked only, set variable `sap_preconfigure_config_all` to `*no*` and one or more of the following variables to `*yes*`:
+For defining one or more steps of SAP notes to be executed or checked only, set variable `sap_preconfigure_config_all` to `no` and one or more of the following variables to `yes`:
 ```yaml
 sap_preconfigure_2002167_0[2...6], example: sap_preconfigure_2002167_03
 sap_preconfigure_1391070
@@ -30,13 +30,13 @@ sap_preconfigure_2772999_[02...10], example: sap_preconfigure_2772999_10
 ```
 
 ### Minimum package check
-The following variable will make sure packages are installed at minimum required versions as defined in files `vars/*.yml`. Default is `*yes*`.
+The following variable will make sure packages are installed at minimum required versions as defined in files `vars/*.yml`. Default is `yes`.
 ```yaml
 sap_preconfigure_min_package_check
 ```
 
 ### Perform a yum update
-If the following variable is set to `*yes*`, the role will run a `yum update` before performing configuration changes. Default is `*no*`.
+If the following variable is set to `yes`, the role will run a `yum update` before performing configuration changes. Default is `no`. + \
 *Note*: The outcome of a `yum update` depends on the managed node's configuration for sticky OS minor version, see the description of the release option in `man subscription-manager`. For SAP HANA installations, setting a certain minor version with `subscscription-manager release --set=X.Y` is a strict requirement.
 ```yaml
 sap_preconfigure_update
@@ -55,7 +55,7 @@ sap_preconfigure_locale
 ```
 
 ### Modify /etc/hosts
-If you not want the role to check and if necessary modify `/etc/hosts` according to SAP's requirements, set the following variable to `*no*`. Default is `*yes*`.
+If you not want the role to check and if necessary modify `/etc/hosts` according to SAP's requirements, set the following variable to `no`. Default is `yes`.
 ```yaml
 sap_preconfigure_modify_etc_hosts
 ```
