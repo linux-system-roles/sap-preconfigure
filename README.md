@@ -38,13 +38,13 @@ sap_preconfigure_min_package_check
 ### How to behave if reboot is required
 The following variable will ensure that the role will fail if a reboot is required, if undefined or set to `yes`, which is also the default. Rebooting the managed node can be done in the playbook which is calling this role. By setting the variable to `no`, the role will not fail if a reboot is required.
 ```yaml
-sap_preconfigure_fail_if_reboot_required: yes
+sap_preconfigure_fail_if_reboot_required
 ```
 
 ### Define SELinux state
 The following variable allows for defining the desired SELinux state. Default is `disabled`.
 ```yaml
-sap_preconfigure_selinux_state: disabled
+sap_preconfigure_selinux_state
 ```
 
 ### Perform a yum update
