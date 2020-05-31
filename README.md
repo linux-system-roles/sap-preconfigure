@@ -13,16 +13,16 @@ To use this role, your system needs to be installed according to:
 Role Variables
 --------------
 
-- set in defaults/main.yml:
+- set in `defaults/main.yml`:
 
 ### Execute only certain steps of SAP notes
-If the following variable is set to no, only certain steps of SAP notes will be executed or checked. This variable does not need to be defined, in which case all steps will be executed.
+If the following variable is set to no, only certain steps of SAP notes will be executed or checked as per setting of variable `sap_preconfigure_<sap_note_number>_<step>`. If this variable is undefined or set to no, all steps of applicable SAP notes will be executed.
 ```yaml
 sap_preconfigure_config_all
 ```
 
 ### Define configuration steps of SAP notes
-For defining one or more steps of SAP notes to be executed only, set variable sap_preconfigure_config_all to no and one or more of the following variables to yes:
+For defining one or more steps of SAP notes to be executed or checked only, set variable `sap_preconfigure_config_all` to `*no*` and one or more of the following variables to `*yes*`:
 ```yaml
 sap_preconfigure_2002167_0[2...6], example: sap_preconfigure_2002167_03
 sap_preconfigure_1391070
@@ -30,19 +30,14 @@ sap_preconfigure_2772999_[02...10], example: sap_preconfigure_2772999_10
 ```
 
 ### Minimum package check
-The following variable will check miminum package versions. Default is no.
+The following variable will make sure packages are installed at minimum required versions as defined in files `vars/*.yml`. Default is `*yes*`.
 ```yaml
 sap_preconfigure_min_package_check
 ```
 
-### Only perform an installation check
-If the following variable is set to yes, the role only run an installation check. Default is no.
-```yaml
-sap_preconfigure_installation_check_only
-```
-
 ### Perform a yum update
-If the following variable is set to yes, the role will run a yum update before performing configuration changes. Default is no.
+If the following variable is set to `*yes*`, the role will run a `yum update` before performing configuration changes. Default is `*no*`.
+*Note*: The outcome of a `yum update` depends on the managed node's configuration for sticky OS minor version, see the description of the release option in `man subscription-manager`. For SAP HANA installations, setting a certain minor version with `subscscription-manager release --set=X.Y` is a strict requirement.
 ```yaml
 sap_preconfigure_update
 ```
@@ -60,25 +55,25 @@ sap_preconfigure_locale
 ```
 
 ### Modify /etc/hosts
-If you not want the role to check and if necessary modify /etc/hosts according to SAP's requirements, set the following variable to no. Default is yes.
+If you not want the role to check and if necessary modify `/etc/hosts` according to SAP's requirements, set the following variable to `*no*`. Default is `*yes*`.
 ```yaml
 sap_preconfigure_modify_etc_hosts
 ```
 
 ### hostname
-If the role should not use the hostname as reported by Ansible (=ansible_hostname), set the following variable according to your needs:
+If the role should not use the hostname as reported by Ansible (=`ansible_hostname`), set the following variable according to your needs:
 ```yaml
 sap_hostname
 ```
 
 ### DNS domain name
-If the role should not use the DNS domain name as reported by Ansible (=ansible_domain), set the following variable according to your needs:
+If the role should not use the DNS domain name as reported by Ansible (=`ansible_domain`), set the following variable according to your needs:
 ```yaml
 sap_domain
 ```
 
 ### IP address
-If the role should not use the primary IP address as reported by Ansible (=ansible_default_ipv4.address), set the following variable according to your needs:
+If the role should not use the primary IP address as reported by Ansible (=`ansible_default_ipv4.address`), set the following variable according to your needs:
 ```yaml
 sap_ip
 ```
