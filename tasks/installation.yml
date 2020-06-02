@@ -16,15 +16,15 @@
   block:
     - name: check if minimum release needs to be installed
       shell: |
-             set -x
-             required_pkg={{ pkg | join('-') }}
-             newest=$(echo -e "$required_pkg\n$(rpm -q {{ pkg[0] }} )"| sort -V | tail -1)
-             if [ $newest == $required_pkg ]; then
-                echo $newest
-             fi
+        set -x
+        required_pkg={{ pkg | join('-') }}
+        newest=$(echo -e "$required_pkg\n$(rpm -q {{ pkg[0] }} )"| sort -V | tail -1)
+        if [ $newest == $required_pkg ]; then
+           echo $newest
+        fi
       loop: "{{ __sap_preconfigure_min_pkgs }}"
       loop_control:
-               loop_var: pkg
+        loop_var: pkg
       check_mode: no
       register: __sap_preconfigure_register_minpkglist
       changed_when: false
@@ -38,13 +38,13 @@
         __sap_preconfigure_fact_minpkglist: "{{ __sap_preconfigure_fact_minpkglist | difference(['']) + [ pkg.stdout ] }}"
       loop: "{{ __sap_preconfigure_register_minpkglist.results }}"
       loop_control:
-               loop_var: pkg
+        loop_var: pkg
     - debug: var=__sap_preconfigure_fact_minpkglist
 
     - name: Install minimum packages if required
       yum:
-             name: "{{ __sap_preconfigure_fact_minpkglist }}"
-             state: present
+        name: "{{ __sap_preconfigure_fact_minpkglist }}"
+        state: present
       when: not ( __sap_preconfigure_fact_minpkglist == [ "" ] )
 
   when:
