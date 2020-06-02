@@ -42,7 +42,7 @@
     - debug: var=__sap_preconfigure_fact_minpkglist
 
     - name: Install minimum packages if required
-      yum:
+      package:
         name: "{{ __sap_preconfigure_fact_minpkglist }}"
         state: present
       when: not ( __sap_preconfigure_fact_minpkglist == [ "" ] )
