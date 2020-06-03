@@ -1,7 +1,7 @@
 ---
 # handlers file for sap-preconfigure
 
-- name: "Reboot Required handler"
+- name: "Reboot handler"
   fail:
     msg: Reboot is required!
   when: sap_preconfigure_fail_if_reboot_required|d(true)

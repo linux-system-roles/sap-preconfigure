@@ -10,9 +10,9 @@
     policy: targeted
   register: selinux_result
 
-- name: Call Reboot Required handler if necessary
+- name: Call Reboot handler if necessary
   command: /bin/true
-  notify: "Reboot Required handler"
+  notify: "Reboot handler"
   when: selinux_result.reboot_required == true
 
 ...

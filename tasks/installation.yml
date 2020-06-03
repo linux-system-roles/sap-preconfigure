@@ -78,9 +78,9 @@
   args:
     warn: false
 
-- name: Call Reboot Required handler if necessary
+- name: Call Reboot handler if necessary
   command: /bin/true
-  notify: "Reboot Required handler"
+  notify: "Reboot handler"
   when: needs_restarting_result.rc == 1
 
 ...
