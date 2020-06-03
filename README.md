@@ -10,6 +10,10 @@ To use this role, your system needs to be installed according to:
 - RHEL 7: SAP note 2002167, Red Hat Enterprise Linux 7.x: Installation and Upgrade, section "Installing Red Hat Enterprise Linux 7"
 - RHEL 8: SAP note 2772999, Red Hat Enterprise Linux 8.x: Installation and Configuration, section "Installing Red Hat Enterprise Linux 8".
 
+Note
+----
+Please do not run this role against a productive SAP system. The role will unconditionally make changes to the managed node, which might not be intended on productive SAP systems.
+
 Role Variables
 --------------
 
