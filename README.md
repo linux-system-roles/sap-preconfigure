@@ -12,7 +12,7 @@ To use this role, your system needs to be installed according to:
 
 Note
 ----
-Please do not run this role against a productive SAP system. The role will unconditionally make changes to the managed node, which might not be intended on productive SAP systems.
+Do not run this role against an SAP or other production system. The role will enforce a certain configuration on the managed node(s), which might not be intended.
 
 Role Variables
 --------------
