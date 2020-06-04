@@ -23,7 +23,6 @@ __sap_preconfigure_packages:
   - psmisc
   - nfs-utils
   - bind-utils
-  - compat-sap-c++-9
 
 __sap_preconfigure_min_pkgs:
   - [ 'setup' , '2.12.2-2.el8_0.1' ]
