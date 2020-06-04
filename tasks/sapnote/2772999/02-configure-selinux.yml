@@ -5,17 +5,6 @@
 - debug:
     msg: "SAP note 2772999 Step 2: Configure SELinux"
 
-- name: Disable SELinux
-  selinux:
-    state: disabled
-    policy: targeted
-
-- name: Check for SELinux
-  command: getenforce
-  register: getenforce_result
-  changed_when: false
-  check_mode: false
-- debug:
-    var: getenforce_result.stdout_lines
+- import_tasks: ../../RedHat/generic/configure-selinux.yml
 
 ...

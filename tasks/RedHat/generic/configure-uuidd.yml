@@ -4,16 +4,16 @@
 - debug:
     msg: "imported RedHat/generic/configure-uuidd.yml"
 
-- name: Start and enable service uuidd
+- name: Enable and start service uuidd
   systemd:
     name: uuidd
-    state: started
     enabled: yes
+    state: started
 
-- name: Start and enable service uuidd.socket
+- name: Enable and start service uuidd.socket
   systemd:
     name: uuidd.socket
-    state: started
     enabled: yes
+    state: started
 
 ...

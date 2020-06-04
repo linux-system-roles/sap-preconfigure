@@ -2,57 +2,30 @@
 # tasks file for sap-preconfigure configuration
 
 - import_tasks: 2772999/02-configure-selinux.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
-    - 'role::sap-preconfigure:config:2772999:02-configure-selinux'
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_02|d(false)
 
 - import_tasks: 2772999/03-configure-hostname.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
-    - 'role::sap-preconfigure:config:2772999:03-configure-hostname'
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_03|d(false)
 
 - import_tasks: 2772999/04-configure-network-time-and-date.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
-    - 'role::sap-preconfigure:config:2772999:04-configure-network-time-and-date'
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_04|d(false)
 
 - import_tasks: 2772999/05-configure-firewall.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
-    - 'role::sap-preconfigure:config:2772999:05-configure-firewall'
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_05|d(false)
 
 - import_tasks: 2772999/06-configure-uuidd.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
-    - 'role::sap-preconfigure:config:2772999:06-configure-uuidd'
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_06|d(false)
 
 - import_tasks: 2772999/07-configure-tmpfs.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
-    - 'role::sap-preconfigure:config:2772999:07-configure-tmpfs'
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_07|d(false)
 
 - import_tasks: 2772999/08-configure-linux-kernel-parameters.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
-    - 'role::sap-preconfigure:config:2772999:08-configure-linux-kernel-parameters'
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_08|d(false)
 
 - import_tasks: 2772999/09-configure-process-resource-limits.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
-    - 'role::sap-preconfigure:config:2772999:09-configure-process-resource-limits'
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_09|d(false)
 
 - import_tasks: 2772999/10-configure-systemd-tmpfiles.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
-    - 'role::sap-preconfigure:config:2772999:10-configure-systemd-tmpfiles'
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_10|d(false)
 
 ...

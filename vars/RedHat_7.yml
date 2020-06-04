@@ -2,34 +2,38 @@
 
 # vars file for sap-preconfigure
 
-sap_preconfigure_sapnotes:
+__sap_preconfigure_sapnotes:
   - "2002167"
   - "1391070"
 
-sap_preconfigure_packagegroups_x86_64:
+__sap_preconfigure_packagegroups_x86_64:
   - "@base"
   - "@compat-libraries"
   - "@large-systems"
   - "@network-file-system-client"
   - "@performance"
 
-sap_preconfigure_packagegroups_ppc64le:
+__sap_preconfigure_packagegroups_ppc64le:
   - "@base"
   - "@compat-libraries"
 
-sap_preconfigure_packagegroups_s390x:
+__sap_preconfigure_packagegroups_s390x:
   - "@base"
   - "@compat-libraries"
   - "@large-systems"
   - "@network-file-system-client"
   - "@performance"
 
-sap_preconfigure_packagegroups: "{{ lookup('vars','sap_preconfigure_packagegroups_' + ansible_architecture|string ) }}"
+__sap_preconfigure_packagegroups: "{{ lookup('vars','__sap_preconfigure_packagegroups_' + ansible_architecture|string ) }}"
 
-sap_preconfigure_packages:
+__sap_preconfigure_packages:
   - uuidd
   - tcsh
   - psmisc
 #  - tuned-profiles-sap    - now in role sap-netweaver-preconfigure
+  - compat-sap-c++-5
+  - compat-sap-c++-6
+  - compat-sap-c++-7
+  - compat-sap-c++-9
 
 ...
