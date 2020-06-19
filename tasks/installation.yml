@@ -1,10 +1,10 @@
 ---
 # tasks file for sap-preconfigure: installation
 
-# - name: Ensure required package groups are installed
-#   package:
-#     state: present
-#     name: "{{ __sap_preconfigure_packagegroups }}"
+- name: Ensure required package groups are installed
+  package:
+    state: present
+    name: "{{ __sap_preconfigure_packagegroups }}"
 
 - name: Ensure required packages are installed
   package:
