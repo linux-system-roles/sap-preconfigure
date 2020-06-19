@@ -16,7 +16,7 @@ __sap_preconfigure_packagegroups_s390x:
 
 __sap_preconfigure_packagegroups: "{{ lookup('vars','__sap_preconfigure_packagegroups_' + ansible_architecture|string ) }}"
 
-__sap_preconfigure_packages:
+__sap_preconfigure_packages_x86_64:
   - uuidd
   - libnsl
   - tcsh
@@ -24,5 +24,24 @@ __sap_preconfigure_packages:
   - nfs-utils
   - bind-utils
   - compat-sap-c++-9
+
+__sap_preconfigure_packages_ppc64le:
+  - uuidd
+  - libnsl
+  - tcsh
+  - psmisc
+  - nfs-utils
+  - bind-utils
+  - compat-sap-c++-9
+
+__sap_preconfigure_packages_s390x:
+  - uuidd
+  - libnsl
+  - tcsh
+  - psmisc
+  - nfs-utils
+  - bind-utils
+
+__sap_preconfigure_packages: "{{ lookup('vars','__sap_preconfigure_packages_' + ansible_architecture|string ) }}"
 
 ...
