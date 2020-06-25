@@ -9,7 +9,7 @@
   sysctl:
     sysctl_file: /etc/sysctl.d/sap.conf
     name: vm.max_map_count
-    value: 2147483647
+    value: '2147483647'
     state: present
     sysctl_set: yes
     reload: yes
