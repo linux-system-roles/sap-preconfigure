@@ -14,38 +14,41 @@
 
 - name: Ensure minimum packages are installed
   block:
-    - name: check if minimum release needs to be installed
-      shell: |
-        set -x
-        required_pkg={{ pkg | join('-') }}
-        newest=$(echo -e "$required_pkg\n$(rpm -q {{ pkg[0] }} )"| sort -V | tail -1)
-        if [ $newest == $required_pkg ]; then
-           echo $newest
-        fi
-      loop: "{{ __sap_preconfigure_min_pkgs }}"
-      loop_control:
-        loop_var: pkg
-      check_mode: no
-      register: __sap_preconfigure_register_minpkglist
-      changed_when: false
+  - name: Gather package facts
+    package_facts:
 
-    - name: Initialize an empty list for our strings
-      set_fact:
-        __sap_preconfigure_fact_minpkglist: []
+  - set_fact:
+      reqpkgs: "{{ __sap_preconfigure_min_pkgs }}"
 
-    - name: Create list of packages to be installed
-      set_fact:
-        __sap_preconfigure_fact_minpkglist: "{{ __sap_preconfigure_fact_minpkglist | difference(['']) + [ pkg.stdout ] }}"
-      loop: "{{ __sap_preconfigure_register_minpkglist.results }}"
-      loop_control:
-        loop_var: pkg
-    - debug: var=__sap_preconfigure_fact_minpkglist
+  - debug:
+      var: reqpkgs
 
-    - name: Install minimum packages if required
-      package:
-        name: "{{ __sap_preconfigure_fact_minpkglist }}"
-        state: present
-      when: not ( __sap_preconfigure_fact_minpkglist == [ "" ] )
+  - set_fact:
+      sap_preconfigure_fact_minpkglist: |-
+        {% set ns = namespace() %}
+        {% set ns.pkgs = [] %}
+        {% for reqpkg in reqpkgs %}
+        {%   if not reqpkg[0] in ansible_facts.packages %}
+        {%     set _ = ns.pkgs.append(reqpkg | join('-')) %}
+        {%   else %}
+        {%     set pkg = ansible_facts.packages[reqpkg[0]][-1] %}
+        {%     set verrel = pkg.version ~ '-' ~ pkg.release %}
+        {%     if reqpkg[1].replace (".el", ".0.0.") is version(verrel.replace (".el", ".0.0."), '>', strict=false) %}
+        {%       set _ = ns.pkgs.append(reqpkg | join('-')) %}
+        {%     else %}
+        {%       set _ = "pkg already installed with same or later version" %}
+        {%     endif %}
+        {%   endif %}
+        {% endfor %}
+        {{ ns.pkgs }}
+
+  - debug: var=sap_preconfigure_fact_minpkglist
+
+  - name: Install minimum packages if required
+    yum:
+      name: "{{ sap_preconfigure_fact_minpkglist }}"
+      state: present
+    when: not ( sap_preconfigure_fact_minpkglist == [ "" ] )
 
   when:
     - sap_preconfigure_min_package_check|bool
