@@ -18,7 +18,6 @@
     }' /etc/hosts
   register: sap_base_settings_register_hostname_aliases
   changed_when: false
-  check_mode: false
 
 - name: Print hostname aliases
   debug:
@@ -30,7 +29,6 @@
       command: bash -lc "awk 'BEGIN{a=0}/{{ sap_ip }}/&&/{{ sap_hostname }}.{{ sap_domain }}/&&/{{ sap_hostname }}/{a++}END{print a}' /etc/hosts"
       register: command_result
       changed_when: false
-      check_mode: false
     - debug:
         var: command_result.stdout_lines, command_result.stderr_lines
     - debug:
@@ -64,6 +62,7 @@
   when:
     - sap_preconfigure_modify_etc_hosts | bool
 
+# We will allow more than one line containing sap_ip:
 - name: Check for duplicate entries of {{ sap_ip }} in /etc/hosts
   shell: |
     n=$(grep "^{{ sap_ip }}\s" /etc/hosts | wc -l)
@@ -74,6 +73,7 @@
       exit 1
     fi
   changed_when: false
+  ignore_errors: yes
   when: not ansible_check_mode
 
 - name: Check for duplicate entries of hostname and fqdn in /etc/hosts
