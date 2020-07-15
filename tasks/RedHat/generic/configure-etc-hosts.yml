@@ -16,7 +16,7 @@
         if (( $i != "{{ sap_hostname }}" ) && ( $i != "{{ sap_hostname }}.{{ sap_domain }}" )) { printf $i" " }
       }
     }' /etc/hosts
-  register: sap_base_settings_register_hostname_aliases
+  register: sap_hostname_aliases
   changed_when: false
 
 - name: Print hostname aliases
@@ -54,12 +54,22 @@
     msg:
       - "System {{ sap_hostname }}, {{ sap_hostname }}.{{ sap_domain }} has ipv4 address {{ sap_ip }}."
 
+- debug:
+    msg:
+      - "Hostname alias(es) found: {{ sap_hostname_aliases.stdout }}. So /etc/hosts will not be modified."
+  when:
+    - sap_hostname_aliases.stdout != ''
+    - sap_preconfigure_modify_etc_hosts | bool
+
+# We only modify /etc/hosts if there is no hostname alias defined:
 - name: Ensure that the entry in /etc/hosts is correct
   lineinfile:
     path: /etc/hosts
     regexp: '^{{ sap_ip }}\s'
-    line: "{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }} {{ sap_base_settings_register_hostname_aliases.stdout }}"
+    line: "{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }}"
+    backup: yes
   when:
+    - sap_hostname_aliases.stdout == ''
     - sap_preconfigure_modify_etc_hosts | bool
 
 # We will allow more than one line containing sap_ip:
