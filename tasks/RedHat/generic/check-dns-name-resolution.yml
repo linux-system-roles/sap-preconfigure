@@ -9,11 +9,12 @@
       - "sap_domain = {{ sap_domain }}"
       - "sap_ip = {{ sap_ip }}"
 
-- name: Verify that the DNS domain is set
-  assert:
-    that:
-      not( (sap_domain is undefined) or (sap_domain is none) or (sap_domain | trim == '') )
-    msg: "You need to define the variable 'sap_domain' in defaults/main.yml."
+# moved to configure-etc-hosts.yml:
+#- name: Verify that the DNS domain is set
+#  assert:
+#    that:
+#      not( (sap_domain is undefined) or (sap_domain is none) or (sap_domain | trim == '') )
+#    msg: "You need to define the variable 'sap_domain' in defaults/main.yml."
 
 ### DNS is not that necessary and as such the errors are ignored
 ### for production it is strongly recommended to have proper DNS setup
