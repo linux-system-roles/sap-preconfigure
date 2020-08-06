@@ -24,7 +24,9 @@ __sap_preconfigure_packages:
   - nfs-utils
   - bind-utils
 
+# SAP notes 2772999 (setup) and 2812427 (kernel):
 __sap_preconfigure_min_pkgs:
   - [ 'setup' , '2.12.2-2.el8_0.1' ]
+  - [ 'kernel' , '4.18.0-80.15.1.el8_0' ]
 
 ...
