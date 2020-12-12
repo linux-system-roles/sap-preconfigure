@@ -1,0 +1,50 @@
+- hosts: all
+  tasks:
+  - name: Get the hard limit of nproc for group sapsys
+    command: awk '/@sapsys/&&/nproc/&&/hard/{print $NF}' /etc/security/limits.d/99-sap.conf
+    register: awk_nofile_hard_result
+    changed_when: no
+
+  - name: Assert that the hard limit of nproc is unlimited for group sapsys
+    assert:
+      that:
+        - awk_nofile_hard_result.stdout == 'unlimited'
+      fail_msg: "FAIL: The hard limit of nproc for group 'sapsys' is not set to 'unlimited' in /etc/security/limits.d/99-sap.conf!"
+      success_msg: "PASS: The hard limit of nproc for group 'sapsys' is set to 'unlimited' in /etc/security/limits.d/99-sap.conf."
+
+  - name: Get the soft limit of nproc for group sapsys
+    command: awk '/@sapsys/&&/nproc/&&/soft/{print $NF}' /etc/security/limits.d/99-sap.conf
+    register: awk_nofile_soft_result
+    changed_when: no
+
+  - name: Assert that the soft limit of nproc is unlimited for group sapsys
+    assert:
+      that:
+        - awk_nofile_soft_result.stdout == 'unlimited'
+      fail_msg: "FAIL: The soft limit of nproc for group 'sapsys' is not set to 'unlimited' in /etc/security/limits.d/99-sap.conf!"
+      success_msg: "PASS: The soft limit of nproc for group 'sapsys' is set to 'unlimited' in /etc/security/limits.d/99-sap.conf."
+
+  - name: Get the hard limit of nproc for the database group
+    command: "awk '/@dba/&&/nproc/&&/hard/{print $NF}' /etc/security/limits.d/99-sap.conf"
+    register: awk_db_group_nproc_hard_result
+    changed_when: no
+
+  - name: Assert that the hard limit of nproc for the database group is unlimited
+    assert:
+      that:
+        - awk_db_group_nproc_hard_result.stdout == 'unlimited'
+      fail_msg: "FAIL: The hard limit of nproc for group 'dba' is not set to 'unlimited' in /etc/security/limits.d/99-sap.conf!"
+      success_msg: "PASS: The hard limit of nproc for group 'dba' is set to 'unlimited' in /etc/security/limits.d/99-sap.conf."
+
+  - name: Get the soft limit of nproc for the database group
+    command: "awk '/@dba/&&/nproc/&&/soft/{print $NF}' /etc/security/limits.d/99-sap.conf"
+    register: awk_db_group_nproc_soft_result
+    changed_when: no
+
+  - name: Assert that the soft limit of nproc for the database group is unlimited
+    assert:
+      that:
+        - awk_db_group_nproc_soft_result.stdout == 'unlimited'
+      fail_msg: "FAIL: The soft limit of nproc for group 'dba' is not set to 'unlimited' in /etc/security/limits.d/99-sap.conf!"
+      success_msg: "PASS: The soft limit of nproc for group 'dba' is set to 'unlimited' in /etc/security/limits.d/99-sap.conf."
+
