@@ -1,0 +1,50 @@
+- hosts: all
+  tasks:
+  - name: Get the hard limit of nofile for group sapsys
+    command: awk '/@sapsys/&&/nofile/&&/hard/{print $NF}' /etc/security/limits.d/99-sap.conf
+    register: awk_nofile_hard_result
+    changed_when: no
+
+  - name: Assert that the hard limit of nofile is 65536 for group sapsys
+    assert:
+      that:
+        - awk_nofile_hard_result.stdout == '65536'
+      fail_msg: "FAIL: The hard limit of nofile for group 'sapsys' is not set to '65536' in /etc/security/limits.d/99-sap.conf!"
+      success_msg: "PASS: The hard limit of nofile for group 'sapsys' is set to '65536' in /etc/security/limits.d/99-sap.conf."
+
+  - name: Get the soft limit of nofile for group sapsys
+    command: awk '/@sapsys/&&/nofile/&&/soft/{print $NF}' /etc/security/limits.d/99-sap.conf
+    register: awk_nofile_soft_result
+    changed_when: no
+
+  - name: Assert that the soft limit of nofile is 65536 for group sapsys
+    assert:
+      that:
+        - awk_nofile_soft_result.stdout == '65536'
+      fail_msg: "FAIL: The soft limit of nofile for group 'sapsys' is not set to '65536' in /etc/security/limits.d/99-sap.conf!"
+      success_msg: "PASS: The soft limit of nofile for group 'sapsys' is set to '65536' in /etc/security/limits.d/99-sap.conf."
+
+  - name: Get the hard limit of nofile for the database group
+    command: "awk '/@dba/&&/nofile/&&/hard/{print $NF}' /etc/security/limits.d/99-sap.conf"
+    register: awk_db_group_nofile_hard_result
+    changed_when: no
+
+  - name: Assert that the hard limit of nofile for the database group is 65536
+    assert:
+      that:
+        - awk_db_group_nofile_hard_result.stdout == '65536'
+      fail_msg: "FAIL: The hard limit of nofile for group 'dba' is not set to '65536' in /etc/security/limits.d/99-sap.conf!"
+      success_msg: "PASS: The hard limit of nofile for group 'dba' is set to '65536' in /etc/security/limits.d/99-sap.conf."
+
+  - name: Get the soft limit of nofile for the database group
+    command: "awk '/@dba/&&/nofile/&&/soft/{print $NF}' /etc/security/limits.d/99-sap.conf"
+    register: awk_db_group_nofile_soft_result
+    changed_when: no
+
+  - name: Assert that the soft limit of nofile for the database group is 65536
+    assert:
+      that:
+        - awk_db_group_nofile_soft_result.stdout == '65536'
+      fail_msg: "FAIL: The soft limit of nofile for group 'dba' is not set to '65536' in /etc/security/limits.d/99-sap.conf!"
+      success_msg: "PASS: The soft limit of nofile for group 'dba' is set to '65536' in /etc/security/limits.d/99-sap.conf."
+
