@@ -33,4 +33,32 @@
   when:
     - sap_preconfigure_db_group_name is defined
 
+- name: Set the hard and soft limit for the max number of processes per user (nproc) to unlimited for group sapsys
+  pam_limits:
+    dest: /etc/security/limits.d/99-sap.conf
+    domain: "@sapsys"
+    limit_item: nproc
+    limit_type: "{{ line_item }}"
+    value: unlimited
+  with_items:
+    - hard
+    - soft
+  loop_control:
+    loop_var: line_item
+
+- name: Set the hard and soft limit for the max number of processes per user (nproc) to unlimited for the database group
+  pam_limits:
+    dest: /etc/security/limits.d/99-sap.conf
+    domain: "@{{ sap_preconfigure_db_group_name }}"
+    limit_item: nproc
+    limit_type: "{{ line_item }}"
+    value: unlimited
+  with_items:
+    - hard
+    - soft
+  loop_control:
+    loop_var: line_item
+  when:
+    - sap_preconfigure_db_group_name is defined
+
 ...
