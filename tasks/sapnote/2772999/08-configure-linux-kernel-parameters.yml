@@ -1,7 +1,5 @@
 ---
-# tasks file for sap-preconfigure: configuration
 
-# 08-configure-linux-kernel-parameters.yml
 - debug:
     msg: "SAP note 2772999 Step 8: Configure Linux Kernel Parameters"
 

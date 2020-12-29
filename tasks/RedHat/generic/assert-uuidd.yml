@@ -1,0 +1,50 @@
+---
+
+- debug:
+    msg: "imported RedHat/generic/assert-uuidd.yml"
+
+- name: Get status of uuidd
+  command: systemctl status uuidd
+  register: uuidd_status
+  ignore_errors: yes
+  changed_when: no
+
+- name: Get status of uuidd.socket
+  command: systemctl status uuidd.socket
+  register: uuidd_socket_status
+  ignore_errors: yes
+  changed_when: no
+
+- name: Assert that uuidd is enabled (indirect)
+  assert:
+    that:
+      - "'/usr/lib/systemd/system/uuidd.service; indirect' in uuidd_status.stdout"
+    fail_msg: "FAIL: Service uuidd is not enabled!"
+    success_msg: "PASS: Service uuidd is enabled."
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+
+- name: Assert that uuidd is active
+  assert:
+    that:
+      - "'active (running)' in uuidd_status.stdout"
+    fail_msg: "FAIL: Service uuidd is not active!"
+    success_msg: "PASS: Service uuidd is active."
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+
+- name: Assert that uuidd.socket is enabled
+  assert:
+    that:
+      - "'/usr/lib/systemd/system/uuidd.socket; enabled' in uuidd_socket_status.stdout"
+    fail_msg: "FAIL: Service uuidd.socket is not enabled!"
+    success_msg: "PASS: Service uuidd.socket is enabled."
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+
+- name: Assert that uuidd.socket is active
+  assert:
+    that:
+      - "'active (running)' in uuidd_socket_status.stdout"
+    fail_msg: "FAIL: Service uuidd.socket is not active!"
+    success_msg: "PASS: Service uuidd.socket is active."
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+
+...

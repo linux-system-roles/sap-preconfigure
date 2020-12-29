@@ -5,6 +5,9 @@
 __sap_preconfigure_sapnotes:
   - "2772999"
 
+__sap_preconfigure_envgroups:
+  - "server-product-environment"
+
 __sap_preconfigure_packagegroups_x86_64:
   - "@server"
 

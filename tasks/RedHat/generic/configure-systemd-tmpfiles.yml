@@ -1,5 +1,4 @@
 ---
-# tasks file for sap-preconfigure: configuration
 
 - debug:
     msg: "imported RedHat/generic/configure-systemd-tmpfiles.yml"

@@ -1,7 +1,5 @@
 ---
-# tasks file for sap-preconfigure: configuration
 
-# 09-configure-process-resource-limits.yml
 - debug:
     msg: "SAP note 2772999 Step 9: Configure Process Resource Limits"
 

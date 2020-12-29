@@ -1,5 +1,4 @@
 ---
-# tasks file for sap-preconfigure: installation
 
 - name: Ensure required package groups are installed
   package:

@@ -20,17 +20,37 @@ Role Variables
 - set in `defaults/main.yml`:
 
 ### Execute only certain steps of SAP notes
-If the following variable is set to no, only certain steps of SAP notes will be executed or checked as per setting of variable `sap_preconfigure_<sap_note_number>_<step>`. If this variable is undefined or set to no, all steps of applicable SAP notes will be executed.
+If the following variable is set to no, only certain steps of SAP notes will be executed or checked as per setting of variable `sap_preconfigure_<sap_note_number>_<step>`. If this variable is undefined or set to no, all installation and configuration steps of applicable SAP notes will be executed.
 ```yaml
 sap_preconfigure_config_all
 ```
 
+### Perform installation or configuration steps, or both
+If you have set `sap_preconfigure_config_all` (see above) to `no`, you can limit the scope of the role to only execute the installation or the configuration steps. For this purpose, set one of the following variables, or both, to `yes`. The default for both is `no`.
+```yaml
+sap_preconfigure_installation
+sap_preconfigure_configuration
+```
+
 ### Define configuration steps of SAP notes
-For defining one or more steps of SAP notes to be executed or checked only, set variable `sap_preconfigure_config_all` to `no` and one or more of the following variables to `yes`:
+For defining one or more configuration steps of SAP notes to be executed or checked only, set variable `sap_preconfigure_config_all` to `no`, `sap_preconfigure_configuration` to `yes`, and one or more of the following variables to `yes`:
 ```yaml
 sap_preconfigure_2002167_0[2...6], example: sap_preconfigure_2002167_03
 sap_preconfigure_1391070
 sap_preconfigure_2772999_[02...10], example: sap_preconfigure_2772999_10
+```
+
+### Run the role in assert mode
+If the following variable is set to `yes`, the role will only check if the configuration of the managed node(s) is according to the applicable SAP notes. Default is `no`.
+```yaml
+sap_preconfigure_assert: no
+```
+
+### Behavior of the role in assert mode
+If the role is run in assert mode (see above) and the following variable is set to `yes`, assertion errors will not cause the role to fail. This can be useful for creating reports.
+Default is `no`, meaning that the role will fail for any assertion error which is discovered. This variable has no meaning if the role is not run in assert mode.
+```yaml
+sap_preconfigure_assert_ignore_errors: no
 ```
 
 ### Minimum package check
