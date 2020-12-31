@@ -43,14 +43,14 @@ sap_preconfigure_2772999_[02...10], example: sap_preconfigure_2772999_10
 ### Run the role in assert mode
 If the following variable is set to `yes`, the role will only check if the configuration of the managed node(s) is according to the applicable SAP notes. Default is `no`.
 ```yaml
-sap_preconfigure_assert: no
+sap_preconfigure_assert
 ```
 
 ### Behavior of the role in assert mode
 If the role is run in assert mode (see above) and the following variable is set to `yes`, assertion errors will not cause the role to fail. This can be useful for creating reports.
 Default is `no`, meaning that the role will fail for any assertion error which is discovered. This variable has no meaning if the role is not run in assert mode.
 ```yaml
-sap_preconfigure_assert_ignore_errors: no
+sap_preconfigure_assert_ignore_errors
 ```
 
 ### Minimum package check
