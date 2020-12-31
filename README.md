@@ -78,8 +78,8 @@ The following variable allows for defining the desired SELinux state. Default is
 sap_preconfigure_selinux_state
 ```
 
-### size of TMPFS in GB:
-The following variable contains a formula for setting the size of TMPFS according to SAP note 941735.
+### Size of TMPFS in GB:
+The following variable contains a formula for setting the size of TMPFS according to SAP note 941735. You can modify the formula or replace it by a static value if needed.
 ```yaml
 sap_preconfigure_size_of_tmpfs_gb
 ```
