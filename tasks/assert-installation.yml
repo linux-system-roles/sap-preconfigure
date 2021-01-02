@@ -6,9 +6,8 @@
   args:
     warn: false
   changed_when: false
-#  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
-# We should better always ignore errors:
-  ignore_errors: yes
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+  when: sap_preconfigure_update
 
 - name: Assert that there are no more outstanding package updates
   assert:
