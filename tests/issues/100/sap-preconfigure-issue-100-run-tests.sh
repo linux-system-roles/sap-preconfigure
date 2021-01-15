@@ -20,7 +20,7 @@ echo "Status before running the test:"
 ssh ${MANAGED_NODE} "awk '/nofile/&&/[a-z@]/{a++; print}END{printf (\"%d nofile entries\n\", a)}' /etc/security/limits.d/99-sap.conf"
 echo
 echo "Test 1: Run role:"
-ansible-playbook sap-preconfigure-issue-100-test.yml --tags=role::sap-preconfigure:config -l ${MANAGED_NODE}
+ansible-playbook sap-preconfigure-issue-100-test.yml -l ${MANAGED_NODE}
 echo
 echo "Status after running the test:"
 ssh ${MANAGED_NODE} "awk '/nofile/&&/[a-z@]/{a++; print}END{printf (\"%d entries\n\", a)}' /etc/security/limits.d/99-sap.conf"
@@ -39,7 +39,7 @@ echo "Status before running the test:"
 ssh ${MANAGED_NODE} "awk '/nofile/&&/[a-z@]/{a++; print}END{printf (\"%d nofile entries\n\", a)}' /etc/security/limits.d/99-sap.conf"
 echo
 echo "Test 2: Run role:"
-ansible-playbook sap-preconfigure-issue-100-test.yml --tags=role::sap-preconfigure:config -l ${MANAGED_NODE}
+ansible-playbook sap-preconfigure-issue-100-test.yml -l ${MANAGED_NODE}
 echo
 echo "Status after running the test:"
 ssh ${MANAGED_NODE} "awk '/nofile/&&/[a-z@]/{a++; print}END{printf (\"%d entries\n\", a)}' /etc/security/limits.d/99-sap.conf"
