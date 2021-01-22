@@ -3,6 +3,18 @@
 - debug:
     msg: "imported RedHat/generic/assert-process-resource-limits.yml"
 
+- name: Get info about file /etc/security/limits.d/99-sap.conf
+  stat:
+    path: /etc/security/limits.d/99-sap.conf
+  register: stat_sap_conf_2
+
+- name: Assert that file /etc/security/limits.d/99-sap.conf exists
+  assert:
+    that: "stat_sap_conf_2.stat.isreg == true"
+    fail_msg: "FAIL: The file /etc/security/limits.d/99-sap.conf does not exist or is no regular file!"
+    success_msg: "PASS: The file /etc/security/limits.d/99-sap.conf exists and is a regular file."
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+
 - name: Check if the hard limit of nofile for group sapsys is 65536
   command: awk '/sapsys/&&/nofile/&&/hard/{print $NF}' /etc/security/limits.d/99-sap.conf
   register: awk_nofile_hard_result

@@ -25,6 +25,8 @@ sap_preconfigure_min_package_check: yes
 
 sap_preconfigure_update: no
 
+sap_preconfigure_reboot_ok: no
+
 sap_preconfigure_fail_if_reboot_required: yes
 
 sap_preconfigure_selinux_state: disabled

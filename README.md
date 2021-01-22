@@ -66,8 +66,16 @@ If the following variable is set to `yes`, the role will run a `yum update` befo
 sap_preconfigure_update
 ```
 
+### Reboot the system if required
+If the following variable is set to `yes`, the role will reboot the managed node if required. The default is `no`, in which case the role will only report that a reboot is required.
+```yaml
+sap_preconfigure_reboot_ok
+```
+
 ### How to behave if reboot is required
-The following variable will ensure that the role will fail if a reboot is required, if undefined or set to `yes`, which is also the default. Rebooting the managed node can be done in the playbook which is calling this role. By setting the variable to `no`, the role will not fail if a reboot is required.
+In case `sap_preconfigure_reboot_ok` (see above) is set to `no`, we should make sure that a reboot requirement does not remain unnoticed.
+The following variable will cause the role to fail if a reboot is required, if undefined or set to `yes`, which is also the default. 
+By setting the variable to `no`, the role will not fail if a reboot is required but just print a warning message.
 ```yaml
 sap_preconfigure_fail_if_reboot_required
 ```

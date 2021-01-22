@@ -96,7 +96,7 @@
 
 - name: Call Reboot handler if necessary
   command: /bin/true
-  notify: "Reboot handler"
+  notify: __sap_preconfigure_reboot_handler
   when: needs_restarting_result.rc == 1
 
 ...

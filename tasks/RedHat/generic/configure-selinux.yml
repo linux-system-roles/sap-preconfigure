@@ -11,7 +11,7 @@
 
 - name: Call Reboot handler if necessary
   command: /bin/true
-  notify: "Reboot handler"
+  notify: __sap_preconfigure_reboot_handler
   when: selinux_result.reboot_required == true
 
 ...
