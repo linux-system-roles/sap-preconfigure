@@ -15,7 +15,7 @@
     ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
   - name: Check if vm.max_map_count is set to 2147483647 as per sysctl
-    shell: sysctl -n vm.max_map_count
+    command: sysctl -n vm.max_map_count
     register: sysctl_max_map_count_result
     changed_when: no
     ignore_errors: yes
