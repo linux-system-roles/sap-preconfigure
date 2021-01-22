@@ -159,12 +159,12 @@
 
   when:
     - sap_preconfigure_min_package_check|bool
-    - not( (__sap_preconfigure_min_pkgs is undefined) or (__sap_preconfigure_min_pkgs is none) or (__sap_preconfigure_min_pkgs == "") )
+    - __sap_preconfigure_min_pkgs|d([])
 
 - debug:
     msg: "PASS: No minimum required package version defined (variable __sap_preconfigure_min_pkgs)."
   ignore_errors: yes
-  when: __sap_preconfigure_min_pkgs == ""
+  when: not __sap_preconfigure_min_pkgs|d([])
 
 - set_fact:
     needs_restarting_command: "needs-restarting -r"
