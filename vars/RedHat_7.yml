@@ -17,6 +17,10 @@ __sap_preconfigure_packagegroups_ppc64le:
   - "@base"
   - "@compat-libraries"
 
+__sap_preconfigure_packagegroups_ppc64:
+  - "@base"
+  - "@compat-libraries"
+
 __sap_preconfigure_packagegroups_s390x:
   - "@base"
   - "@compat-libraries"
@@ -26,15 +30,39 @@ __sap_preconfigure_packagegroups_s390x:
 
 __sap_preconfigure_packagegroups: "{{ lookup('vars','__sap_preconfigure_packagegroups_' + ansible_architecture|string ) }}"
 
-__sap_preconfigure_packages:
+__sap_preconfigure_packages_x86_64:
   - uuidd
   - tcsh
   - psmisc
-#  - tuned-profiles-sap    - now in role sap-netweaver-preconfigure
   - compat-sap-c++-5
   - compat-sap-c++-6
   - compat-sap-c++-7
   - compat-sap-c++-9
+
+__sap_preconfigure_packages_ppc64le:
+  - uuidd
+  - tcsh
+  - psmisc
+  - compat-sap-c++-5
+  - compat-sap-c++-6
+  - compat-sap-c++-7
+  - compat-sap-c++-9
+
+__sap_preconfigure_packages_ppc64:
+  - uuidd
+  - tcsh
+  - psmisc
+  - compat-sap-c++-5
+  - compat-sap-c++-6
+  - compat-sap-c++-7
+  - compat-sap-c++-9
+
+__sap_preconfigure_packages_s390x:
+  - uuidd
+  - tcsh
+  - psmisc
+
+__sap_preconfigure_packages: "{{ lookup('vars','__sap_preconfigure_packages_' + ansible_architecture|string ) }}"
 
 __sap_preconfigure_min_packages_7_2:
 

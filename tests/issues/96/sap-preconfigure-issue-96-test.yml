@@ -1,0 +1,8 @@
+- hosts: all
+  vars:
+    sap_preconfigure_config_all: no
+    sap_preconfigure_2002167_05: yes
+    sap_preconfigure_2772999_09: yes
+    sap_preconfigure_db_group_name: dba
+  roles:
+    - role: sap-preconfigure
