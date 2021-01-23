@@ -136,16 +136,44 @@ This role does not depend on any other role.
 Example Playbook
 ----------------
 
+Simple YAML file:
 ```yaml
 ---
-    - hosts: all
-      roles:
-         - role: sap-preconfigure
+- hosts: all
+  roles:
+    - role: sap-preconfigure
 ```
 
 Example Usage
 -------------
-ansible-playbook -l remote_host site.yml
+Normal run:
+```yaml
+ansible-playbook sap.yml -l remote_host
+```
+
+Extended Check (Assertion) run, aborting for any error which has been found:
+```yaml
+ansible-playbook sap.yml -l remote_host -e "{sap_preconfigure_assert: yes}"
+```
+
+Extended Check (Assertion) run, not aborting even if an error has been found:
+```yaml
+ansible-playbook sap.yml -l remote_host -e "{sap_preconfigure_assert: yes, sap_preconfigure_assert_ignore_errors: no}"
+```
+
+Same as above, with a nice compact and colored output, this time for two hosts:
+```yaml
+ansible-playbook sap.yml -l host_1,host_2 -e "{sap_preconfigure_assert: yes, sap_preconfigure_assert_ignore_errors: yes}" |
+awk '{sub ("    \"msg\": ", "")}
+  /: \[/{gsub ("\\[", ""); gsub ("]", ""); gsub (":", ""); host=$2}  /SAP note/{print "\033[30m[" host"] "$0}
+  /FAIL:/{nfail[host]++; print "\033[31m[" host"] "$0}
+  /WARN:/{nwarn[host]++; print "\033[33m[" host"] "$0}
+  /PASS:/{npass[host]++; print "\033[32m[" host"] "$0}
+  /INFO:/{print "\033[34m[" host"] "$0}
+  /changed/&&/unreachable/{print "\033[30m[" host"] "$0}
+  END{print ("---"); for (var in npass) printf ("[%s] \033[31mFAIL: %d  \033[33mWARN: %d  \033[32mPASS: %d\033[30m\n", var, nfail[var], nwarn[var], npass[var])}'
+```
+
 
 License
 -------

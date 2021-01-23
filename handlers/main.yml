@@ -24,4 +24,17 @@
     - not sap_preconfigure_fail_if_reboot_required|d(true)
     - not sap_preconfigure_reboot_ok|d(false)
 
+- name: Remount /dev/shm
+  command: bash -lc "mount -o remount /dev/shm"
+  listen: __sap_preconfigure_mount_tmpfs_handler
+
+- name: Check if /dev/shm is available
+  command: bash -lc "df -h /dev/shm"
+  register: shell_result
+  listen: __sap_preconfigure_mount_tmpfs_handler
+
+- debug:
+    var: shell_result.stdout_lines, shell_result.stderr_lines
+  listen: __sap_preconfigure_mount_tmpfs_handler
+
 ...

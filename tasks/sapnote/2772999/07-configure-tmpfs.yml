@@ -12,28 +12,6 @@
     regexp: '/dev/shm'
     line: "none     /dev/shm       tmpfs   defaults,size={{ sap_preconfigure_size_of_tmpfs_gb }}G        0 0"
     state: present
-
-- name: Check if /dev/shm is in /etc/fstab
-  command: bash -lc "grep /dev/shm /etc/fstab"
-  register: shell_result
-  changed_when: False
-  when: not ansible_check_mode
-- debug:
-    var: shell_result.stdout_lines, shell_result.stderr_lines
-
-- name: Remount /dev/shm
-  command: bash -lc "mount -o remount /dev/shm"
-  register: shell_result
-  when: not ansible_check_mode
-- debug:
-    var: shell_result.stdout_lines, shell_result.stderr_lines
-
-- name: Check if /dev/shm is available
-  command: bash -lc "df -k /dev/shm"
-  register: shell_result
-  changed_when: False
-  when: not ansible_check_mode
-- debug:
-    var: shell_result.stdout_lines, shell_result.stderr_lines
+  notify: __sap_preconfigure_mount_tmpfs_handler
 
 ...
