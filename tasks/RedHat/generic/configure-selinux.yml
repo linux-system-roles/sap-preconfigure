@@ -3,7 +3,7 @@
 - debug:
     msg: "imported RedHat/generic/configure-selinux.yml"
 
-- name: Set SELinux State
+- name: Set SELinux state
   selinux:
     state: "{{ sap_preconfigure_selinux_state }}"
     policy: targeted

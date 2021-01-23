@@ -15,6 +15,10 @@
     assert_prefix: "assert-"
   when: sap_preconfigure_assert|d(false)
 
+# required for installation and configuration tasks:
+- name: Gather package facts
+  package_facts:
+
 - include_tasks: '{{ assert_prefix }}installation.yml'
   when: sap_preconfigure_config_all|d(true) or sap_preconfigure_installation|d(false)
 

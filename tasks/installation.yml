@@ -1,8 +1,5 @@
 ---
 
-- name: Gather package facts
-  package_facts:
-
 - name: Ensure required package groups are installed
   package:
     state: present
@@ -14,7 +11,7 @@
     name: "{{ __sap_preconfigure_packages }}"
   register: sap_preconfigure_register_groupinstall
 
-- name: Minimum required package check
+- name: Ensure minimum required package versions are installed
   block:
   - name: Check if minimum required package versions are installed
 # How does it work?
@@ -77,7 +74,6 @@
     state: latest
     name: "*"
   when: sap_preconfigure_update
-  register: sap_preconfigure_register_packageinstall
 
 - set_fact:
     needs_restarting_command: "needs-restarting -r"

@@ -1,26 +1,5 @@
 ---
 
-- name: Get package facts
-  package_facts:
-
-- name: Get info about outstanding package updates
-  command: yum check-update
-  register: yum_check_update_result
-  args:
-    warn: false
-  changed_when: false
-  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
-  when: sap_preconfigure_update
-
-- name: Assert that there are no more outstanding package updates
-  assert:
-    that:
-      - yum_check_update_result.rc == 0
-    fail_msg: "FAIL: System needs to be updated!"
-    success_msg: "PASS: There are no more outstanding package updates."
-  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
-  when: sap_preconfigure_update
-
 - name: Check RHEL 7 package groups
   block:
   - set_fact:
@@ -48,7 +27,7 @@
     ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
   when: 
-    - not( (__sap_preconfigure_packagegroups is undefined) or (__sap_preconfigure_packagegroups is none) or (__sap_preconfigure_packagegroups == "") )
+    - __sap_preconfigure_packagegroups|d([])
     - ansible_os_family == 'RedHat'
     - ansible_distribution_major_version == '7'
 
@@ -79,7 +58,7 @@
     ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
   when: 
-    - not( (__sap_preconfigure_envgroups is undefined) or (__sap_preconfigure_envgroups is none) or (__sap_preconfigure_envgroups == "") )
+    - __sap_preconfigure_envgroups|d([])
     - ansible_os_family == 'RedHat'
     - ansible_distribution_major_version == '8'
 
@@ -95,7 +74,7 @@
     loop_var: line_item
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
-- name: Minimum required package check
+- name: Minimum required package version check
   block:
   - name: Check if minimum required package versions are installed
 # How does it work?
@@ -158,9 +137,32 @@
     - __sap_preconfigure_min_pkgs|d([])
 
 - debug:
-    msg: "PASS: No minimum required package version defined (variable __sap_preconfigure_min_pkgs)."
+    msg: "INFO: No minimum required package version defined (variable __sap_preconfigure_min_pkgs)."
   ignore_errors: yes
   when: not __sap_preconfigure_min_pkgs|d([])
+
+- name: Get info about possible package updates
+  command: yum check-update
+  register: yum_check_update_result
+  args:
+    warn: false
+  changed_when: false
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+  when: sap_preconfigure_update
+
+- name: Assert that there are no more possible package updates
+  assert:
+    that:
+      - yum_check_update_result.rc == 0
+    fail_msg: "FAIL: System needs to be updated!"
+    success_msg: "PASS: There are no more outstanding package updates."
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+  when: sap_preconfigure_update
+
+- debug:
+    msg: "INFO: Not checking for possible package updates (variable sap_preconfigure_update)."
+  ignore_errors: yes
+  when: not sap_preconfigure_update
 
 - set_fact:
     needs_restarting_command: "needs-restarting -r"
