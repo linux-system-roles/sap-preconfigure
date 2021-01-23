@@ -136,7 +136,7 @@ This role does not depend on any other role.
 Example Playbook
 ----------------
 
-Simple YAML file:
+Simple playbook, named sap.yml:
 ```yaml
 ---
 - hosts: all
@@ -151,12 +151,12 @@ Normal run:
 ansible-playbook sap.yml -l remote_host
 ```
 
-Extended Check (Assertion) run, aborting for any error which has been found:
+Extended Check (assert) run, aborting for any error which has been found:
 ```yaml
 ansible-playbook sap.yml -l remote_host -e "{sap_preconfigure_assert: yes}"
 ```
 
-Extended Check (Assertion) run, not aborting even if an error has been found:
+Extended Check (assert) run, not aborting even if an error has been found:
 ```yaml
 ansible-playbook sap.yml -l remote_host -e "{sap_preconfigure_assert: yes, sap_preconfigure_assert_ignore_errors: no}"
 ```
