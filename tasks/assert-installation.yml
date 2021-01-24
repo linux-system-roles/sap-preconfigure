@@ -94,7 +94,7 @@
 # 8 - case 2b: If the first column of the last line of the output is "2", it means that at least of the installed
 #              versions the package is equal to or greater than the required package version.
     shell: |
-           __result=$((echo "1 {{ pkg[0] }}-{{ pkg[1] }}";rpm -q --qf "%{NAME}-%{VERSION}-%{RELEASE}\n" {{ pkg[0] }} | 
+           (echo "1 {{ pkg[0] }}-{{ pkg[1] }}";rpm -q --qf "%{NAME}-%{VERSION}-%{RELEASE}\n" {{ pkg[0] }} | 
              awk '{printf ("2 %s\n", $0)}') | 
              awk '{gsub ("\\.el", ".0.0"); print}' | 
              sort -k 2 -k 1 -V | 
@@ -111,8 +111,7 @@
                             printf ("Package '\''{{ pkg[0] }}'\'' is already installed as {{ pkg[0] }}-{{ pkg[1] }} or later. Currently installed latest version: %s.\n", latestpkg)
                          }
                       }
-                   }')
-           echo ${__result}
+                   }'
     with_list: "{{ __sap_preconfigure_min_pkgs }}"
     loop_control:
       loop_var: pkg
