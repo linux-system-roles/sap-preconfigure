@@ -31,7 +31,7 @@
     that:
       - shell_01_result.stdout == '1'
     fail_msg: "FAIL: '{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }}' need to be once in /etc/hosts!"
-    success_msg: "PASS: '{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }}' are once in /etc/hosts."
+    success_msg: "PASS: '{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }}' is once in /etc/hosts."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 #- name: Ensure that the entry in /etc/hosts is correct

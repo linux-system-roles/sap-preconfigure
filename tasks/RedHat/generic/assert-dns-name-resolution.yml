@@ -36,16 +36,16 @@
   assert:
     that:
       - not( (ansible_default_ipv4.address is undefined) or (ansible_default_ipv4.address is none) or (ansible_default_ipv4.address | trim == '') )
-    fail_msg: "FAIL: 'ansible_default_ipv4.address' is not defined!"
-    success_msg: "PASS: 'ansible_default_ipv4.address' is defined."
+    fail_msg: "FAIL: The variable 'ansible_default_ipv4.address' is not defined!"
+    success_msg: "PASS: The variable 'ansible_default_ipv4.address' is defined."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 - name: Assert that sap_ip is set
   assert:
     that:
       - dig_short_result.stdout == '{{ sap_ip }}'
-    fail_msg: "FAIL: The variable 'sap_ip' is not defined!"
-    success_msg: "PASS: The variable 'sap_ip' is defined."
+    fail_msg: "FAIL: The variable 'sap_ip' is not set!"
+    success_msg: "PASS: The variable 'sap_ip' is set."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 ### BUG: dig does not use search path in resolv.con on PPCle
