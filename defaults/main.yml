@@ -8,7 +8,6 @@
 #sap_preconfigure_config_all: no
 #sap_preconfigure_installation: yes
 #sap_preconfigure_configuration: yes
-#sap_preconfigure_config_all: no
 ## examples for RHEL7:
 #sap_preconfigure_2002167_02: yes
 #sap_preconfigure_2002167_06: yes
