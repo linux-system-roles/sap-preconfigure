@@ -1,6 +1,6 @@
 ---
 
-- name: list of required SAP Notes
+- name: List required SAP Notes
   debug:
     var: __sap_preconfigure_sapnotes | difference([''])
 
