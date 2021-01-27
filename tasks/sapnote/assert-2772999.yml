@@ -1,0 +1,31 @@
+---
+# tasks file for sap-preconfigure configuration
+
+- import_tasks: 2772999/02-assert-selinux.yml
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_02|d(false)
+
+- import_tasks: 2772999/03-assert-hostname.yml
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_03|d(false)
+
+- import_tasks: 2772999/04-assert-network-time-and-date.yml
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_04|d(false)
+
+- import_tasks: 2772999/05-assert-firewall.yml
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_05|d(false)
+
+- import_tasks: 2772999/06-assert-uuidd.yml
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_06|d(false)
+
+- import_tasks: 2772999/07-assert-tmpfs.yml
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_07|d(false)
+
+- import_tasks: 2772999/08-assert-linux-kernel-parameters.yml
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_08|d(false)
+
+- import_tasks: 2772999/09-assert-process-resource-limits.yml
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_09|d(false)
+
+- import_tasks: 2772999/10-assert-systemd-tmpfiles.yml
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_10|d(false)
+
+...

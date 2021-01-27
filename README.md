@@ -20,17 +20,37 @@ Role Variables
 - set in `defaults/main.yml`:
 
 ### Execute only certain steps of SAP notes
-If the following variable is set to no, only certain steps of SAP notes will be executed or checked as per setting of variable `sap_preconfigure_<sap_note_number>_<step>`. If this variable is undefined or set to no, all steps of applicable SAP notes will be executed.
+If the following variable is set to no, only certain steps of SAP notes will be executed or checked as per setting of variable `sap_preconfigure_<sap_note_number>_<step>`. If this variable is undefined or set to no, all installation and configuration steps of applicable SAP notes will be executed.
 ```yaml
 sap_preconfigure_config_all
 ```
 
+### Perform installation or configuration steps, or both
+If you have set `sap_preconfigure_config_all` (see above) to `no`, you can limit the scope of the role to only execute the installation or the configuration steps. For this purpose, set one of the following variables, or both, to `yes`. The default for both is `no`.
+```yaml
+sap_preconfigure_installation
+sap_preconfigure_configuration
+```
+
 ### Define configuration steps of SAP notes
-For defining one or more steps of SAP notes to be executed or checked only, set variable `sap_preconfigure_config_all` to `no` and one or more of the following variables to `yes`:
+For defining one or more configuration steps of SAP notes to be executed or checked only, set variable `sap_preconfigure_config_all` to `no`, `sap_preconfigure_configuration` to `yes`, and one or more of the following variables to `yes`:
 ```yaml
 sap_preconfigure_2002167_0[2...6], example: sap_preconfigure_2002167_03
 sap_preconfigure_1391070
 sap_preconfigure_2772999_[02...10], example: sap_preconfigure_2772999_10
+```
+
+### Run the role in assert mode
+If the following variable is set to `yes`, the role will only check if the configuration of the managed node(s) is according to the applicable SAP notes. Default is `no`.
+```yaml
+sap_preconfigure_assert
+```
+
+### Behavior of the role in assert mode
+If the role is run in assert mode (see above) and the following variable is set to `yes`, assertion errors will not cause the role to fail. This can be useful for creating reports.
+Default is `no`, meaning that the role will fail for any assertion error which is discovered. This variable has no meaning if the role is not run in assert mode.
+```yaml
+sap_preconfigure_assert_ignore_errors
 ```
 
 ### Minimum package check
@@ -46,8 +66,16 @@ If the following variable is set to `yes`, the role will run a `yum update` befo
 sap_preconfigure_update
 ```
 
+### Reboot the system if required
+If the following variable is set to `yes`, the role will reboot the managed node if required. The default is `no`, in which case the role will only report that a reboot is required.
+```yaml
+sap_preconfigure_reboot_ok
+```
+
 ### How to behave if reboot is required
-The following variable will ensure that the role will fail if a reboot is required, if undefined or set to `yes`, which is also the default. Rebooting the managed node can be done in the playbook which is calling this role. By setting the variable to `no`, the role will not fail if a reboot is required.
+In case `sap_preconfigure_reboot_ok` (see above) is set to `no`, we should make sure that a reboot requirement does not remain unnoticed.
+The following variable will cause the role to fail if a reboot is required, if undefined or set to `yes`, which is also the default. 
+By setting the variable to `no`, the role will not fail if a reboot is required but just print a warning message.
 ```yaml
 sap_preconfigure_fail_if_reboot_required
 ```
@@ -58,8 +86,8 @@ The following variable allows for defining the desired SELinux state. Default is
 sap_preconfigure_selinux_state
 ```
 
-### size of TMPFS in GB:
-The following variable contains a formula for setting the size of TMPFS according to SAP note 941735.
+### Size of TMPFS in GB:
+The following variable contains a formula for setting the size of TMPFS according to SAP note 941735. You can modify the formula or replace it by a static value if needed.
 ```yaml
 sap_preconfigure_size_of_tmpfs_gb
 ```
@@ -108,16 +136,52 @@ This role does not depend on any other role.
 Example Playbook
 ----------------
 
+Simple playbook, named sap.yml:
 ```yaml
 ---
-    - hosts: all
-      roles:
-         - role: sap-preconfigure
+- hosts: all
+  roles:
+    - role: sap-preconfigure
 ```
 
 Example Usage
 -------------
-ansible-playbook -l remote_host site.yml
+Normal run:
+```yaml
+ansible-playbook sap.yml -l remote_host
+```
+
+Extended Check (assert) run, aborting for any error which has been found:
+```yaml
+ansible-playbook sap.yml -l remote_host -e "{sap_preconfigure_assert: yes}"
+```
+
+Extended Check (assert) run, not aborting even if an error has been found:
+```yaml
+ansible-playbook sap.yml -l remote_host -e "{sap_preconfigure_assert: yes, sap_preconfigure_assert_ignore_errors: no}"
+```
+
+Same as above, with a nice compact and colored output, this time for two hosts:
+```yaml
+ansible-playbook sap.yml -l host_1,host_2 -e "{sap_preconfigure_assert: yes, sap_preconfigure_assert_ignore_errors: yes}" |
+awk '{sub ("    \"msg\": ", "")}
+  /TASK/{task_line=$0}
+  /fatal:/{fatal_line=$0; nfatal[host]++}
+  /...ignoring/{nfatal[host]--; if (nfatal[host]<0) nfatal[host]=0}
+  /^[a-z]/&&/: \[/{gsub ("\\[", ""); gsub ("]", ""); gsub (":", ""); host=$2}
+  /SAP note/{print "\033[30m[" host"] "$0}
+  /FAIL:/{nfail[host]++; print "\033[31m[" host"] "$0}
+  /WARN:/{nwarn[host]++; print "\033[33m[" host"] "$0}
+  /PASS:/{npass[host]++; print "\033[32m[" host"] "$0}
+  /INFO:/{print "\033[34m[" host"] "$0}
+  /changed/&&/unreachable/{print "\033[30m[" host"] "$0}
+  END{print ("---"); for (var in npass) {printf ("[%s] ", var); if (nfatal[var]>0) {
+        printf ("\033[31mFATAL ERROR!!! Playbook might have been aborted!!!\033[30m Last TASK and fatal output:\n"); print task_line, fatal_line
+     }
+     else printf ("\033[31mFAIL: %d  \033[33mWARN: %d  \033[32mPASS: %d\033[30m\n", nfail[var], nwarn[var], npass[var])}}'
+```
+Note: For terminals with white font on dark background, replace the color code `30m` by `37m`.
+In case you need to reset terminal font colors to the default, run: `tput init`.
 
 License
 -------

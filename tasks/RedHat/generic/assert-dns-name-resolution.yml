@@ -1,0 +1,80 @@
+---
+
+- debug:
+    msg: "imported RedHat/generic/assert-dns-name-resolution.yml"
+
+- debug:
+    msg:
+      - "sap_hostname = {{ sap_hostname }}"
+      - "sap_domain = {{ sap_domain }}"
+      - "sap_ip = {{ sap_ip }}"
+
+- name: Assert that the DNS domain is set
+  assert:
+    that:
+      - not( (ansible_domain is undefined) or (ansible_domain is none) or (ansible_domain | trim == '') )
+    fail_msg: "FAIL: The DNS domain is not configured! So variable 'sap_domain' needs to be configured!"
+    success_msg: "PASS: The DNS domain is configured."
+#  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+  ignore_errors: yes
+
+- name: Assert that variable sap_domain is set
+  assert:
+    that:
+      - not( (sap_domain is undefined) or (sap_domain is none) or (sap_domain | trim == '') )
+    fail_msg: "FAIL: The variable 'sap_domain' is not set!"
+    success_msg: "PASS: The variable 'sap_domain' is set."
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+
+- name: Check if IP address for sap_hostname.sap_domain is resolved correctly
+  shell: dig {{ sap_hostname }}.{{ sap_domain }} +short
+  register: dig_short_result
+  ignore_errors: yes
+  changed_when: no
+
+- name: Assert that ansible_default_ipv4.address is set
+  assert:
+    that:
+      - not( (ansible_default_ipv4.address is undefined) or (ansible_default_ipv4.address is none) or (ansible_default_ipv4.address | trim == '') )
+    fail_msg: "FAIL: The variable 'ansible_default_ipv4.address' is not defined!"
+    success_msg: "PASS: The variable 'ansible_default_ipv4.address' is defined."
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+
+- name: Assert that sap_ip is set
+  assert:
+    that:
+      - dig_short_result.stdout == '{{ sap_ip }}'
+    fail_msg: "FAIL: The variable 'sap_ip' is not set!"
+    success_msg: "PASS: The variable 'sap_ip' is set."
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+
+### BUG: dig does not use search path in resolv.con on PPCle
+- name: Check if IP address for sap_hostname with search path is resolved correctly
+  shell: dig {{ sap_hostname }} +search +short
+  register: dig_search_short_result
+  changed_when: false
+  ignore_errors: true
+
+- name: Assert that the IP address for sap_hostname is resolved correctly
+  assert:
+    that:
+      - dig_search_short_result.stdout == '{{ sap_ip }}'
+    fail_msg: "FAIL: The IP address for 'sap_hostname' could not be resolved!"
+    success_msg: "PASS: The IP address for 'sap_hostname' was resolved."
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(true) }}"
+
+- name: Check if the reverse name resolution is correct
+  shell: dig -x {{ sap_ip }} +short
+  register: dig_reverse_result
+  changed_when: false
+  ignore_errors: true
+
+- name: Assert that the reverse name resolution is correct
+  assert:
+    that:
+      - dig_reverse_result.stdout == '{{ sap_hostname }}.{{ sap_domain }}.'
+    fail_msg: "FAIL: The reverse name resolution of 'sap_ip' was not successful!"
+    success_msg: "PASS: The reverse name resolution of 'sap_ip' was successful."
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(true) }}"
+
+...

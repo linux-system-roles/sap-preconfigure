@@ -1,5 +1,4 @@
 ---
-# tasks file for sap-preconfigure
 
 - name: include os specific vars
   include_vars: '{{ item }}'
@@ -7,19 +6,23 @@
     - '{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml'
     - '{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml'
     - '{{ ansible_os_family }}.yml'
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:install'
-    - 'role::sap-preconfigure:config'
 
-- import_tasks: installation.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:install'
+- set_fact:
+    assert_prefix: ""
+  when: not sap_preconfigure_assert|d(false)
 
-- import_tasks: configuration.yml
-  tags:
-    - 'role::sap-preconfigure'
-    - 'role::sap-preconfigure:config'
+- set_fact:
+    assert_prefix: "assert-"
+  when: sap_preconfigure_assert|d(false)
+
+# required for installation and configuration tasks:
+- name: Gather package facts
+  package_facts:
+
+- include_tasks: '{{ assert_prefix }}installation.yml'
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_installation|d(false)
+
+- include_tasks: '{{ assert_prefix }}configuration.yml'
+  when: sap_preconfigure_config_all|d(true) or sap_preconfigure_configuration|d(false)
 
 ...

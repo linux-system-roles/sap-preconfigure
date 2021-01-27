@@ -1,7 +1,5 @@
 ---
-# tasks file for sap-preconfigure: configuration
 
-# 02-configuration-changes.yml
 - debug:
     msg: "SAP note 2002167 Step 2a: Configure the Firewall"
 

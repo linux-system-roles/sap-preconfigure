@@ -1,7 +1,4 @@
 ---
-# tasks file for sap-preconfigure: configuration
-
-# 05-configure-firewall.yml
 
 - debug:
     msg: "imported RedHat/generic/configure-firewall.yml"
