@@ -5,14 +5,13 @@
 
 - name: Check if hostname is set
   command: hostname
-  register: hostname_result
+  register: __hostname_command_result
   ignore_errors: yes
   changed_when: no
 
 - name: Assert that the output of hostname matches the content of variable sap_hostname
   assert:
-    that:
-      - hostname_result.stdout == '{{ sap_hostname }}'
+    that: __hostname_command_result.stdout == '{{ sap_hostname }}'
     fail_msg: "FAIL: The output of 'hostname' does not match the content of variable 'sap_hostname'!"
     success_msg: "PASS: The output of 'hostname' matches the content of variable 'sap_hostname'."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"

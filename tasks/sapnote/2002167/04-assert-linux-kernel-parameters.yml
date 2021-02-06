@@ -3,60 +3,88 @@
 - debug:
     msg: "SAP note 2002167 Step 4: Linux Kernel Parameters"
 
+- name: Get info about file /etc/sysctl.d/sap.conf
+  stat:
+    path: /etc/sysctl.d/sap.conf
+  register: __stat_sysctl_sap_conf
+
+- name: Assert that file /etc/sysctl.d/sap.conf exists
+  assert:
+    that: __stat_sysctl_sap_conf.stat.exists == true
+    fail_msg: "FAIL: File /etc/sysctl.d/sap.conf does not exist!"
+    success_msg: "PASS: File /etc/sysctl.d/sap.conf exist."
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+
+- name: Assert that file /etc/sysctl.d/sap.conf is a regular file
+  assert:
+    that: __stat_sysctl_sap_conf.stat.isreg == true
+    fail_msg: "FAIL: File /etc/sysctl.d/sap.conf is not a regular file!"
+    success_msg: "PASS: File /etc/sysctl.d/sap.conf is a regular file."
+  ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+  when: __stat_sysctl_sap_conf.stat.exists
+
 - name: Get vm.max_map_count from /etc/sysctl.d/sap.conf
   command: awk 'BEGIN{FS="="}/vm.max_map_count/{split ($2, a, " "); print a[1]}' /etc/sysctl.d/sap.conf
-  register: sap_conf_max_map_count_result
+  register: __sap_conf_max_map_count_result
   changed_when: no
   ignore_errors: yes
+  when:
+    - __stat_sysctl_sap_conf.stat.exists
+    - __stat_sysctl_sap_conf.stat.isreg
 
 # Note: The value for vm.max_map_count of 2147483647 (previously 2000000)
 #   is recommended in SAP note 900929.
 - name: Assert that vm.max_map_count is set to 2147483647 in /etc/sysctl.d/sap.conf
   assert:
-    that:
-      - sap_conf_max_map_count_result.stdout == '2147483647'
-    fail_msg: "FAIL: The value of 'vm.max_map_count' in /etc/sysctl.d/sap.conf is '{{ sap_conf_max_map_count_result.stdout }}' but the expected value is '2147483647'!"
-    success_msg: "PASS: The value of 'vm.max_map_count' in /etc/sysctl.d/sap.conf is '{{ sap_conf_max_map_count_result.stdout }}'."
+    that: __sap_conf_max_map_count_result.stdout == '2147483647'
+    fail_msg: "FAIL: The value of 'vm.max_map_count' in /etc/sysctl.d/sap.conf is '{{ __sap_conf_max_map_count_result.stdout }}' but the expected value is '2147483647'!"
+    success_msg: "PASS: The value of 'vm.max_map_count' in /etc/sysctl.d/sap.conf is '{{ __sap_conf_max_map_count_result.stdout }}'."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+  when:
+    - __stat_sysctl_sap_conf.stat.exists
+    - __stat_sysctl_sap_conf.stat.isreg
 
 - name: Get vm.max_map_count value from sysctl
   shell: sysctl -n vm.max_map_count
-  register: sysctl_max_map_count_result
+  register: __sysctl_max_map_count_result
   changed_when: no
 
 - name: Assert that the value of vm.max_map_count as per sysctl output is 2147483647
   assert:
-    that:
-      - sysctl_max_map_count_result.stdout == '2147483647'
-    fail_msg: "FAIL: The current value of 'vm.max_map_count' as per sysctl is '{{ sysctl_max_map_count_result.stdout }}' but the expected value is '2147483647'!"
-    success_msg: "PASS: The current value of 'vm.max_map_count' as per sysctl is '{{ sysctl_max_map_count_result.stdout }}'."
+    that: __sysctl_max_map_count_result.stdout == '2147483647'
+    fail_msg: "FAIL: The current value of 'vm.max_map_count' as per sysctl is '{{ __sysctl_max_map_count_result.stdout }}' but the expected value is '2147483647'!"
+    success_msg: "PASS: The current value of 'vm.max_map_count' as per sysctl is '{{ __sysctl_max_map_count_result.stdout }}'."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 - name: Get kernel.sem from /etc/sysctl.d/sap.conf
   shell: awk 'BEGIN{FS="="}/kernel.sem/{split ($2, a, " "); print a[1], a[2], a[3], a[4]}' /etc/sysctl.d/sap.conf
-  register: sap_conf_kernel_sem_result
+  register: __sap_conf_kernel_sem_result
   changed_when: no
   ignore_errors: yes
+  when:
+    - __stat_sysctl_sap_conf.stat.exists
+    - __stat_sysctl_sap_conf.stat.isreg
 
 - name: Assert that kernel.sem is set to 1250 256000 100 1024 in /etc/sysctl.d/sap.conf
   assert:
-    that:
-      - sap_conf_kernel_sem_result.stdout == '1250 256000 100 1024'
-    fail_msg: "FAIL: The value of 'kernel.sem' in /etc/sysctl.d/sap.conf is {{ sap_conf_kernel_sem_result.stdout }} but the expected value is '1250 256000 100 1024'!"
-    success_msg: "PASS: The value of 'kernel.sem' in /etc/sysctl.d/sap.conf is '{{ sap_conf_kernel_sem_result.stdout }}'."
+    that: __sap_conf_kernel_sem_result.stdout == '1250 256000 100 1024'
+    fail_msg: "FAIL: The value of 'kernel.sem' in /etc/sysctl.d/sap.conf is '{{ __sap_conf_kernel_sem_result.stdout }}' but the expected value is '1250 256000 100 1024'!"
+    success_msg: "PASS: The value of 'kernel.sem' in /etc/sysctl.d/sap.conf is '{{ __sap_conf_kernel_sem_result.stdout }}'."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
+  when:
+    - __stat_sysctl_sap_conf.stat.exists
+    - __stat_sysctl_sap_conf.stat.isreg
 
 - name: Get kernel.sem value from sysctl
   shell: sysctl -n kernel.sem | awk '{gsub ("\t", " "); print}'
-  register: sap_conf_kernel_sem_result
+  register: __sysctl_kernel_sem_result
   changed_when: no
 
 - name: Assert that the value of kernel.sem as per sysctl output is 1250 256000 100 1024
   assert:
-    that:
-      - sap_conf_kernel_sem_result.stdout == '1250 256000 100 1024'
-    fail_msg: "FAIL: The current value of 'kernel.sem' as per sysctl is '{{ sap_conf_kernel_sem_result.stdout }}' but the expected value is '1250 256000 100 1024'!"
-    success_msg: "PASS: The current value of 'kernel.sem' as per sysctl is '{{ sap_conf_kernel_sem_result.stdout }}'."
+    that: __sysctl_kernel_sem_result.stdout == '1250 256000 100 1024'
+    fail_msg: "FAIL: The current value of 'kernel.sem' as per sysctl is '{{ __sysctl_kernel_sem_result.stdout }}' but the expected value is '1250 256000 100 1024'!"
+    success_msg: "PASS: The current value of 'kernel.sem' as per sysctl is '{{ __sysctl_kernel_sem_result.stdout }}'."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 ...
