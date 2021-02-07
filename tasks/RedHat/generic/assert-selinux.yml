@@ -18,12 +18,12 @@
 - debug:
     msg: "WARN: The SELinux state has been set to 'enforcing' (variable sap_preconfigure_selinux_state)."
   ignore_errors: yes
-  when: sap_preconfigure_selinux_state == 'enforcing'
+  when: "sap_preconfigure_selinux_state == 'enforcing'"
 
 - debug:
     msg: "INFO: When running in normal mode, the role will set the SELinux state to '{{ sap_preconfigure_selinux_state }}' (variable sap_preconfigure_selinux_state)."
   ignore_errors: yes
-  when: sap_preconfigure_selinux_state != 'enforcing'
+  when: "sap_preconfigure_selinux_state != 'enforcing'"
 
 - name: "Check if the permanent configuration of the SELinux state is '{{ sap_preconfigure_selinux_state }}'"
   command: awk 'BEGIN{FS="="}/^SELINUX=/{print $NF}' /etc/selinux/config
