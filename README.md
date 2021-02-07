@@ -37,6 +37,7 @@ For defining one or more configuration steps of SAP notes to be executed or chec
 ```yaml
 sap_preconfigure_2002167_0[2...6], example: sap_preconfigure_2002167_03
 sap_preconfigure_1391070
+sap_preconfigure_0941735
 sap_preconfigure_2772999_[02...10], example: sap_preconfigure_2772999_10
 ```
 

@@ -12,6 +12,7 @@
 #sap_preconfigure_2002167_02: yes
 #sap_preconfigure_2002167_06: yes
 #sap_preconfigure_1391070: yes
+#sap_preconfigure_0941735: yes
 ## examples for RHEL8:
 #sap_preconfigure_2772999_02: yes
 #sap_preconfigure_2772999_10: yes
