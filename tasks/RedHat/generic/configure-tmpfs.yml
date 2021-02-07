@@ -1,0 +1,27 @@
+---
+
+- debug:
+    msg: "imported RedHat/generic/configure-tmpfs.yml"
+
+- name: Configure tmpfs in /etc/fstab
+  lineinfile:
+    path: /etc/fstab
+    regexp: '/dev/shm'
+    line: "none     /dev/shm       tmpfs   defaults,size={{ sap_preconfigure_size_of_tmpfs_gb }}G        0 0"
+    state: present
+  notify: __sap_preconfigure_mount_tmpfs_handler
+
+# The following is necessary to trigger a remount of /dev/shm in case the handler has not been notified
+#   from the previous task
+- name: Get the current size of /dev/shm 
+  shell: df -hl /dev/shm | awk '/\/dev\/shm/&&/tmpfs/{gsub ("G", ""); print $2}'
+  register: __df_shm_result
+  ignore_errors: yes
+  changed_when: no
+
+- name: Trigger remounting if /dev/shm has not the expected size
+  command: /bin/true
+  notify: __sap_preconfigure_mount_tmpfs_handler
+  when: __df_shm_result.stdout != sap_preconfigure_size_of_tmpfs_gb
+
+...
