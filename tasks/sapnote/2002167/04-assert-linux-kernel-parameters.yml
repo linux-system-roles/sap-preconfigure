@@ -10,14 +10,14 @@
 
 - name: Assert that file /etc/sysctl.d/sap.conf exists
   assert:
-    that: __stat_sysctl_sap_conf.stat.exists == true
+    that: __stat_sysctl_sap_conf.stat.exists
     fail_msg: "FAIL: File /etc/sysctl.d/sap.conf does not exist!"
     success_msg: "PASS: File /etc/sysctl.d/sap.conf exist."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 - name: Assert that file /etc/sysctl.d/sap.conf is a regular file
   assert:
-    that: __stat_sysctl_sap_conf.stat.isreg == true
+    that: __stat_sysctl_sap_conf.stat.isreg
     fail_msg: "FAIL: File /etc/sysctl.d/sap.conf is not a regular file!"
     success_msg: "PASS: File /etc/sysctl.d/sap.conf is a regular file."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"

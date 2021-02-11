@@ -10,7 +10,7 @@
 
 - name: Assert that file /etc/tmpfiles.d/sap.conf exists
   assert:
-    that: __stat_tmpfiles_sap_conf.stat.exists == true
+    that: __stat_tmpfiles_sap_conf.stat.exists
     fail_msg: "FAIL: File /etc/tmpfiles.d/sap.conf does not exist!"
     success_msg: "PASS: File /etc/tmpfiles.d/sap.conf exist."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"

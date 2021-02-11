@@ -10,14 +10,14 @@
 
 - name: Assert that file /usr/lib64/libldap.so.199 exists
   assert:
-    that: __stat_lpbldap.stat.exists == true
+    that: __stat_lpbldap.stat.exists
     fail_msg: "FAIL: File /usr/lib64/libldap.so.199 does not exist!"
     success_msg: "PASS: File /usr/lib64/libldap.so.199 exist."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 - name: Assert that file /usr/lib64/libldap.so.199 is a link
   assert:
-    that: __stat_lpbldap.stat.islnk == true
+    that: __stat_lpbldap.stat.islnk
     fail_msg: "FAIL: File /usr/lib64/libldap.so.199 is not a link!"
     success_msg: "PASS: File /usr/lib64/libldap.so.199 is a link."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
@@ -38,14 +38,14 @@
 
 - name: Assert that file /usr/lib64/liblber.so.199 exists
   assert:
-    that: __stat_lpblber.stat.exists == true
+    that: __stat_lpblber.stat.exists
     fail_msg: "FAIL: File /usr/lib64/liblber.so.199 does not exist!"
     success_msg: "PASS: File /usr/lib64/liblber.so.199 exist."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 - name: Assert that file /usr/lib64/liblber.so.199 exists and is a link
   assert:
-    that: __stat_lpblber.stat.islnk == true
+    that: __stat_lpblber.stat.islnk
     fail_msg: "FAIL: File /usr/lib64/liblber.so.199 is not a link!"
     success_msg: "PASS: File /usr/lib64/liblber.so.199 is a link."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"

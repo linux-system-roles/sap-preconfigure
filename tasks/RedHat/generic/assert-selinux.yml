@@ -10,7 +10,7 @@
 
 - name: Assert that file /etc/selinux/config exists and is a regular file
   assert:
-    that: __stat_selinux_conf.stat.isreg == true
+    that: __stat_selinux_conf.stat.isreg
     fail_msg: "FAIL: File /etc/selinux/config does not exist or is not a regular file!"
 #    success_msg: "PASS: File /etc/selinux/config exists and is a regular file."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
