@@ -30,11 +30,11 @@
 
 - name: Check if /dev/shm is available
   command: bash -lc "df -h /dev/shm"
-  register: shell_result
+  register: __sap_preconfigure_command_df_shm_result
   listen: __sap_preconfigure_mount_tmpfs_handler
 
 - debug:
-    var: shell_result.stdout_lines, shell_result.stderr_lines
+    var: __sap_preconfigure_command_df_shm_result.stdout_lines, __sap_preconfigure_command_df_shm_result.stderr_lines
   listen: __sap_preconfigure_mount_tmpfs_handler
 
 ...
