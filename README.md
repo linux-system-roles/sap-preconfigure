@@ -1,7 +1,7 @@
 sap-preconfigure
 ================
 
-This role configures a RHEL 7 or RHEL 8 system according to applicable SAP notes so that any SAP software can be installed. Future implementation may reduce the scope of this role, for example if certain installation or configuration steps are done in more specialized roles.
+This role installs required packages and performs configuration steps which are required for installing and running SAP NetWeaver or SAP HANA. Specific installation and configuration steps on top of these basic steps are performed with roles sap-netweaver-preconfigure and sap-hana-preconfigure. Future implementations may reduce the scope of this role, for example if certain installation or configuration steps are done in the more specific roles.
 
 Requirements
 ------------
@@ -37,6 +37,7 @@ For defining one or more configuration steps of SAP notes to be executed or chec
 ```yaml
 sap_preconfigure_2002167_0[2...6], example: sap_preconfigure_2002167_03
 sap_preconfigure_1391070
+sap_preconfigure_0941735
 sap_preconfigure_2772999_[02...10], example: sap_preconfigure_2772999_10
 ```
 

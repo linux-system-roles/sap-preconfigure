@@ -22,16 +22,15 @@
 
 - name: Check if ipv4 address, FQDN, and hostname are once in /etc/hosts
   shell: awk 'BEGIN{a=0}/{{ sap_ip }}/&&/{{ sap_hostname }}.{{ sap_domain }}/&&/{{ sap_hostname }}/{a++}END{print a}' /etc/hosts
-  register: shell_01_result
+  register: __shell_01_result
   ignore_errors: yes
   changed_when: no
 
 - name: Assert that ipv4 address, FQDN, and hostname are once in /etc/hosts
   assert:
-    that:
-      - shell_01_result.stdout == '1'
-    fail_msg: "FAIL: '{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }}' need to be once in /etc/hosts!"
-    success_msg: "PASS: '{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }}' is once in /etc/hosts."
+    that: "__shell_01_result.stdout == '1'"
+    fail_msg: "FAIL: The line '{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }}' needs to be once in /etc/hosts!"
+    success_msg: "PASS: The line '{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }}' is once in /etc/hosts."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 #- name: Ensure that the entry in /etc/hosts is correct
@@ -44,70 +43,65 @@
 
 - name: Check for duplicate entries of {{ sap_ip }} in /etc/hosts
   shell: awk 'BEGIN{a=0}/{{ sap_ip }}/{a++}END{print a}' /etc/hosts
-  register: shell_02_result
+  register: __shell_02_result
   ignore_errors: yes
   changed_when: no
 
 - name: Assert that there is just one line containing {{ sap_ip }} in /etc/hosts
   assert:
-    that:
-      - shell_02_result.stdout == '1'
+    that: "__shell_02_result.stdout == '1'"
     fail_msg: "FAIL: There is more than one line containing '{{ sap_ip }}' in /etc/hosts!"
     success_msg: "PASS: There is only one line containing '{{ sap_ip }}' in /etc/hosts."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 - name: Check for duplicate entries of {{ sap_hostname }}.{{ sap_domain }} in /etc/hosts
   shell: awk 'BEGIN{a=0}/{{ sap_hostname }}.{{ sap_domain }}/{a++}END{print a}' /etc/hosts
-  register: shell_03_result
+  register: __shell_03_result
   ignore_errors: yes
   changed_when: no
 
 - name: Assert that there is just one line containing {{ sap_hostname }}.{{ sap_domain }} in /etc/hosts
   assert:
-    that:
-      - shell_03_result.stdout == '1'
+    that: "__shell_03_result.stdout == '1'"
     fail_msg: "FAIL: There is more than one line containing '{{ sap_hostname }}.{{ sap_domain }}' in /etc/hosts!"
     success_msg: "PASS: There is only one line containing '{{ sap_hostname }}.{{ sap_domain }}' in /etc/hosts."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 - name: Check for duplicate entries of {{ sap_hostname }} in /etc/hosts
   shell: awk 'BEGIN{a=0}/{{ sap_hostname }}/{a++}END{print a}' /etc/hosts
-  register: shell_04_result
+  register: __shell_04_result
   ignore_errors: yes
   changed_when: no
 
 - name: Assert that there is just one line containing {{ sap_hostname }} in /etc/hosts
   assert:
-    that:
-      - shell_04_result.stdout == '1'
+    that: "__shell_04_result.stdout == '1'"
     fail_msg: "FAIL: There is more than one line containing '{{ sap_hostname }}' in /etc/hosts!"
     success_msg: "PASS: There is only one line containing '{{ sap_hostname }}' in /etc/hosts."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 - name: Check hostname -s
   shell: test "$(hostname -s)" = "$(hostname)"
-  register: hostname_s_result
+  register: __hostname_s_result
   ignore_errors: yes
   changed_when: no
 
 - name: Assert that hostname -s matches the output of hostname
   assert:
-    that:
-      - hostname_s_result.rc == 0
+    that: __hostname_s_result.rc == 0
     fail_msg: "FAIL: The output of 'hostname -s' does not match the output of 'hostname'!"
     success_msg: "PASS: The output of 'hostname -s' matches the output of 'hostname'."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 - name: Check hostname -f
   shell: test "$(hostname -f)" = "$(hostname).$(hostname -d)"
-  register: hostname_f_result
+  register: __hostname_f_result
   ignore_errors: yes
   changed_when: no
 
 - name: Assert that hostname -f matches the output of hostname.hostname -d
   assert:
-    that:
-      - hostname_f_result.rc == 0
+    that: __hostname_f_result.rc == 0
     fail_msg: "FAIL: The output of 'hostname -f' does not match the output of 'hostname'.'hostname -d'!"
     success_msg: "PASS: The output of 'hostname -f' matches the output of 'hostname'.'hostname -d'."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"

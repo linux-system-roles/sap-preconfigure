@@ -5,6 +5,7 @@
 __sap_preconfigure_sapnotes:
   - "2002167"
   - "1391070"
+  - "0941735"
 
 __sap_preconfigure_packagegroups_x86_64:
   - "@base"
