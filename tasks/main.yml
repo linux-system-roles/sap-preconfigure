@@ -7,22 +7,24 @@
     - '{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml'
     - '{{ ansible_os_family }}.yml'
 
-- set_fact:
-    assert_prefix: ""
+- name: Set filename prefix to empty string if role is run in normal mode
+  set_fact:
+    __sap_preconfigure_fact_assert_filename_prefix: ""
   when: not sap_preconfigure_assert|d(false)
 
-- set_fact:
-    assert_prefix: "assert-"
+- name: Prepend filename with assert string if role is run in assert mode
+  set_fact:
+    __sap_preconfigure_fact_assert_filename_prefix: "assert-"
   when: sap_preconfigure_assert|d(false)
 
 # required for installation and configuration tasks:
 - name: Gather package facts
   package_facts:
 
-- include_tasks: '{{ assert_prefix }}installation.yml'
+- include_tasks: '{{ __sap_preconfigure_fact_assert_filename_prefix }}installation.yml'
   when: sap_preconfigure_config_all|d(true) or sap_preconfigure_installation|d(false)
 
-- include_tasks: '{{ assert_prefix }}configuration.yml'
+- include_tasks: '{{ __sap_preconfigure_fact_assert_filename_prefix }}configuration.yml'
   when: sap_preconfigure_config_all|d(true) or sap_preconfigure_configuration|d(false)
 
 ...
