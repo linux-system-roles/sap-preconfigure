@@ -45,7 +45,7 @@
     - __stat_sysctl_sap_conf.stat.isreg
 
 - name: Get vm.max_map_count value from sysctl
-  shell: sysctl -n vm.max_map_count
+  command: sysctl -n vm.max_map_count
   register: __sysctl_max_map_count_result
   changed_when: no
 
