@@ -54,5 +54,3 @@
                The current SELinux state is: '{{ __sap_preconfigure_register_getenforce_assert.stdout }}'."
     success_msg: "PASS: SELinux is currently {{ sap_preconfigure_selinux_state }}."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
-
-...

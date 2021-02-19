@@ -9,5 +9,3 @@
   - import_tasks: ../RedHat/generic/configure-uuidd.yml
 
   when: sap_preconfigure_config_all|d(true) or sap_preconfigure_1391070|d(false)
-
-...

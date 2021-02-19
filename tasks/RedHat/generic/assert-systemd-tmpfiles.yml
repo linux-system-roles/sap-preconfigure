@@ -14,5 +14,3 @@
     fail_msg: "FAIL: File /etc/tmpfiles.d/sap.conf does not exist!"
     success_msg: "PASS: File /etc/tmpfiles.d/sap.conf exist."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
-
-...

@@ -6,5 +6,3 @@
 - import_tasks: ../../RedHat/generic/assert-hostname.yml
 - import_tasks: ../../RedHat/generic/assert-etc-hosts.yml
 - import_tasks: ../../RedHat/generic/assert-dns-name-resolution.yml
-
-...

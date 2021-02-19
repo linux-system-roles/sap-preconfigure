@@ -115,5 +115,3 @@
   command: /bin/true
   notify: __sap_preconfigure_reboot_handler
   when: __sap_preconfigure_register_needs_restarting.rc == 1
-
-...

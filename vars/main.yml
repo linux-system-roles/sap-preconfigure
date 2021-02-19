@@ -5,5 +5,3 @@
 #
 
 __sap_preconfigure_max_hostname_length: '13'
-
-...

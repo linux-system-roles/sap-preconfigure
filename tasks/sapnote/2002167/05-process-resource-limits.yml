@@ -4,5 +4,3 @@
     msg: "SAP note 2002167 Step 5: Process Resource Limits"
 
 - import_tasks: ../../RedHat/generic/configure-process-resource-limits.yml
-
-...

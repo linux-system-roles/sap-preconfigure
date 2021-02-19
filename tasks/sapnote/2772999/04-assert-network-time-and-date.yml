@@ -22,5 +22,3 @@
     fail_msg: "FAIL: Service 'chronyd' is not active!"
     success_msg: "PASS: Service 'chronyd' is active."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
-
-...

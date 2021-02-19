@@ -18,5 +18,3 @@
     - { name: vm.max_map_count, value: '2147483647' }
   loop_control:
     loop_var: line_item
-
-...

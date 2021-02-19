@@ -49,5 +49,3 @@ __sap_preconfigure_packages: "{{ lookup('vars','__sap_preconfigure_packages_' + 
 
 __sap_preconfigure_min_pkgs:
   - [ 'setup' , '2.12.2-2.el8_1.1' ]
-
-...

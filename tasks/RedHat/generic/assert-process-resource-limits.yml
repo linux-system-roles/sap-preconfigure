@@ -194,5 +194,3 @@
     - __sap_preconfigure_register_stat_limits_sap_conf_assert.stat.exists
     - __sap_preconfigure_register_stat_limits_sap_conf_assert.stat.isreg
     - sap_preconfigure_db_group_name is defined
-
-...

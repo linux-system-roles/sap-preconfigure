@@ -88,5 +88,3 @@ __sap_preconfigure_min_packages_7_8:
 __sap_preconfigure_min_packages_7_9:
 
 __sap_preconfigure_min_pkgs: "{{ lookup('vars','__sap_preconfigure_min_packages_' + ansible_distribution_version|string|replace (\".\", \"_\")) }}"
-
-...

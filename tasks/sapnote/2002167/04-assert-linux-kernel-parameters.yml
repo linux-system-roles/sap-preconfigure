@@ -92,5 +92,3 @@
                but the expected value is '1250 256000 100 1024'!"
     success_msg: "PASS: The current value of 'kernel.sem' as per sysctl is '{{ __sap_preconfigure_register_sysctl_kernel_sem_rhel_7_assert.stdout }}'."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
-
-...

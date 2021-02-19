@@ -109,5 +109,3 @@
     fail_msg: "FAIL: The output of 'hostname -f' does not match the output of 'hostname'.'hostname -d'!"
     success_msg: "PASS: The output of 'hostname -f' matches the output of 'hostname'.'hostname -d'."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
-
-...

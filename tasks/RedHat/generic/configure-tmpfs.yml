@@ -24,5 +24,3 @@
   command: /bin/true
   notify: __sap_preconfigure_mount_tmpfs_handler
   when: __sap_preconfigure_register_df_shm.stdout != sap_preconfigure_size_of_tmpfs_gb
-
-...

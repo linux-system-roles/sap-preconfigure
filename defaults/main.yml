@@ -50,5 +50,3 @@ sap_ip: '{{ ansible_default_ipv4.address }}'
 # (if it exists, it will be used to configure process limits as per step
 #  "Configuring Process Resource Limits" of SAP note 2002167/2772999):
 # sap_preconfigure_db_group_name: dba
-
-...

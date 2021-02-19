@@ -47,4 +47,3 @@
         - awk_db_group_nproc_soft_result.stdout == 'unlimited'
       fail_msg: "FAIL: The soft limit of nproc for group 'dba' is not set to 'unlimited' in /etc/security/limits.d/99-sap.conf!"
       success_msg: "PASS: The soft limit of nproc for group 'dba' is set to 'unlimited' in /etc/security/limits.d/99-sap.conf."
-

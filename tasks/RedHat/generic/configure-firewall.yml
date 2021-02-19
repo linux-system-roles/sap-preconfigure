@@ -9,5 +9,3 @@
     state: stopped
     enabled: no
   when: "'firewalld' in ansible_facts.packages"
-
-...

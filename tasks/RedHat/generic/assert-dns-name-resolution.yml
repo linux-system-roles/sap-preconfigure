@@ -82,5 +82,3 @@
     success_msg: "PASS: The reverse name resolution of 'sap_ip' was successful."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(true) }}"
   when: "'bind-utils' in ansible_facts.packages"
-
-...

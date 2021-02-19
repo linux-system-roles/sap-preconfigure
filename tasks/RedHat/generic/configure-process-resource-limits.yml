@@ -58,5 +58,3 @@
     loop_var: line_item
   when:
     - sap_preconfigure_db_group_name is defined
-
-...

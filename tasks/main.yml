@@ -26,5 +26,3 @@
 
 - include_tasks: '{{ __sap_preconfigure_fact_assert_filename_prefix }}configuration.yml'
   when: sap_preconfigure_config_all|d(true) or sap_preconfigure_configuration|d(false)
-
-...

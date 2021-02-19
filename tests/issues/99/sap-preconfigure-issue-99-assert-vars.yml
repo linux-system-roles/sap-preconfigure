@@ -31,4 +31,3 @@ __sap_preconfigure_packages_s390x:
   - psmisc
 
 __sap_preconfigure_packages: "{{ lookup('vars','__sap_preconfigure_packages_' ~ ansible_architecture) }}"
-

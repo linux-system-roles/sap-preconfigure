@@ -46,5 +46,3 @@ __sap_preconfigure_packages_s390x:
   - bind-utils
 
 __sap_preconfigure_packages: "{{ lookup('vars','__sap_preconfigure_packages_' + ansible_architecture|string ) }}"
-
-...

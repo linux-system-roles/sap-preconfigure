@@ -115,5 +115,3 @@
 - name: Check hostname -s and hostname -f settings
   shell: test "$(hostname -s)" = "$(hostname)" -a "$(hostname -f)" = "$(hostname).$(hostname -d)"
   changed_when: false
-
-...

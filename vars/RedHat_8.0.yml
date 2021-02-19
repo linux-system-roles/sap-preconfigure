@@ -31,5 +31,3 @@ __sap_preconfigure_packages:
 __sap_preconfigure_min_pkgs:
   - [ 'setup' , '2.12.2-2.el8_0.1' ]
   - [ 'kernel' , '4.18.0-80.15.1.el8_0' ]
-
-...

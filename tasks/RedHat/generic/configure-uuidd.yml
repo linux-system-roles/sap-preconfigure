@@ -14,5 +14,3 @@
     name: uuidd.socket
     enabled: yes
     state: started
-
-...

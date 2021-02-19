@@ -27,5 +27,3 @@
 
 - import_tasks: 2772999/10-configure-systemd-tmpfiles.yml
   when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_10|d(false)
-
-...
