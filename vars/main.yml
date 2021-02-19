@@ -4,4 +4,6 @@
 # Those are valid for all OS
 #
 
+__sap_preconfigure_max_hostname_length: '13'
+
 ...

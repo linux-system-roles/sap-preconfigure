@@ -37,6 +37,9 @@ sap_preconfigure_locale: en_US.UTF-8
 
 sap_preconfigure_modify_etc_hosts: yes
 
+# see SAP note 611361 for possible restrictions for the maximum length of the hostname:
+sap_preconfigure_max_hostname_length: '{{ __sap_preconfigure_max_hostname_length }}'
+
 sap_hostname: '{{ ansible_hostname }}'
 
 sap_domain: '{{ ansible_domain }}'

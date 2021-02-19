@@ -105,6 +105,14 @@ If you not want the role to check and if necessary modify `/etc/hosts` according
 sap_preconfigure_modify_etc_hosts
 ```
 
+### Maximum length of the hostname
+The role will fail if the hostname has more than 13 characters (defined in vars/main.yml), to catch such cases before attempting to install SAP software.
+There might be cases where other limits are desired (e.g. just 8 characters). In this case, set the following variable according to your needs (e.g. '8').
+See also SAP note 611361.
+```yaml
+sap_preconfigure_max_hostname_length
+```
+
 ### hostname
 If the role should not use the hostname as reported by Ansible (=`ansible_hostname`), set the following variable according to your needs:
 ```yaml
