@@ -21,7 +21,7 @@
 #    var=sap_hostname_aliases
 
 - name: Check if ipv4 address, FQDN, and hostname are once in /etc/hosts
-  shell: awk 'BEGIN{a=0}/{{ sap_ip }}/&&/{{ sap_hostname }}.{{ sap_domain }}/&&/{{ sap_hostname }}/{a++}END{print a}' /etc/hosts
+  command: awk 'BEGIN{a=0}/{{ sap_ip }}/&&/{{ sap_hostname }}.{{ sap_domain }}/&&/{{ sap_hostname }}/{a++}END{print a}' /etc/hosts
   register: __sap_preconfigure_register_ipv4_fqdn_sap_hostname_once_assert
   ignore_errors: yes
   changed_when: no
@@ -42,7 +42,7 @@
 #    - sap_preconfigure_assert_modify_etc_hosts | bool
 
 - name: Check for duplicate entries of {{ sap_ip }} in /etc/hosts
-  shell: awk 'BEGIN{a=0}/{{ sap_ip }}/{a++}END{print a}' /etc/hosts
+  command: awk 'BEGIN{a=0}/{{ sap_ip }}/{a++}END{print a}' /etc/hosts
   register: __sap_preconfigure_register_sap_ip_once_assert
   ignore_errors: yes
   changed_when: no
@@ -55,7 +55,7 @@
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 - name: Check for duplicate entries of {{ sap_hostname }}.{{ sap_domain }} in /etc/hosts
-  shell: awk 'BEGIN{a=0}/{{ sap_hostname }}.{{ sap_domain }}/{a++}END{print a}' /etc/hosts
+  command: awk 'BEGIN{a=0}/{{ sap_hostname }}.{{ sap_domain }}/{a++}END{print a}' /etc/hosts
   register: __sap_preconfigure_register_fqdn_once_assert
   ignore_errors: yes
   changed_when: no
@@ -68,7 +68,7 @@
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 - name: Check for duplicate entries of {{ sap_hostname }} in /etc/hosts
-  shell: awk 'BEGIN{a=0}/{{ sap_hostname }}/{a++}END{print a}' /etc/hosts
+  command: awk 'BEGIN{a=0}/{{ sap_hostname }}/{a++}END{print a}' /etc/hosts
   register: __sap_preconfigure_register_sap_hostname_once_assert
   ignore_errors: yes
   changed_when: no

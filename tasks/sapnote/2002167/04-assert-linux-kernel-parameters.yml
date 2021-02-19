@@ -60,7 +60,7 @@
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 - name: Get kernel.sem from /etc/sysctl.d/sap.conf
-  shell: awk 'BEGIN{FS="="}/kernel.sem/{split ($2, a, " "); print a[1], a[2], a[3], a[4]}' /etc/sysctl.d/sap.conf
+  command: awk 'BEGIN{FS="="}/kernel.sem/{split ($2, a, " "); print a[1], a[2], a[3], a[4]}' /etc/sysctl.d/sap.conf
   register: __sap_preconfigure_register_sysctl_sap_conf_kernel_sem_rhel_7_assert
   changed_when: no
   ignore_errors: yes

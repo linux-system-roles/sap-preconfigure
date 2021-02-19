@@ -66,7 +66,7 @@
     - __sap_preconfigure_register_stat_limits_sap_conf_assert.stat.isreg
 
 - name: Get the hard limit of nofile for the database group
-  command: "awk '/@{{ sap_preconfigure_db_group_name }}/&&/nofile/&&/hard/{print $NF}' /etc/security/limits.d/99-sap.conf"
+  command: awk '/@{{ sap_preconfigure_db_group_name }}/&&/nofile/&&/hard/{print $NF}' /etc/security/limits.d/99-sap.conf
   register: __sap_preconfigure_register_limits_sap_conf_db_group_nofile_hard_assert
   changed_when: no
   ignore_errors: yes
@@ -87,7 +87,7 @@
     - sap_preconfigure_db_group_name is defined
 
 - name: Get the soft limit of nofile for the database group
-  command: "awk '/@{{ sap_preconfigure_db_group_name }}/&&/nofile/&&/soft/{print $NF}' /etc/security/limits.d/99-sap.conf"
+  command: awk '/@{{ sap_preconfigure_db_group_name }}/&&/nofile/&&/soft/{print $NF}' /etc/security/limits.d/99-sap.conf
   register: __sap_preconfigure_register_limits_sap_conf_db_group_nofile_soft_assert
   changed_when: no
   ignore_errors: yes
@@ -150,7 +150,7 @@
     - __sap_preconfigure_register_stat_limits_sap_conf_assert.stat.isreg
 
 - name: Get the hard limit of nproc for the database group
-  command: "awk '/@{{ sap_preconfigure_db_group_name }}/&&/nproc/&&/hard/{print $NF}' /etc/security/limits.d/99-sap.conf"
+  command: awk '/@{{ sap_preconfigure_db_group_name }}/&&/nproc/&&/hard/{print $NF}' /etc/security/limits.d/99-sap.conf
   register: __sap_preconfigure_register_limits_sap_conf_db_group_nproc_hard_assert
   changed_when: no
   ignore_errors: yes
@@ -173,7 +173,7 @@
     - sap_preconfigure_db_group_name is defined
 
 - name: Get the soft limit of nproc for the database group
-  command: "awk '/@{{ sap_preconfigure_db_group_name }}/&&/nproc/&&/soft/{print $NF}' /etc/security/limits.d/99-sap.conf"
+  command: awk '/@{{ sap_preconfigure_db_group_name }}/&&/nproc/&&/soft/{print $NF}' /etc/security/limits.d/99-sap.conf
   register: __sap_preconfigure_register_limits_sap_conf_db_group_nproc_soft_assert
   changed_when: no
   ignore_errors: yes

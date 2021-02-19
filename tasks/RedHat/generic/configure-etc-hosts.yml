@@ -26,7 +26,7 @@
 - name: Check if ipv4 address, FQDN, and hostname are in /etc/hosts
   block:
     - name: Perform the /etc/hosts completeness check
-      command: bash -lc "awk 'BEGIN{a=0}/{{ sap_ip }}/&&/{{ sap_hostname }}.{{ sap_domain }}/&&/{{ sap_hostname }}/{a++}END{print a}' /etc/hosts"
+      command: awk 'BEGIN{a=0}/{{ sap_ip }}/&&/{{ sap_hostname }}.{{ sap_domain }}/&&/{{ sap_hostname }}/{a++}END{print a}' /etc/hosts
       register: __sap_preconfigure_register_ipv4_fqdn_sap_hostname_once_check
       changed_when: false
     - debug:
