@@ -54,8 +54,10 @@
     success_msg: "PASS: There is only one line containing '{{ sap_ip }}' in /etc/hosts."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
-- name: Check for duplicate entries of {{ sap_hostname }}.{{ sap_domain }} in /etc/hosts
-  command: awk 'BEGIN{a=0}/{{ sap_hostname }}.{{ sap_domain }}/{a++}END{print a}' /etc/hosts
+- name: Check for duplicate or missing entries of {{ sap_hostname }}.{{ sap_domain }} in /etc/hosts
+  command: awk '/^{{ sap_hostname }}.{{ sap_domain }} /||
+                / {{ sap_hostname }}.{{ sap_domain }} /||
+                / {{ sap_hostname }}.{{ sap_domain }}$/{a++}END{print a}' /etc/hosts
   register: __shell_03_result
   ignore_errors: yes
   changed_when: no
@@ -67,8 +69,10 @@
     success_msg: "PASS: There is only one line containing '{{ sap_hostname }}.{{ sap_domain }}' in /etc/hosts."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
-- name: Check for duplicate entries of {{ sap_hostname }} in /etc/hosts
-  command: awk 'BEGIN{a=0}/{{ sap_hostname }}/{a++}END{print a}' /etc/hosts
+- name: Check for duplicate or missing entries of {{ sap_hostname }} in /etc/hosts
+  command: awk '/^{{ sap_hostname }} /||
+                / {{ sap_hostname }} /||
+                / {{ sap_hostname }}$/{a++}END{print a}' /etc/hosts
   register: __shell_04_result
   ignore_errors: yes
   changed_when: no

@@ -97,7 +97,7 @@
 
 - name: Check for duplicate or missing entries of hostname and fqdn in /etc/hosts
   shell: |
-    n=$(grep -w "{{ line_item }}" /etc/hosts | wc -l)
+    n=$(awk '/^{{ line_item }} /||/ {{ line_item }} /||/ {{ line_item }}$/{a++}END{print a}' /etc/hosts)
     if [ $n -eq 1 ]; then
       exit 0
     else
