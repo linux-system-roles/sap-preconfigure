@@ -50,7 +50,7 @@
 - name: Assert that there is just one line containing {{ sap_ip }} in /etc/hosts
   assert:
     that: "__sap_preconfigure_register_sap_ip_once_assert.stdout == '1'"
-    fail_msg: "FAIL: There is more than one line containing '{{ sap_ip }}' in /etc/hosts!"
+    fail_msg: "FAIL: There is no line, or more than one line, containing '{{ sap_ip }}' in /etc/hosts!"
     success_msg: "PASS: There is only one line containing '{{ sap_ip }}' in /etc/hosts."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
@@ -65,7 +65,7 @@
 - name: Assert that there is just one line containing {{ sap_hostname }}.{{ sap_domain }} in /etc/hosts
   assert:
     that: "__sap_preconfigure_register_fqdn_once_assert.stdout == '1'"
-    fail_msg: "FAIL: There is more than one line containing '{{ sap_hostname }}.{{ sap_domain }}' in /etc/hosts!"
+    fail_msg: "FAIL: There is no line, or more than one line, containing '{{ sap_hostname }}.{{ sap_domain }}' in /etc/hosts!"
     success_msg: "PASS: There is only one line containing '{{ sap_hostname }}.{{ sap_domain }}' in /etc/hosts."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
@@ -80,7 +80,7 @@
 - name: Assert that there is just one line containing {{ sap_hostname }} in /etc/hosts
   assert:
     that: "__sap_preconfigure_register_sap_hostname_once_assert.stdout == '1'"
-    fail_msg: "FAIL: There is more than one line containing '{{ sap_hostname }}' in /etc/hosts!"
+    fail_msg: "FAIL: There is no line, or more than one line, containing '{{ sap_hostname }}' in /etc/hosts!"
     success_msg: "PASS: There is only one line containing '{{ sap_hostname }}' in /etc/hosts."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
