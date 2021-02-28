@@ -92,7 +92,7 @@
 
 - name: Assert that hostname -s matches the output of hostname
   assert:
-    that: __sap_preconfigure_register_hostname_s_assert.rc == 0
+    that: __sap_preconfigure_register_hostname_s_assert is success
     fail_msg: "FAIL: The output of 'hostname -s' does not match the output of 'hostname'!"
     success_msg: "PASS: The output of 'hostname -s' matches the output of 'hostname'."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
@@ -105,7 +105,7 @@
 
 - name: Assert that hostname -f matches the output of hostname.hostname -d
   assert:
-    that: __sap_preconfigure_register_hostname_f_assert.rc == 0
+    that: __sap_preconfigure_register_hostname_f_assert is success
     fail_msg: "FAIL: The output of 'hostname -f' does not match the output of 'hostname'.'hostname -d'!"
     success_msg: "PASS: The output of 'hostname -f' matches the output of 'hostname'.'hostname -d'."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"

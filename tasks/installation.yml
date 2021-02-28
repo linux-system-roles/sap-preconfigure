@@ -114,4 +114,4 @@
 - name: Call Reboot handler if necessary
   command: /bin/true
   notify: __sap_preconfigure_reboot_handler
-  when: __sap_preconfigure_register_needs_restarting.rc == 1
+  when: __sap_preconfigure_register_needs_restarting is failed
