@@ -16,10 +16,9 @@
 
   - name: Assert that all required RHEL 7 package groups are installed
     assert:
-      that:
-        - "'{{ line_item|replace(\'@\', \'\') }}' in yum_group_result.stdout_lines"
-      fail_msg: "FAIL: Package group '{{ line_item|replace(\'@\', \'\') }}' is not installed!"
-      success_msg: "PASS: Package group '{{ line_item|replace(\'@\', \'\') }}' is installed."
+      that: "'{{ line_item|replace(\"@\", \"\") }}' in yum_group_result.stdout_lines"
+      fail_msg: "FAIL: Package group '{{ line_item|replace(\"@\", \"\") }}' is not installed!"
+      success_msg: "PASS: Package group '{{ line_item|replace(\"@\", \"\") }}' is installed."
     with_items:
       - "{{ __sap_preconfigure_packagegroups }}"
     loop_control:
