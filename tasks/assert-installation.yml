@@ -17,11 +17,10 @@
 
   - name: Assert that all required RHEL 7 package groups are installed
     assert:
-      that: "'{{ line_item|replace(\"@\", \"\") }}' in __sap_preconfigure_register_yum_group_assert.stdout_lines"
-      fail_msg: "FAIL: Package group '{{ line_item|replace(\"@\", \"\") }}' is not installed!"
-      success_msg: "PASS: Package group '{{ line_item|replace(\"@\", \"\") }}' is installed."
-    with_items:
-      - "{{ __sap_preconfigure_packagegroups }}"
+      that: line_item in __sap_preconfigure_register_yum_group_assert.stdout_lines
+      fail_msg: "FAIL: Package group '{{ line_item }}' is not installed!"
+      success_msg: "PASS: Package group '{{ line_item }}' is installed."
+    loop: "{{ __sap_preconfigure_packagegroups | map('replace', '@', '') | list }}"
     loop_control:
       loop_var: line_item
     ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"

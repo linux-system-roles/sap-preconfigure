@@ -19,7 +19,7 @@ __sap_preconfigure_packagegroups_ppc64le:
 __sap_preconfigure_packagegroups_s390x:
   - "@server"
 
-__sap_preconfigure_packagegroups: "{{ lookup('vars','__sap_preconfigure_packagegroups_' + ansible_architecture|string ) }}"
+__sap_preconfigure_packagegroups: "{{ lookup('vars','__sap_preconfigure_packagegroups_' + ansible_architecture ) }}"
 
 __sap_preconfigure_packages_x86_64:
   - uuidd
@@ -45,4 +45,8 @@ __sap_preconfigure_packages_s390x:
   - nfs-utils
   - bind-utils
 
-__sap_preconfigure_packages: "{{ lookup('vars','__sap_preconfigure_packages_' + ansible_architecture|string ) }}"
+__sap_preconfigure_packages: "{{ lookup('vars','__sap_preconfigure_packages_' + ansible_architecture ) }}"
+
+__sap_preconfigure_kernel_parameters_default:
+  - { name: vm.max_map_count, value: '2147483647' }
+  - { name: kernel.pid_max, value: '4194304' }

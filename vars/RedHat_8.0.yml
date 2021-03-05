@@ -17,7 +17,7 @@ __sap_preconfigure_packagegroups_ppc64le:
 __sap_preconfigure_packagegroups_s390x:
   - "@server"
 
-__sap_preconfigure_packagegroups: "{{ lookup('vars','__sap_preconfigure_packagegroups_' + ansible_architecture|string ) }}"
+__sap_preconfigure_packagegroups: "{{ lookup('vars','__sap_preconfigure_packagegroups_' + ansible_architecture ) }}"
 
 __sap_preconfigure_packages:
   - uuidd
@@ -31,3 +31,7 @@ __sap_preconfigure_packages:
 __sap_preconfigure_min_pkgs:
   - [ 'setup' , '2.12.2-2.el8_0.1' ]
   - [ 'kernel' , '4.18.0-80.15.1.el8_0' ]
+
+__sap_preconfigure_kernel_parameters_default:
+  - { name: vm.max_map_count, value: '2147483647' }
+  - { name: kernel.pid_max, value: '4194304' }
