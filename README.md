@@ -190,11 +190,11 @@ awk '{sub ("    \"msg\": ", "")}
      else printf ("\033[31mFAIL: %d  \033[33mWARN: %d  \033[32mPASS: %d\033[30m\n", nfail[var], nwarn[var], npass[var])}}'
 ```
 Note: For terminals with dark background, replace the color code `30m` by `37m`.
-In case you need to make an unvisible font readable on a terminal with dark background, run the following command in the terminal:
+In case you need to make an invisible font readable on a terminal with dark background, run the following command in the terminal:
 ```yaml
 printf "\033[37mreadable font\n"
 ```
-In case you need to make an unvisible font readable on a terminal with bright background, run the following command in the terminal:
+In case you need to make an invisible font readable on a terminal with bright background, run the following command in the terminal:
 ```yaml
 printf "\033[30mreadable font\n"
 ```
