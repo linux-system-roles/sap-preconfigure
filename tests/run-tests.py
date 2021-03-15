@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 
 import os, sys, subprocess
-#import yaml
+
+# output field delimiter for displaying the results:
+_field_delimiter = '\t'
 
 if (len(sys.argv) == 1):
    _managed_node=input("Provide name of managed node: ")
@@ -185,7 +187,6 @@ for par1 in __tests:
    else:
       print('Test ' + par1['number'] + ' finished with return code ' + par1['rc'] + '.')
 
-_field_delimiter = '\t'
 print ('\nResults for: ' + _managed_node + ' - ' + _mn_rhel_release + ' - ' + _mn_hw_arch + ':')
 
 print ('\n#' + _field_delimiter +
