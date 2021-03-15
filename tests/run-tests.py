@@ -10,7 +10,7 @@ else:
 
 print('Managed node: ' + _managed_node)
 
-_mn_rhel_release = subprocess.getoutput("ssh root@" + _managed_node + " cat /etc/redhat-release")
+_mn_rhel_release = subprocess.getoutput("ssh root@" + _managed_node + " cat /etc/redhat-release | awk 'BEGIN{FS=\"release \"}{split ($2, a, \" \"); print a[1]}'")
 print('Managed node Red Hat release: ' + _mn_rhel_release)
 _mn_hw_arch = subprocess.getoutput("ssh root@" + _managed_node + " uname -m")
 print('Managed node HW architecture: ' + _mn_hw_arch)
@@ -22,6 +22,7 @@ __tests = [
       'command_line_parameter': '--check ',
       'ignore_error_final': True,
       'compact_assert_output': False,
+      'rc': '99',
       'role_vars': []
    },
    {
@@ -30,6 +31,7 @@ __tests = [
       'command_line_parameter': '',
       'ignore_error_final': True,
       'compact_assert_output': False,
+      'rc': '99',
       'role_vars': [
          {
             'sap__preconfigure_assert': True
@@ -42,6 +44,7 @@ __tests = [
       'command_line_parameter': '',
       'ignore_error_final': False,
       'compact_assert_output': False,
+      'rc': '99',
       'role_vars': [
          {
             'sap_preconfigure_assert': True,
@@ -56,6 +59,7 @@ __tests = [
       'command_line_parameter': '',
       'ignore_error_final': False,
       'compact_assert_output': True,
+      'rc': '99',
       'role_vars': [
          {
             'sap_preconfigure_assert': True,
@@ -70,6 +74,7 @@ __tests = [
       'command_line_parameter': '',
       'ignore_error_final': False,
       'compact_assert_output': False,
+      'rc': '99',
       'role_vars': [
          {
             'sap_preconfigure_fail_if_reboot_required': False
@@ -82,6 +87,7 @@ __tests = [
       'command_line_parameter': '--check ',
       'ignore_error_final': False,
       'compact_assert_output': False,
+      'rc': '99',
       'role_vars': []
    },
    {
@@ -90,6 +96,7 @@ __tests = [
       'command_line_parameter': '',
       'ignore_error_final': True,
       'compact_assert_output': False,
+      'rc': '99',
       'role_vars': [
          {
             'sap_preconfigure_assert': True
@@ -102,6 +109,7 @@ __tests = [
       'command_line_parameter': '',
       'ignore_error_final': False,
       'compact_assert_output': True,
+      'rc': '99',
       'role_vars': [
          {
             'sap_preconfigure_assert': True,
@@ -116,6 +124,7 @@ __tests = [
       'command_line_parameter': '',
       'ignore_error_final': False,
       'compact_assert_output': False,
+      'rc': '99',
       'role_vars': [
          {
             'sap_preconfigure_update': True,
@@ -129,6 +138,7 @@ __tests = [
       'command_line_parameter': '',
       'ignore_error_final': True,
       'compact_assert_output': False,
+      'rc': '99',
       'role_vars': [
          {
             'sap_preconfigure_assert': True
@@ -141,6 +151,7 @@ __tests = [
       'command_line_parameter': '',
       'ignore_error_final': False,
       'compact_assert_output': True,
+      'rc': '99',
       'role_vars': [
          {
             'sap_preconfigure_assert': True,
@@ -163,12 +174,31 @@ for par1 in __tests:
    if (par1['compact_assert_output'] == True):
       command += ' | ./beautify-assert-output.sh'
    print ("command: " + command)
-   rc = os.system(command)
-   if (rc != 0):
+   _py_rc = os.system(command)
+   par1['rc'] = str(int(_py_rc/256))
+   if (_py_rc != 0):
       if (par1['ignore_error_final'] == True):
-         print('Test ' + par1['number'] + ' finished with return code ' + str(rc) + '. Continuing with the next test')
+         print('Test ' + par1['number'] + ' finished with return code ' + par1['rc'] + '. Continuing with the next test')
       else:
-         print('Test ' + par1['number'] + ' finished with return code ' + str(rc) + '.')
-         exit(rc)
+         print('Test ' + par1['number'] + ' finished with return code ' + par1['rc'] + '.')
+         exit(_py_rc)
    else:
-      print('Test ' + par1['number'] + ' finished with return code 0.')
+      print('Test ' + par1['number'] + ' finished with return code ' + par1['rc'] + '.')
+
+_field_delimiter = '\t'
+print ('\nResults for: ' + _managed_node + ' - ' + _mn_rhel_release + ' - ' + _mn_hw_arch + ':')
+
+print ('\n#' + _field_delimiter +
+     'RC' + _field_delimiter +
+     'name' + _field_delimiter +
+     'argument' + _field_delimiter +
+     'compact' + _field_delimiter + 
+     'role_vars')
+
+for par1 in __tests:
+   print (par1['number'] + _field_delimiter +
+     par1['rc'] + _field_delimiter +
+     par1['name'] + _field_delimiter +
+     par1['command_line_parameter'] + _field_delimiter + 
+     str(par1['compact_assert_output']) + _field_delimiter +
+     str(par1['role_vars']))
