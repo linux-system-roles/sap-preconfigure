@@ -28,6 +28,8 @@ __sap_preconfigure_packages_x86_64:
   - psmisc
   - nfs-utils
   - bind-utils
+# package hostname: needed by rhel-system-roles-sap
+  - hostname
 
 __sap_preconfigure_packages_ppc64le:
   - uuidd
@@ -36,6 +38,8 @@ __sap_preconfigure_packages_ppc64le:
   - psmisc
   - nfs-utils
   - bind-utils
+# package hostname: needed by rhel-system-roles-sap
+  - hostname
 
 __sap_preconfigure_packages_s390x:
   - uuidd
@@ -44,6 +48,8 @@ __sap_preconfigure_packages_s390x:
   - psmisc
   - nfs-utils
   - bind-utils
+# package hostname: needed by rhel-system-roles-sap
+  - hostname
 
 __sap_preconfigure_packages: "{{ lookup('vars','__sap_preconfigure_packages_' + ansible_architecture ) }}"
 
