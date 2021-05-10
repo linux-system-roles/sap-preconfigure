@@ -1,5 +1,9 @@
 ---
 
+- name: Show the role path
+  debug:
+    var: role_path
+
 - name: include os specific vars
   include_vars: '{{ item }}'
   with_first_found:

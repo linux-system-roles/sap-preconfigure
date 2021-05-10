@@ -3,12 +3,12 @@
 - name: Ensure required package groups are installed
   package:
     state: present
-    name: "{{ __sap_preconfigure_packagegroups }}"
+    name: "{{ sap_preconfigure_packagegroups }}"
 
 - name: Ensure required packages are installed
   package:
     state: present
-    name: "{{ __sap_preconfigure_packages }}"
+    name: "{{ sap_preconfigure_packages }}"
 
 - name: Ensure minimum required package versions are installed
   block:

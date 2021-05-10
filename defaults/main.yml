@@ -21,6 +21,14 @@ sap_preconfigure_assert: no
 
 sap_preconfigure_assert_ignore_errors: no
 
+sap_preconfigure_packagegroups: "{{ __sap_preconfigure_packagegroups }}"
+#sap_preconfigure_packagegroups: '@minimal-environment'
+
+sap_preconfigure_envgroups: "{{ __sap_preconfigure_envgroups }}"
+#sap_preconfigure_envgroups: '@minimal-environment'
+
+sap_preconfigure_packages: "{{ __sap_preconfigure_packages }}"
+
 sap_preconfigure_min_package_check: yes
 
 sap_preconfigure_update: no
