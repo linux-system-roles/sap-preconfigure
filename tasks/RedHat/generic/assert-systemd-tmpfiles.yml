@@ -6,13 +6,11 @@
 - name: Get info about file /etc/tmpfiles.d/sap.conf
   stat:
     path: /etc/tmpfiles.d/sap.conf
-  register: __stat_tmpfiles_sap_conf
+  register: __sap_preconfigure_register_stat_tmpfiles_sap_conf_assert
 
 - name: Assert that file /etc/tmpfiles.d/sap.conf exists
   assert:
-    that: __stat_tmpfiles_sap_conf.stat.exists
+    that: __sap_preconfigure_register_stat_tmpfiles_sap_conf_assert.stat.exists
     fail_msg: "FAIL: File /etc/tmpfiles.d/sap.conf does not exist!"
     success_msg: "PASS: File /etc/tmpfiles.d/sap.conf exist."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
-
-...

@@ -20,7 +20,7 @@ Role Variables
 - set in `defaults/main.yml`:
 
 ### Execute only certain steps of SAP notes
-If the following variable is set to no, only certain steps of SAP notes will be executed or checked as per setting of variable `sap_preconfigure_<sap_note_number>_<step>`. If this variable is undefined or set to no, all installation and configuration steps of applicable SAP notes will be executed.
+If the following variable is set to `no`, only certain steps of SAP notes will be executed or checked as per setting of variable `sap_preconfigure_<sap_note_number>_<step>`. If this variable is undefined or set to `yes`, all installation and configuration steps of applicable SAP notes will be executed.
 ```yaml
 sap_preconfigure_config_all
 ```
@@ -105,6 +105,14 @@ If you not want the role to check and if necessary modify `/etc/hosts` according
 sap_preconfigure_modify_etc_hosts
 ```
 
+### Maximum length of the hostname
+The role will fail if the hostname has more than 13 characters (defined in vars/main.yml), to catch such cases before attempting to install SAP software.
+There might be cases where other limits are desired (e.g. just 8 characters). In this case, set the following variable according to your needs (e.g. '8').
+See also SAP note 611361.
+```yaml
+sap_preconfigure_max_hostname_length
+```
+
 ### hostname
 If the role should not use the hostname as reported by Ansible (=`ansible_hostname`), set the following variable according to your needs:
 ```yaml
@@ -124,7 +132,7 @@ sap_ip
 ```
 
 ### Linux group name of the database user
-The following variable contains the name of the group which is used for the database(s), e.g. dba.
+The following variable contains the name of the group which is used for the database(s), e.g. 'dba'.
 ```yaml
 sap_preconfigure_db_group_name
 ```
@@ -181,8 +189,15 @@ awk '{sub ("    \"msg\": ", "")}
      }
      else printf ("\033[31mFAIL: %d  \033[33mWARN: %d  \033[32mPASS: %d\033[30m\n", nfail[var], nwarn[var], npass[var])}}'
 ```
-Note: For terminals with white font on dark background, replace the color code `30m` by `37m`.
-In case you need to reset terminal font colors to the default, run: `tput init`.
+Note: For terminals with dark background, replace the color code `30m` by `37m`.
+In case you need to make an invisible font readable on a terminal with dark background, run the following command in the terminal:
+```yaml
+printf "\033[37mreadable font\n"
+```
+In case you need to make an invisible font readable on a terminal with bright background, run the following command in the terminal:
+```yaml
+printf "\033[30mreadable font\n"
+```
 
 License
 -------

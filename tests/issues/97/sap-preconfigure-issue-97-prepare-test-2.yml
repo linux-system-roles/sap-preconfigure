@@ -5,4 +5,3 @@
       path: /etc/sysctl.d/sap.conf
       regexp: '^vm.max_map_count='
       line: vm.max_map_count=2000000
-

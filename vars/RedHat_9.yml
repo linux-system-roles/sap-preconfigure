@@ -3,7 +3,9 @@
 # vars file for sap-preconfigure
 
 __sap_preconfigure_sapnotes:
+# for the time being, use SAP note 2772999:
   - "2772999"
+#  - "XXX"
 
 __sap_preconfigure_envgroups:
   - "server-product-environment"
@@ -19,18 +21,37 @@ __sap_preconfigure_packagegroups_s390x:
 
 __sap_preconfigure_packagegroups: "{{ lookup('vars','__sap_preconfigure_packagegroups_' + ansible_architecture ) }}"
 
-__sap_preconfigure_packages:
+__sap_preconfigure_packages_x86_64:
   - uuidd
   - libnsl
   - tcsh
   - psmisc
   - nfs-utils
   - bind-utils
+# package hostname: needed by rhel-system-roles-sap
+  - hostname
 
-# SAP notes 2772999 (setup) and 2812427 (kernel):
-__sap_preconfigure_min_pkgs:
-  - [ 'setup' , '2.12.2-2.el8_0.1' ]
-  - [ 'kernel' , '4.18.0-80.15.1.el8_0' ]
+__sap_preconfigure_packages_ppc64le:
+  - uuidd
+  - libnsl
+  - tcsh
+  - psmisc
+  - nfs-utils
+  - bind-utils
+# package hostname: needed by rhel-system-roles-sap
+  - hostname
+
+__sap_preconfigure_packages_s390x:
+  - uuidd
+  - libnsl
+  - tcsh
+  - psmisc
+  - nfs-utils
+  - bind-utils
+# package hostname: needed by rhel-system-roles-sap
+  - hostname
+
+__sap_preconfigure_packages: "{{ lookup('vars','__sap_preconfigure_packages_' + ansible_architecture ) }}"
 
 __sap_preconfigure_kernel_parameters_default:
   - { name: vm.max_map_count, value: '2147483647' }

@@ -7,5 +7,3 @@
     sap_preconfigure_size_of_tmpfs_gb = {{ sap_preconfigure_size_of_tmpfs_gb }}"
 
 - import_tasks: ../../RedHat/generic/assert-tmpfs.yml
-
-...

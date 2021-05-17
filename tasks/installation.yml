@@ -3,13 +3,12 @@
 - name: Ensure required package groups are installed
   package:
     state: present
-    name: "{{ __sap_preconfigure_packagegroups }}"
+    name: "{{ sap_preconfigure_packagegroups }}"
 
 - name: Ensure required packages are installed
   package:
     state: present
-    name: "{{ __sap_preconfigure_packages }}"
-  register: sap_preconfigure_register_groupinstall
+    name: "{{ sap_preconfigure_packages }}"
 
 - name: Ensure minimum required package versions are installed
   block:
@@ -74,31 +73,37 @@
     name: "*"
   when: sap_preconfigure_update
 
-- set_fact:
-    needs_restarting_command: "needs-restarting -r"
+- name: "Set needs-restarting command in case of RHEL 7"
+  set_fact:
+    __sap_preconfigure_fact_needs_restarting_command: "needs-restarting -r"
   when:
     - ansible_os_family == 'RedHat'
     - ansible_distribution_major_version == '7'
 
-- set_fact:
-    needs_restarting_command: "yum needs-restarting -r"
+- name: "Set needs-restarting command in case of RHEL 8 or RHEL 9, except RHEL 8.0"
+  set_fact:
+    __sap_preconfigure_fact_needs_restarting_command: "yum needs-restarting -r"
   when:
     - ansible_os_family == 'RedHat'
-    - ansible_distribution_major_version == '8'
+    - (ansible_distribution_major_version == '8' or
+         ansible_distribution_major_version == '9'
+      )
     - ansible_distribution_version != '8.0'
 
-- set_fact:
-    needs_restarting_command: "_IKRNL=$(rpm -q --last kernel | awk 'NR==1{sub(/kernel-/,\"\"); print $1}'); _CKRNL=$(uname -r); if [ ${_IKRNL} != ${_CKRNL} ]; then exit 1; else exit 0; fi"
+- name: "Set customized needs-restarting command in case of RHEL 8.0"
+  set_fact:
+    __sap_preconfigure_fact_needs_restarting_command: "_IKRNL=$(rpm -q --last kernel | awk 'NR==1{sub(/kernel-/,\"\"); print $1}');
+                                                       _CKRNL=$(uname -r); if [ ${_IKRNL} != ${_CKRNL} ]; then exit 1; else exit 0; fi"
   when:
     - ansible_os_family == 'RedHat'
     - ansible_distribution_version == '8.0'
 
 - debug:
-    var: needs_restarting_command
+    var: __sap_preconfigure_fact_needs_restarting_command
 
 - name: Check if system needs to be restarted
-  shell: "{{ needs_restarting_command }}"
-  register: needs_restarting_result
+  shell: "{{ __sap_preconfigure_fact_needs_restarting_command }}"
+  register: __sap_preconfigure_register_needs_restarting
   ignore_errors: true
   changed_when: false
   args:
@@ -106,11 +111,9 @@
   check_mode: false
 
 - debug:
-    var: needs_restarting_result
+    var: __sap_preconfigure_register_needs_restarting
 
 - name: Call Reboot handler if necessary
   command: /bin/true
   notify: __sap_preconfigure_reboot_handler
-  when: needs_restarting_result.rc == 1
-
-...
+  when: __sap_preconfigure_register_needs_restarting is failed

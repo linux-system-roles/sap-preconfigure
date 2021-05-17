@@ -58,4 +58,3 @@
         - awk_db_group_nofile_soft_result.stdout == '65536'
       fail_msg: "FAIL: The soft limit of nofile for group 'dba' is not set to '65536' in /etc/security/limits.d/99-sap.conf!"
       success_msg: "PASS: The soft limit of nofile for group 'dba' is set to '65536' in /etc/security/limits.d/99-sap.conf."
-

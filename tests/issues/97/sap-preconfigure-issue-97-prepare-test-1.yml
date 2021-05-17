@@ -5,4 +5,3 @@
       path: /etc/sysctl.d/sap.conf
       state: absent
       regexp: 'vm.max_map_count'
-

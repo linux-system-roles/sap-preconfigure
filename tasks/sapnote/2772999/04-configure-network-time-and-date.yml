@@ -8,5 +8,3 @@
     name: chronyd
     state: started
     enabled: yes
-
-...

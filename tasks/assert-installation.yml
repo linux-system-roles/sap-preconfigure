@@ -2,74 +2,72 @@
 
 - name: Check RHEL 7 package groups
   block:
-  - set_fact:
-      yum_group_list_installed_command: "yum group list installed hidden ids |
+  - name: Set yum group list installed command
+    set_fact:
+      __sap_preconfigure_fact_yum_group_list_installed_command_assert: "yum group list installed hidden ids |
         awk '/Installed Groups:/{a=1}/Done/{a=0}{if (a==1&&!/:/){print $NF}}' |
         sed 's,(,,;s,),,'"
 
   - name: Check if required RHEL 7 package groups are installed
-    shell: "{{ yum_group_list_installed_command }}"
-    register: yum_group_result
+    shell: "{{ __sap_preconfigure_fact_yum_group_list_installed_command_assert }}"
+    register: __sap_preconfigure_register_yum_group_assert
     changed_when: no
     args:
       warn: false
 
   - name: Assert that all required RHEL 7 package groups are installed
     assert:
-      that:
-        - "'{{ line_item|replace(\'@\', \'\') }}' in yum_group_result.stdout_lines"
-      fail_msg: "FAIL: Package group '{{ line_item|replace(\'@\', \'\') }}' is not installed!"
-      success_msg: "PASS: Package group '{{ line_item|replace(\'@\', \'\') }}' is installed."
-    with_items:
-      - "{{ __sap_preconfigure_packagegroups }}"
+      that: "'{{ line_item }}' in __sap_preconfigure_register_yum_group_assert.stdout_lines"
+      fail_msg: "FAIL: Package group '{{ line_item }}' is not installed!"
+      success_msg: "PASS: Package group '{{ line_item }}' is installed."
+    loop: "{{ sap_preconfigure_packagegroups | map('replace', '@', '') | list }}"
     loop_control:
       loop_var: line_item
     ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
-  when: 
-    - __sap_preconfigure_packagegroups|d([])
+  when:
+    - sap_preconfigure_packagegroups|d([])
     - ansible_os_family == 'RedHat'
     - ansible_distribution_major_version == '7'
 
 - name: Check RHEL 8 environment groups
   block:
-  - set_fact:
-      yum_envgroup_list_installed_command: "yum group list installed -v |
+  - name: Set yum envgroup list installed command
+    set_fact:
+      __sap_preconfigure_fact_yum_envgroup_list_installed_command_assert: "yum group list installed -v |
       awk '/Installed Environment Groups:/{a=1}/Installed Groups:/{a=0}{if (a==1&&!/:/){print $NF}}' |
       sed 's,(,,;s,),,'"
 
   - name: Check if required RHEL 8 environment groups are installed
-    shell: "{{ yum_envgroup_list_installed_command }}"
-    register: yum_envgroup_result
+    shell: "{{ __sap_preconfigure_fact_yum_envgroup_list_installed_command_assert }}"
+    register: __sap_preconfigure_register_yum_envgroup_assert
     changed_when: no
     args:
       warn: false
 
   - name: Assert that all required RHEL 8 environment groups are installed
     assert:
-      that:
-        - "'{{ line_item }}' in yum_envgroup_result.stdout_lines"
+      that: "'{{ line_item }}' in __sap_preconfigure_register_yum_envgroup_assert.stdout_lines"
       fail_msg: "FAIL: Environment group '{{ line_item }}' is not installed!"
       success_msg: "PASS: Environment group '{{ line_item }}' is installed."
     with_items:
-      - "{{ __sap_preconfigure_envgroups }}"
+      - "{{ sap_preconfigure_envgroups }}"
     loop_control:
       loop_var: line_item
     ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
-  when: 
-    - __sap_preconfigure_envgroups|d([])
+  when:
+    - sap_preconfigure_envgroups|d([])
     - ansible_os_family == 'RedHat'
     - ansible_distribution_major_version == '8'
 
 - name: Assert that all required packages are installed
   assert:
-    that:
-      - "'{{ line_item }}' in ansible_facts.packages"
+    that: "'{{ line_item }}' in ansible_facts.packages"
     fail_msg: "FAIL: Package '{{ line_item }}' is not installed!"
     success_msg: "PASS: Package '{{ line_item }}' is installed."
   with_items:
-    - "{{ __sap_preconfigure_packages }}"
+    - "{{ sap_preconfigure_packages }}"
   loop_control:
     loop_var: line_item
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
@@ -94,10 +92,10 @@
 # 8 - case 2b: If the first column of the last line of the output is "2", it means that at least of the installed
 #              versions the package is equal to or greater than the required package version.
     shell: |
-           (echo "1 {{ pkg[0] }}-{{ pkg[1] }}";rpm -q --qf "%{NAME}-%{VERSION}-%{RELEASE}\n" {{ pkg[0] }} | 
-             awk '{printf ("2 %s\n", $0)}') | 
-             awk '{gsub ("\\.el", ".0.0"); print}' | 
-             sort -k 2 -k 1 -V | 
+           (echo "1 {{ pkg[0] }}-{{ pkg[1] }}";rpm -q --qf "%{NAME}-%{VERSION}-%{RELEASE}\n" {{ pkg[0] }} |
+             awk '{printf ("2 %s\n", $0)}') |
+             awk '{gsub ("\\.el", ".0.0"); print}' |
+             sort -k 2 -k 1 -V |
              awk '{gsub ("\\.0\\.0", ".el"); col1=$1; col2=$2; _nf=NF}
                $1==2{latestpkg=$2}
                END {
@@ -142,7 +140,7 @@
 
 - name: Get info about possible package updates
   command: yum check-update
-  register: yum_check_update_result
+  register: __sap_preconfigure_register_yum_check_update_assert
   args:
     warn: false
   changed_when: false
@@ -151,8 +149,7 @@
 
 - name: Assert that there are no more possible package updates
   assert:
-    that:
-      - yum_check_update_result.rc == 0
+    that: __sap_preconfigure_register_yum_check_update_assert is success
     fail_msg: "FAIL: System needs to be updated!"
     success_msg: "PASS: There are no more outstanding package updates."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
@@ -163,32 +160,37 @@
   ignore_errors: yes
   when: not sap_preconfigure_update
 
-- set_fact:
-    needs_restarting_command: "needs-restarting -r"
+- name: "Set needs-restarting command in case of RHEL 7"
+  set_fact:
+    __sap_preconfigure_fact_needs_restarting_command_assert: "needs-restarting -r"
   when:
     - ansible_os_family == 'RedHat'
     - ansible_distribution_major_version == '7'
 
-- set_fact:
-    needs_restarting_command: "yum needs-restarting -r"
+- name: "Set needs-restarting command in case of RHEL 8 or RHEL 9, except RHEL 8.0"
+  set_fact:
+    __sap_preconfigure_fact_needs_restarting_command_assert: "yum needs-restarting -r"
   when:
     - ansible_os_family == 'RedHat'
-    - ansible_distribution_major_version == '8'
+    - (ansible_distribution_major_version == '8' or 
+         ansible_distribution_major_version == '9'
+      )
     - ansible_distribution_version != '8.0'
 
-- set_fact:
-    needs_restarting_command: "_IKRNL=$(rpm -q --last kernel | awk 'NR==1{sub(/kernel-/,\"\"); print $1}');
-      _CKRNL=$(uname -r); if [ ${_IKRNL} != ${_CKRNL} ]; then exit 1; else exit 0; fi"
+- name: "Set customized needs-restarting command in case of RHEL 8.0"
+  set_fact:
+    __sap_preconfigure_fact_needs_restarting_command_assert: "_IKRNL=$(rpm -q --last kernel | awk 'NR==1{sub(/kernel-/,\"\"); print $1}');
+                                                              _CKRNL=$(uname -r); if [ ${_IKRNL} != ${_CKRNL} ]; then exit 1; else exit 0; fi"
   when:
     - ansible_os_family == 'RedHat'
     - ansible_distribution_version == '8.0'
 
 - debug:
-    var: needs_restarting_command
+    var: __sap_preconfigure_fact_needs_restarting_command_assert
 
 - name: Check if system needs to be restarted
-  shell: "{{ needs_restarting_command }}"
-  register: needs_restarting_result
+  shell: "{{ __sap_preconfigure_fact_needs_restarting_command_assert }}"
+  register: __sap_preconfigure_register_needs_restarting_assert
   changed_when: false
   args:
     warn: false
@@ -197,10 +199,7 @@
 
 - name: Assert that system needs no restart
   assert:
-    that:
-      - needs_restarting_result.rc == 0
+    that: __sap_preconfigure_register_needs_restarting_assert is success
     fail_msg: "FAIL: System needs to be restarted!"
     success_msg: "PASS: System needs no restart."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
-
-...

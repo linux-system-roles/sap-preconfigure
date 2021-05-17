@@ -5,22 +5,20 @@
 
 - name: Get status of chronyd
   command: systemctl status chronyd
-  register: __chronyd_status
+  register: __sap_preconfigure_register_chronyd_status_assert
   ignore_errors: yes
   changed_when: no
 
 - name: Assert that chronyd is enabled
   assert:
-    that: "'/usr/lib/systemd/system/chronyd.service; enabled' in __chronyd_status.stdout"
+    that: "'/usr/lib/systemd/system/chronyd.service; enabled' in __sap_preconfigure_register_chronyd_status_assert.stdout"
     fail_msg: "FAIL: Service 'chronyd' is not enabled!"
     success_msg: "PASS: Service 'chronyd' is enabled."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 - name: Assert that chronyd is active
   assert:
-    that: "'active (running)' in __chronyd_status.stdout"
+    that: "'active (running)' in __sap_preconfigure_register_chronyd_status_assert.stdout"
     fail_msg: "FAIL: Service 'chronyd' is not active!"
     success_msg: "PASS: Service 'chronyd' is active."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
-
-...

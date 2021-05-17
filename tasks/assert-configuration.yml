@@ -11,5 +11,3 @@
   include_tasks: "sapnote/assert-{{ item }}.yml"
   with_items: "{{ __sap_preconfigure_sapnotes | difference(['']) }}"
 #- include: "{{ './' + ansible_distribution + ansible_distribution_major_version + '/recommendations.yml' }}"
-
-...

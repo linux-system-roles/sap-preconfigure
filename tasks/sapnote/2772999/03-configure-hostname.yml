@@ -6,5 +6,3 @@
 - import_tasks: ../../RedHat/generic/configure-hostname.yml
 - import_tasks: ../../RedHat/generic/configure-etc-hosts.yml
 - import_tasks: ../../RedHat/generic/check-dns-name-resolution.yml
-
-...
