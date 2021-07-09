@@ -7,6 +7,8 @@ __sap_preconfigure_sapnotes:
   - "1391070"
   - "0941735"
 
+__sap_preconfigure_envgroups: ""
+
 __sap_preconfigure_packagegroups_x86_64:
   - "@base"
   - "@compat-libraries"
