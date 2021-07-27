@@ -38,5 +38,3 @@
   shell: test "$(dig -x {{ sap_ip }} +short)" = "{{ sap_hostname }}.{{ sap_domain }}."
   changed_when: false
   ignore_errors: true
-
-...

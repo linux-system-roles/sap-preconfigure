@@ -1,0 +1,7 @@
+- hosts: all
+  tasks:
+  - name: Make sure that there is no entry for vm.max_map_count in /etc/sysctl.d/sap.conf
+    lineinfile:
+      path: /etc/sysctl.d/sap.conf
+      state: absent
+      regexp: 'vm.max_map_count'

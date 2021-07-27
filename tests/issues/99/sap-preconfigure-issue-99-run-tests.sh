@@ -21,7 +21,7 @@ fi
 
 # Test 1: Just run the role
 echo "Test 1: Run role:"
-ansible-playbook sap-preconfigure-issue-99-test.yml --tags=role::sap-preconfigure:install -l ${MANAGED_NODE}
+ansible-playbook sap-preconfigure-issue-99-test.yml -l ${MANAGED_NODE}
 echo
 echo "Test 1: Assertion:"
 ansible-playbook sap-preconfigure-issue-99-assert.yml -l ${MANAGED_NODE} -e "@sap-preconfigure-issue-99-assert-vars.yml"

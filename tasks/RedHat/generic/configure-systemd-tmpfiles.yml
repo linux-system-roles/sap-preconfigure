@@ -1,5 +1,4 @@
 ---
-# tasks file for sap-preconfigure: configuration
 
 - debug:
     msg: "imported RedHat/generic/configure-systemd-tmpfiles.yml"
@@ -12,5 +11,3 @@
     group: root
     mode: '0644'
     backup: yes
-
-...
