@@ -1,7 +1,4 @@
 ---
-# tasks file for sap-preconfigure: configuration
-
-# 05-configure-firewall.yml
 
 - debug:
     msg: "imported RedHat/generic/configure-firewall.yml"
@@ -12,5 +9,3 @@
     state: stopped
     enabled: no
   when: "'firewalld' in ansible_facts.packages"
-
-...

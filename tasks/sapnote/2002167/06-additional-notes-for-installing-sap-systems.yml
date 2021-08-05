@@ -1,7 +1,5 @@
 ---
-# tasks file for sap-preconfigure: configuration
 
-# 06-additional-notes-for-installing-sap-systems.yml
 - debug:
     msg: "SAP note 2002167 Step 6: Additional notes for installing SAP systems"
 
@@ -18,5 +16,3 @@
     state: link
 
 - import_tasks: ../../RedHat/generic/configure-systemd-tmpfiles.yml
-
-...

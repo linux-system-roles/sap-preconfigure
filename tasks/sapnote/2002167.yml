@@ -15,5 +15,3 @@
 
 - import_tasks: 2002167/06-additional-notes-for-installing-sap-systems.yml
   when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2002167_06|d(false)
-
-...

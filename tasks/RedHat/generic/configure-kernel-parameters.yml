@@ -1,0 +1,16 @@
+---
+
+- debug:
+    msg: "imported RedHat/generic/configure-kernel-parameters.yml"
+
+- name: Set kernel parameters
+  sysctl:
+    sysctl_file: "{{ __sap_preconfigure_etc_sysctl_sap_conf }}"
+    name: "{{ line_item.name }}"
+    value: "{{ line_item.value }}"
+    state: present
+    sysctl_set: yes
+    reload: yes
+  with_items: "{{ sap_preconfigure_kernel_parameters }}"
+  loop_control:
+    loop_var: line_item

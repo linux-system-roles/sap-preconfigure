@@ -1,7 +1,5 @@
 ---
-# tasks file for sap-preconfigure: configuration
 
-# 04-configure-network-time-and-date.yml
 - debug:
     msg: "SAP note 2772999 Step 4: Configure Network Time and Date"
 
@@ -10,5 +8,3 @@
     name: chronyd
     state: started
     enabled: yes
-
-...

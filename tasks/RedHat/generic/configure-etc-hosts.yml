@@ -16,35 +16,37 @@
         if (( $i != "{{ sap_hostname }}" ) && ( $i != "{{ sap_hostname }}.{{ sap_domain }}" )) { printf " "$i }
       }
     }' /etc/hosts
-  register: sap_hostname_aliases
+  register: __sap_preconfigure_register_sap_hostname_aliases
   changed_when: false
 
 - name: Print hostname aliases
   debug:
-    var=sap_hostname_aliases
+    var=__sap_preconfigure_register_sap_hostname_aliases
 
 - name: Check if ipv4 address, FQDN, and hostname are in /etc/hosts
   block:
     - name: Perform the /etc/hosts completeness check
-      command: bash -lc "awk 'BEGIN{a=0}/{{ sap_ip }}/&&/{{ sap_hostname }}.{{ sap_domain }}/&&/{{ sap_hostname }}/{a++}END{print a}' /etc/hosts"
-      register: command_result
+      command: awk 'BEGIN{a=0}/{{ sap_ip }}/&&/{{ sap_hostname }}.{{ sap_domain }}/&&/{{ sap_hostname }}/{a++}END{print a}' /etc/hosts
+      register: __sap_preconfigure_register_ipv4_fqdn_sap_hostname_once_check
       changed_when: false
     - debug:
-        var: command_result.stdout_lines, command_result.stderr_lines
+        var: __sap_preconfigure_register_ipv4_fqdn_sap_hostname_once_check.stdout_lines,
+             __sap_preconfigure_register_ipv4_fqdn_sap_hostname_once_check.stderr_lines
     - debug:
         msg:
           - "Expected:"
           - "{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }}"
       when:
-        - command_result.stdout != "1"
+        - __sap_preconfigure_register_ipv4_fqdn_sap_hostname_once_check.stdout != "1"
 
-    - fail:
+    - name: Fail if ip4 address, FQDN, or hostname are not in /etc/hosts
+      fail:
         msg:
           - "Server's ip4 address, FQDN, or hostname are not in /etc/hosts!"
           - "Expected:"
           - "{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }}"
       when:
-        - command_result.stdout != "1"
+        - __sap_preconfigure_register_ipv4_fqdn_sap_hostname_once_check.stdout != "1"
       ignore_errors: "{{ ansible_check_mode }}"
 
   when:
@@ -64,15 +66,14 @@
     else
       exit 0
     fi
-  register: shell_result
+  register: __sap_preconfigure_register_duplicate_ip_check
   changed_when: false
   ignore_errors: yes
   when: not ansible_check_mode
 
 - name: Verify that variable sap_domain is set
   assert:
-    that:
-      not( (sap_domain is undefined) or (sap_domain is none) or (sap_domain | trim == '') )
+    that: not( (sap_domain is undefined) or (sap_domain is none) or (sap_domain | trim == '') )
     msg: "Variable 'sap_domain' is undefined or empty. Please define it in defaults/main.yml or via --extra-vars!"
 
 - debug:
@@ -80,24 +81,24 @@
       - "More than one line containing {{ sap_ip }}. File /etc/hosts will not be modified."
   when:
     - not ansible_check_mode
-    - shell_result.stdout == 'Duplicate IP entry in /etc/hosts!'
+    - __sap_preconfigure_register_duplicate_ip_check.stdout == 'Duplicate IP entry in /etc/hosts!'
     - sap_preconfigure_modify_etc_hosts | bool
 
 - name: Ensure that the entry in /etc/hosts is correct
   lineinfile:
     path: /etc/hosts
     regexp: '^{{ sap_ip }}\s'
-    line: "{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }}{{sap_hostname_aliases.stdout }}"
+    line: "{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }}{{ __sap_preconfigure_register_sap_hostname_aliases.stdout }}"
     backup: yes
   when:
     - not ansible_check_mode
     - sap_domain != ''
-    - shell_result.stdout != 'Duplicate IP entry in /etc/hosts!'
+    - __sap_preconfigure_register_duplicate_ip_check.stdout != 'Duplicate IP entry in /etc/hosts!'
     - sap_preconfigure_modify_etc_hosts | bool
 
 - name: Check for duplicate or missing entries of hostname and fqdn in /etc/hosts
   shell: |
-    n=$(grep -w "{{ line_item }}" /etc/hosts | wc -l)
+    n=$(awk '/^{{ line_item }} /||/ {{ line_item }} /||/ {{ line_item }}$/{a++}END{print a}' /etc/hosts)
     if [ $n -eq 1 ]; then
       exit 0
     else
@@ -114,5 +115,3 @@
 - name: Check hostname -s and hostname -f settings
   shell: test "$(hostname -s)" = "$(hostname)" -a "$(hostname -f)" = "$(hostname).$(hostname -d)"
   changed_when: false
-
-...

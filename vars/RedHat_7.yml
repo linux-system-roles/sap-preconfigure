@@ -5,6 +5,9 @@
 __sap_preconfigure_sapnotes:
   - "2002167"
   - "1391070"
+  - "0941735"
+
+__sap_preconfigure_envgroups: ""
 
 __sap_preconfigure_packagegroups_x86_64:
   - "@base"
@@ -17,6 +20,10 @@ __sap_preconfigure_packagegroups_ppc64le:
   - "@base"
   - "@compat-libraries"
 
+__sap_preconfigure_packagegroups_ppc64:
+  - "@base"
+  - "@compat-libraries"
+
 __sap_preconfigure_packagegroups_s390x:
   - "@base"
   - "@compat-libraries"
@@ -24,17 +31,41 @@ __sap_preconfigure_packagegroups_s390x:
   - "@network-file-system-client"
   - "@performance"
 
-__sap_preconfigure_packagegroups: "{{ lookup('vars','__sap_preconfigure_packagegroups_' + ansible_architecture|string ) }}"
+__sap_preconfigure_packagegroups: "{{ lookup('vars','__sap_preconfigure_packagegroups_' + ansible_architecture ) }}"
 
-__sap_preconfigure_packages:
+__sap_preconfigure_packages_x86_64:
   - uuidd
   - tcsh
   - psmisc
-#  - tuned-profiles-sap    - now in role sap-netweaver-preconfigure
   - compat-sap-c++-5
   - compat-sap-c++-6
   - compat-sap-c++-7
   - compat-sap-c++-9
+
+__sap_preconfigure_packages_ppc64le:
+  - uuidd
+  - tcsh
+  - psmisc
+  - compat-sap-c++-5
+  - compat-sap-c++-6
+  - compat-sap-c++-7
+  - compat-sap-c++-9
+
+__sap_preconfigure_packages_ppc64:
+  - uuidd
+  - tcsh
+  - psmisc
+  - compat-sap-c++-5
+  - compat-sap-c++-6
+  - compat-sap-c++-7
+  - compat-sap-c++-9
+
+__sap_preconfigure_packages_s390x:
+  - uuidd
+  - tcsh
+  - psmisc
+
+__sap_preconfigure_packages: "{{ lookup('vars','__sap_preconfigure_packages_' + ansible_architecture ) }}"
 
 __sap_preconfigure_min_packages_7_2:
 
@@ -58,6 +89,10 @@ __sap_preconfigure_min_packages_7_8:
 
 __sap_preconfigure_min_packages_7_9:
 
-__sap_preconfigure_min_pkgs: "{{ lookup('vars','__sap_preconfigure_min_packages_' + ansible_distribution_version|string|replace (\".\", \"_\")) }}"
+__sap_preconfigure_min_pkgs: "{{ lookup('vars','__sap_preconfigure_min_packages_' + ansible_distribution_version|replace (\".\", \"_\")) }}"
 
-...
+# Note: The value for vm.max_map_count of 2147483647 (previously 2000000)
+#   is set according to SAP note 900929.
+__sap_preconfigure_kernel_parameters_default:
+  - { name: kernel.sem, value: '1250 256000 100 1024' }
+  - { name: vm.max_map_count, value: '2147483647' }

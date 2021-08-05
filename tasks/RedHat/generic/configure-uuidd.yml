@@ -1,5 +1,4 @@
 ---
-# tasks file for sap-preconfigure: configuration
 
 - debug:
     msg: "imported RedHat/generic/configure-uuidd.yml"
@@ -15,5 +14,3 @@
     name: uuidd.socket
     enabled: yes
     state: started
-
-...
