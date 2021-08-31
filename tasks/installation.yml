@@ -1,7 +1,7 @@
 ---
 
 - name: Ensure required package groups are installed, RHEL 7
-  command: yum install "{{ sap_preconfigure_packagegroups|join('')|quote }}" -y
+  command: "yum install {{ sap_preconfigure_packagegroups|join(' ') }} -y"
   args:
     warn: false
   register: __sap_preconfigure_register_yum_group_install
@@ -9,9 +9,9 @@
     - ansible_os_family == 'RedHat'
     - ansible_distribution_major_version == '7'
 
-- name: Ensure required package groups are installed, RHEL 8 and later
+- name: Ensure required package groups are installed, RHEL 8 and RHEL 9
 # Note: We want to avoid unwanted package upgrades, see bug 1983749.
-  command: yum install "{{ sap_preconfigure_packagegroups|join('')|quote }}" --nobest --exclude="kernel*" -y
+  command: "yum install {{ sap_preconfigure_packagegroups|join(' ') }} --nobest --exclude=kernel* -y"
   args:
     warn: false
   register: __sap_preconfigure_register_yum_group_install
