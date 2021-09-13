@@ -1,6 +1,11 @@
 ---
 # tasks file for sap-preconfigure-assert configuration
 
+- name: Show note number and version
+  debug:
+    msg: "SAP note {{ (__sap_preconfigure_sapnotes_versions | selectattr('number', 'equalto', '2002167') | first).number }}
+          (version {{ (__sap_preconfigure_sapnotes_versions | selectattr('number', 'equalto', '2002167') | first).version }}): Configure RHEL 7"
+
 - import_tasks: 2002167/02-assert-configuration-changes.yml
   when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2002167_02|d(false)
 

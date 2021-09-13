@@ -7,6 +7,9 @@ __sap_preconfigure_sapnotes:
   - "2772999"
 #  - "XXX"
 
+__sap_preconfigure_sapnotes_versions:
+  - { number: '2772999', version: '17' }
+
 __sap_preconfigure_envgroups:
   - "server-product-environment"
 
