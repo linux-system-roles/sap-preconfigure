@@ -35,10 +35,6 @@
       when: sap_preconfigure_selinux_state == 'enforcing' or
             sap_preconfigure_selinux_state == 'permissive'
 
-    - name: Print __sap_preconfigure_register_grubby_update_selinux
-      debug:
-        var: __sap_preconfigure_register_grubby_update_selinux
-
   when:
     - ansible_os_family == 'RedHat'
     - ( ansible_distribution_major_version == '8' or
