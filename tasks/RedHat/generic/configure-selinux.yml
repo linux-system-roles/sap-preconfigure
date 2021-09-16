@@ -24,13 +24,11 @@
 
     - name: Disable SELinux also on the kernel command line, RHEL 8 and RHEL 9
       command: grubby --args="selinux=0" --update-kernel=ALL
-      register: __sap_preconfigure_register_grubby_update_selinux
       notify: __sap_preconfigure_reboot_handler
       when: sap_preconfigure_selinux_state == 'disabled'
 
     - name: Make sure SELinux is not disabled on the kernel command line, RHEL 8 and RHEL 9
       command: grubby --remove-args="selinux" --update-kernel=ALL
-      register: __sap_preconfigure_register_grubby_update_selinux
       notify: __sap_preconfigure_reboot_handler
       when: sap_preconfigure_selinux_state == 'enforcing' or
             sap_preconfigure_selinux_state == 'permissive'
