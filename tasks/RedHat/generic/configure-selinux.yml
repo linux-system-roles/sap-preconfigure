@@ -3,7 +3,7 @@
 - debug:
     msg: "imported RedHat/generic/configure-selinux.yml"
 
-- name: Set SELinux state in '/etc/selinux/config'
+- name: Set SELinux state to '{{ sap_preconfigure_selinux_state }}' in /etc/selinux/config
   lineinfile:
     path: /etc/selinux/config
     regexp: ^SELINUX\s*=.*
@@ -11,7 +11,7 @@
     state: present
   notify: __sap_preconfigure_reboot_handler
 
-- name: Set SELinux type in '/etc/selinux/config'
+- name: Set SELinux type to 'targeted' in /etc/selinux/config
   lineinfile:
     path: /etc/selinux/config
     regexp: ^SELINUXTYPE\s*=.*
