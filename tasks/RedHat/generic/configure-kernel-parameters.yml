@@ -6,6 +6,7 @@
 - name: Set kernel parameters
   lineinfile:
     path: "{{ __sap_preconfigure_etc_sysctl_sap_conf }}"
+    create: yes
     regexp: ^{{ line_item.name }}.*
     line: "{{ line_item.name }}={{ line_item.value }}"
     state: present
