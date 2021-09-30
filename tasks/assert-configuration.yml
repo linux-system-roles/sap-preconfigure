@@ -2,12 +2,13 @@
 
 - name: List required SAP Notes
   debug:
-    var: __sap_preconfigure_sapnotes | difference([''])
+    var: __sap_preconfigure_sapnotes_versions | difference([''])
 
 - name: Gather service facts
   service_facts:
 
-- name: include configuration actions for required sapnotes
-  include_tasks: "sapnote/assert-{{ item }}.yml"
-  with_items: "{{ __sap_preconfigure_sapnotes | difference(['']) }}"
-#- include: "{{ './' + ansible_distribution + ansible_distribution_major_version + '/recommendations.yml' }}"
+- name: Include configuration actions for required sapnotes
+  include_tasks: "sapnote/assert-{{ sap_note_line_item.number }}.yml"
+  with_items: "{{ __sap_preconfigure_sapnotes_versions | difference(['']) }}"
+  loop_control:
+    loop_var: sap_note_line_item

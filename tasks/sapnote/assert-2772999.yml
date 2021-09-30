@@ -1,6 +1,11 @@
 ---
 # tasks file for sap-preconfigure configuration
 
+- name: Show note number and version
+  debug:
+    msg: "SAP note {{ (__sap_preconfigure_sapnotes_versions | selectattr('number', 'match', '^2772999$') | first).number }}
+          (version {{ (__sap_preconfigure_sapnotes_versions | selectattr('number', 'match', '^2772999$') | first).version }}): Configure RHEL 8"
+
 - import_tasks: 2772999/02-assert-selinux.yml
   when: sap_preconfigure_config_all|d(true) or sap_preconfigure_2772999_02|d(false)
 
