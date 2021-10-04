@@ -8,7 +8,7 @@ __sap_preconfigure_sapnotes:
   - "0941735"
 
 __sap_preconfigure_sapnotes_versions:
-  - { number: '2002167', version: '31' }
+  - { number: '2002167', version: '32' }
   - { number: '1391070', version: '41' }
   - { number: '0941735', version: '11' }
 
