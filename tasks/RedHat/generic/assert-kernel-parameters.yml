@@ -24,7 +24,7 @@
   when: __sap_preconfigure_register_stat_sysctl_sap_conf_assert.stat.exists
 
 - name: Get and assert kernel tunables
-  include_tasks: kernel-parameters-loop-block.yml
+  include_tasks: assert-kernel-parameters-loop-block.yml
   loop: "{{ sap_preconfigure_kernel_parameters }}"
   loop_control:
     loop_var: line_item
