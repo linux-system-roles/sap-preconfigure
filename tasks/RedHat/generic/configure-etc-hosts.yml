@@ -1,9 +1,7 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/configure-etc-hosts.yml"
-
-- debug:
+- name: Display host and domain name, and IP address
+  debug:
     msg:
       - "sap_hostname = {{ sap_hostname }}"
       - "sap_domain = {{ sap_domain }}"
@@ -19,7 +17,7 @@
   register: __sap_preconfigure_register_sap_hostname_aliases
   changed_when: false
 
-- name: Print hostname aliases
+- name: Display hostname aliases
   debug:
     var=__sap_preconfigure_register_sap_hostname_aliases
 
@@ -29,10 +27,14 @@
       command: awk 'BEGIN{a=0}/{{ sap_ip }}/&&/{{ sap_hostname }}.{{ sap_domain }}/&&/{{ sap_hostname }}/{a++}END{print a}' /etc/hosts
       register: __sap_preconfigure_register_ipv4_fqdn_sap_hostname_once_check
       changed_when: false
-    - debug:
+
+    - name: Display the output of the /etc/hosts completeness check
+      debug:
         var: __sap_preconfigure_register_ipv4_fqdn_sap_hostname_once_check.stdout_lines,
              __sap_preconfigure_register_ipv4_fqdn_sap_hostname_once_check.stderr_lines
-    - debug:
+
+    - name: Display the expected output of the /etc/hosts completeness check
+      debug:
         msg:
           - "Expected:"
           - "{{ sap_ip }} {{ sap_hostname }}.{{ sap_domain }} {{ sap_hostname }}"
@@ -52,7 +54,8 @@
   when:
     - not sap_preconfigure_modify_etc_hosts | bool
 
-- debug:
+- name: Display host and domain name, and IP address
+  debug:
     msg:
       - "System {{ sap_hostname }}, {{ sap_hostname }}.{{ sap_domain }} has ipv4 address {{ sap_ip }}."
 
@@ -76,7 +79,8 @@
     that: not( (sap_domain is undefined) or (sap_domain is none) or (sap_domain | trim == '') )
     msg: "Variable 'sap_domain' is undefined or empty. Please define it in defaults/main.yml or via --extra-vars!"
 
-- debug:
+- name: Report if there is more than one line with the IP address
+  debug:
     msg:
       - "More than one line containing {{ sap_ip }}. File /etc/hosts will not be modified."
   when:
@@ -92,7 +96,7 @@
     backup: yes
   when:
     - not ansible_check_mode
-    - sap_domain != ''
+    - sap_domain | length > 0
     - __sap_preconfigure_register_duplicate_ip_check.stdout != 'Duplicate IP entry in /etc/hosts!'
     - sap_preconfigure_modify_etc_hosts | bool
 

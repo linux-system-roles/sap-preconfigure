@@ -1,8 +1,5 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/configure-systemd-tmpfiles.yml"
-
 - name: Copy file /etc/tmpfiles.d/sap.conf
   copy:
     src: etc/tmpfiles.d/sap.conf

@@ -1,9 +1,11 @@
 ---
 
-- debug:
+- name: Assert 2772999-4
+  debug:
     msg: "SAP note 2772999 Step 4: Configure Network Time and Date"
 
-- name: Get status of chronyd
+# Reason for noqa: We need to get the current status only
+- name: Get status of chronyd # noqa command-instead-of-module
   command: systemctl status chronyd
   register: __sap_preconfigure_register_chronyd_status_assert
   ignore_errors: yes

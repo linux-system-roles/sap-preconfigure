@@ -1,10 +1,10 @@
 ---
 
-- name: List required SAP Notes
+- name: Configure - List required SAP Notes
   debug:
     var: __sap_preconfigure_sapnotes_versions | difference([''])
 
-- name: Include configuration actions for required sapnotes
+- name: Configure - Include configuration actions for required sapnotes
   include_tasks: "sapnote/{{ sap_note_line_item.number }}.yml"
   with_items: "{{ __sap_preconfigure_sapnotes_versions | difference(['']) }}"
   loop_control:

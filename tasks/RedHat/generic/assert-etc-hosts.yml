@@ -1,10 +1,13 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/assert-etc-hosts.yml"
+- name: Display host and domain name, and IP address
+  debug:
+    msg:
+      - "sap_hostname = {{ sap_hostname }}"
+      - "sap_domain = {{ sap_domain }}"
+      - "sap_ip = {{ sap_ip }}"
 
 # Note: There is no check related to hostname aliases.
-
 #- name: Get all hostname aliases of {{ sap_ip }}
 #  shell: |
 #    awk '( $1 == "{{ sap_ip }}" ) {

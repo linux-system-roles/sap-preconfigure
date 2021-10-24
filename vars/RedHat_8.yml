@@ -30,6 +30,7 @@ __sap_preconfigure_packages_x86_64:
   - nfs-utils
   - bind-utils
   - compat-sap-c++-9
+  - compat-sap-c++-10
 
 __sap_preconfigure_packages_ppc64le:
   - uuidd
@@ -39,6 +40,7 @@ __sap_preconfigure_packages_ppc64le:
   - nfs-utils
   - bind-utils
   - compat-sap-c++-9
+  - compat-sap-c++-10
 
 __sap_preconfigure_packages_s390x:
   - uuidd

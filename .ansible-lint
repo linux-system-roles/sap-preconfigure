@@ -1,0 +1,3 @@
+skip_list:
+# We do not intend to change the role name
+  - role-name

@@ -1,12 +1,14 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/configure-process-resource-limits.yml"
-
-- name: Set the hard and soft limit for the max number of open files per process (nofile) to 65536 for group 'sapsys'
+# Reasons for noqa: 1. Tabs can increase readability;
+#                   2. The example in man limits.conf is tab formatted;
+#                   3. It is difficult to replace tabs by spaces for entries for which their lenghts are not known
+- name: Set the hard and soft limit for the max number of open files per process (nofile) to 65536
+        for group 'sapsys' # noqa no-tabs
   lineinfile:
     path: /etc/security/limits.d/99-sap.conf
     create: yes
+    mode: 0644
     regexp: '^@sapsys\s+{{ line_item }}\s+nofile\s.*'
     line: "@sapsys\t{{ line_item }}\tnofile\t65536"
   with_items:
@@ -15,10 +17,15 @@
   loop_control:
     loop_var: line_item
 
-- name: Set the hard and soft limit for the max number of open files per process (nofile) to 65536 for group '{{ sap_preconfigure_db_group_name }}'
+# Reasons for noqa: 1. Tabs can increase readability;
+#                   2. The example in man limits.conf is tab formatted;
+#                   3. It is difficult to replace tabs by spaces for entries for which their lenghts are not known
+- name: Set the hard and soft limit for the max number of open files per process (nofile) to 65536
+        for group '{{ sap_preconfigure_db_group_name }}' # noqa no-tabs
   lineinfile:
     path: /etc/security/limits.d/99-sap.conf
     create: yes
+    mode: 0644
     regexp: '^@{{ sap_preconfigure_db_group_name }}\s+{{ line_item }}\s+nofile\s.*'
     line: "@{{ sap_preconfigure_db_group_name }}\t{{ line_item }}\tnofile\t65536"
   with_items:
@@ -29,10 +36,15 @@
   when:
     - sap_preconfigure_db_group_name is defined
 
-- name: Set the hard and soft limit for the max number of processes per user (nproc) to unlimited for group 'sapsys'
+# Reasons for noqa: 1. Tabs can increase readability;
+#                   2. The example in man limits.conf is tab formatted;
+#                   3. It is difficult to replace tabs by spaces for entries for which their lenghts are not known
+- name: Set the hard and soft limit for the max number of processes per user (nproc) to unlimited
+        for group 'sapsys' # noqa no-tabs
   lineinfile:
     path: /etc/security/limits.d/99-sap.conf
     create: yes
+    mode: 0644
     regexp: '^@sapsys\s+{{ line_item }}\s+nproc\s.*'
     line: "@sapsys\t{{ line_item }}\tnproc\tunlimited"
   with_items:
@@ -41,10 +53,15 @@
   loop_control:
     loop_var: line_item
 
-- name: Set the hard and soft limit for the max number of processes per user (nproc) to unlimited for group '{{ sap_preconfigure_db_group_name }}'
+# Reasons for noqa: 1. Tabs can increase readability;
+#                   2. The example in man limits.conf is tab formatted;
+#                   3. It is difficult to replace tabs by spaces for entries for which their lenghts are not known
+- name: Set the hard and soft limit for the max number of processes per user (nproc) to unlimited
+        for group '{{ sap_preconfigure_db_group_name }}' # noqa no-tabs
   lineinfile:
     path: /etc/security/limits.d/99-sap.conf
     create: yes
+    mode: 0644
     regexp: '^@{{ sap_preconfigure_db_group_name }}\s+{{ line_item }}\s+nproc\s.*'
     line: "@{{ sap_preconfigure_db_group_name }}\t{{ line_item }}\tnproc\tunlimited"
   with_items:

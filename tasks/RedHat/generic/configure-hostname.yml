@@ -1,12 +1,5 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/configure-hostname.yml"
-
-- debug:
-    msg:
-      - "sap_hostname = {{ sap_hostname }}"
-
 # The hostname module fails if it is run from an initrc_t context
 # See also: https://github.com/ansible/ansible/issues/19814
 # The following applies an appropriate selinux rule if the role is run in initrc_t context

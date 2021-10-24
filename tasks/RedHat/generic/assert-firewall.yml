@@ -1,8 +1,5 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/assert-firewall.yml"
-
 # Note: firewalld is not contained in ansible_facts.services.
 #- name: Check firewalld
 #  block:
@@ -14,7 +11,9 @@
 
 - name: Check firewalld
   block:
-    - name: Get status of firewalld
+
+# Reason for noqa: We need to get the current status only
+    - name: Get status of firewalld # noqa command-instead-of-module
       command: systemctl status firewalld
       register: __sap_preconfigure_register_firewalld_status_assert
       ignore_errors: yes

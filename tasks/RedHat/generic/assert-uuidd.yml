@@ -1,8 +1,5 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/assert-uuidd.yml"
-
 - name: Assert that uuidd.service exists
   assert:
     that: "'uuidd.service' in ansible_facts.services"
@@ -18,7 +15,8 @@
   when: "'uuidd.service' in ansible_facts.services"
 
 # uuidd.socket is not contained in ansible_facts.services, so we need to get the status from systemctl:
-- name: Get status of uuidd.socket
+# Reason for noqa: We need to get the current status only
+- name: Get status of uuidd.socket # noqa command-instead-of-module
   command: systemctl status uuidd.socket
   register: __sap_preconfigure_register_uuidd_socket_status_assert
   ignore_errors: yes

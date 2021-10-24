@@ -1,14 +1,5 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/check-dns-name-resolution.yml"
-
-- debug:
-    msg:
-      - "sap_hostname = {{ sap_hostname }}"
-      - "sap_domain = {{ sap_domain }}"
-      - "sap_ip = {{ sap_ip }}"
-
 # moved to configure-etc-hosts.yml:
 #- name: Verify that the DNS domain is set
 #  assert:

@@ -1,14 +1,16 @@
 ---
 
+# Reason for noqa: A double brace might also occur in an awk command sequence.
 - name: Check RHEL 7 package groups
   block:
-  - name: Set yum group list installed command
+  - name: Set yum group list installed command # noqa var-spacing
     set_fact:
       __sap_preconfigure_fact_yum_group_list_installed_command_assert: "yum group list installed hidden ids |
         awk '/Installed Groups:/{a=1}/Done/{a=0}{if (a==1&&!/:/){print $NF}}' |
         sed 's,(,,;s,),,'"
 
-  - name: Check if required RHEL 7 package groups are installed
+# Reason for noqa: The command to be executed might contain pipes
+  - name: Check if required RHEL 7 package groups are installed # noqa command-instead-of-shell
     shell: "{{ __sap_preconfigure_fact_yum_group_list_installed_command_assert }}"
     register: __sap_preconfigure_register_yum_group_assert
     changed_when: no
@@ -30,15 +32,17 @@
     - ansible_os_family == 'RedHat'
     - ansible_distribution_major_version == '7'
 
+# Reason for noqa: A double brace might also occur in an awk command sequence.
 - name: Check RHEL 8 environment groups
   block:
-  - name: Set yum envgroup list installed command
+  - name: Set yum envgroup list installed command # noqa var-spacing
     set_fact:
       __sap_preconfigure_fact_yum_envgroup_list_installed_command_assert: "yum group list installed -v |
       awk '/Installed Environment Groups:/{a=1}/Installed Groups:/{a=0}{if (a==1&&!/:/){print $NF}}' |
       sed 's,(,,;s,),,'"
 
-  - name: Check if required RHEL 8 environment groups are installed
+# Reason for noqa: The command to be executed might contain pipes
+  - name: Check if required RHEL 8 environment groups are installed # noqa command-instead-of-shell
     shell: "{{ __sap_preconfigure_fact_yum_envgroup_list_installed_command_assert }}"
     register: __sap_preconfigure_register_yum_envgroup_assert
     changed_when: no
@@ -133,7 +137,8 @@
     - sap_preconfigure_min_package_check|bool
     - __sap_preconfigure_min_pkgs|d([])
 
-- debug:
+- name: Report if no minimum required package version is defined for this RHEL release
+  debug:
     msg: "INFO: No minimum required package version defined (variable __sap_preconfigure_min_pkgs)."
   ignore_errors: yes
   when: not __sap_preconfigure_min_pkgs|d([])
@@ -155,7 +160,8 @@
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
   when: sap_preconfigure_update
 
-- debug:
+- name: Report if checking for possible package updates is not requested
+  debug:
     msg: "INFO: Not checking for possible package updates (variable sap_preconfigure_update)."
   ignore_errors: yes
   when: not sap_preconfigure_update
@@ -185,10 +191,12 @@
     - ansible_os_family == 'RedHat'
     - ansible_distribution_version == '8.0'
 
-- debug:
+- name: Display the command for checking a reboot requirement
+  debug:
     var: __sap_preconfigure_fact_needs_restarting_command_assert
 
-- name: Check if system needs to be restarted
+# Reason for noqa: The command to be executed might contain pipes
+- name: Check if system needs to be restarted # noqa command-instead-of-shell
   shell: "{{ __sap_preconfigure_fact_needs_restarting_command_assert }}"
   register: __sap_preconfigure_register_needs_restarting_assert
   changed_when: false
