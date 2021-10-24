@@ -3,7 +3,7 @@
 # loop block for sapnote/RedHat/generic/assert-kernel-parameters.yml
 
 - name: Get {{ line_item.name }} from {{ __sap_preconfigure_etc_sysctl_sap_conf }}
-  command: awk 'BEGIN{FS="="}/{{ line_item.name }}/{print $NF}' {{ __sap_preconfigure_etc_sysctl_sap_conf }}
+  shell: awk 'BEGIN{FS="="}/{{ line_item.name }}/{gsub ("^\\s*", "", $NF); print $NF}' {{ __sap_preconfigure_etc_sysctl_sap_conf }}
   register: __sap_preconfigure_register_sysctl_sap_conf_kernel_parameter_assert
   changed_when: no
   ignore_errors: yes
