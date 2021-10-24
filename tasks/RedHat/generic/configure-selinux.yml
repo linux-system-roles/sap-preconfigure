@@ -3,13 +3,38 @@
 - debug:
     msg: "imported RedHat/generic/configure-selinux.yml"
 
-- name: Set SELinux state
-  selinux:
-    state: "{{ sap_preconfigure_selinux_state }}"
-    policy: targeted
-  register: __sap_preconfigure_register_selinux_state
-
-- name: Call Reboot handler if necessary
-  command: /bin/true
+- name: Set SELinux state to '{{ sap_preconfigure_selinux_state }}' in /etc/selinux/config
+  lineinfile:
+    path: /etc/selinux/config
+    regexp: ^SELINUX\s*=.*
+    line: "SELINUX={{ sap_preconfigure_selinux_state }}"
+    state: present
   notify: __sap_preconfigure_reboot_handler
-  when: __sap_preconfigure_register_selinux_state.reboot_required
+
+- name: Set SELinux type to 'targeted' in /etc/selinux/config
+  lineinfile:
+    path: /etc/selinux/config
+    regexp: ^SELINUXTYPE\s*=.*
+    line: 'SELINUXTYPE=targeted'
+    state: present
+  notify: __sap_preconfigure_reboot_handler
+
+- name: Set or unset SELinux kernel parameter, RHEL 8 and RHEL 9
+  block:
+
+    - name: Disable SELinux also on the kernel command line, RHEL 8 and RHEL 9
+      command: grubby --args="selinux=0" --update-kernel=ALL
+      notify: __sap_preconfigure_reboot_handler
+      when: sap_preconfigure_selinux_state == 'disabled'
+
+    - name: Make sure SELinux is not disabled on the kernel command line, RHEL 8 and RHEL 9
+      command: grubby --remove-args="selinux" --update-kernel=ALL
+      notify: __sap_preconfigure_reboot_handler
+      when: sap_preconfigure_selinux_state == 'enforcing' or
+            sap_preconfigure_selinux_state == 'permissive'
+
+  when:
+    - ansible_os_family == 'RedHat'
+    - ( ansible_distribution_major_version == '8' or
+        ansible_distribution_major_version == '9'
+      )

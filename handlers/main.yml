@@ -24,6 +24,14 @@
     - not sap_preconfigure_fail_if_reboot_required|d(true)
     - not sap_preconfigure_reboot_ok|d(false)
 
+- name: Set the flag that reboot is needed to apply changes
+  set_fact:
+    sap_preconfigure_fact_reboot_required: true
+  listen: __sap_preconfigure_reboot_handler
+  when:
+    - not sap_preconfigure_fail_if_reboot_required|d(true)
+    - not sap_preconfigure_reboot_ok|d(false)
+
 - name: Remount /dev/shm
   command: mount -o remount /dev/shm
   args:
