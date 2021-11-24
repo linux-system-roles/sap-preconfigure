@@ -2,13 +2,9 @@
 
 # vars file for sap-preconfigure
 
-__sap_preconfigure_sapnotes:
-  - "2002167"
-  - "1391070"
-  - "0941735"
-
 __sap_preconfigure_sapnotes_versions:
-  - { number: '2002167', version: '32' }
+  - { number: '2002167', version: '33' }
+  - { number: '1771258', version: '6' }
   - { number: '1391070', version: '41' }
   - { number: '0941735', version: '11' }
 
@@ -78,15 +74,15 @@ __sap_preconfigure_min_packages_7_3:
 
 # SAP note 2812427:
 __sap_preconfigure_min_packages_7_4:
-  - [ 'kernel' , '3.10.0-693.58.1.el7' ]
+  - [ 'kernel', '3.10.0-693.58.1.el7' ]
 
 # SAP note 2812427:
 __sap_preconfigure_min_packages_7_5:
-  - [ 'kernel' , '3.10.0-862.43.1.el7' ]
+  - [ 'kernel', '3.10.0-862.43.1.el7' ]
 
 # SAP note 2812427:
 __sap_preconfigure_min_packages_7_6:
-  - [ 'kernel' , '3.10.0-957.35.1.el7' ]
+  - [ 'kernel', '3.10.0-957.35.1.el7' ]
 
 __sap_preconfigure_min_packages_7_7:
 

@@ -1,6 +1,6 @@
 ---
 
-- name: Display host and domain name, and IP address
+- name: Display host and domain name, and IP address before the modification
   debug:
     msg:
       - "sap_hostname = {{ sap_hostname }}"
@@ -53,11 +53,6 @@
 
   when:
     - not sap_preconfigure_modify_etc_hosts | bool
-
-- name: Display host and domain name, and IP address
-  debug:
-    msg:
-      - "System {{ sap_hostname }}, {{ sap_hostname }}.{{ sap_domain }} has ipv4 address {{ sap_ip }}."
 
 # We allow more than one line containing sap_ip:
 - name: Check for duplicate entries of {{ sap_ip }} in /etc/hosts

@@ -7,7 +7,7 @@
 - name: Gather service facts
   service_facts:
 
-- name: Configure - Include configuration actions for required sapnotes
+- name: Assert - Include configuration actions for required sapnotes
   include_tasks: "sapnote/assert-{{ sap_note_line_item.number }}.yml"
   with_items: "{{ __sap_preconfigure_sapnotes_versions | difference(['']) }}"
   loop_control:
