@@ -2,13 +2,10 @@
 
 # vars file for sap-preconfigure
 
-__sap_preconfigure_sapnotes:
-# for the time being, use SAP note 2772999:
-  - "2772999"
-#  - "XXX"
-
 __sap_preconfigure_sapnotes_versions:
+# for the time being, use SAP note 2772999:
   - { number: '2772999', version: '17' }
+  - { number: '1771258', version: '6' }
 
 __sap_preconfigure_envgroups:
   - "server-product-environment"

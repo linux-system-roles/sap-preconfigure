@@ -1,6 +1,7 @@
 ---
 
-- debug:
+- name: Configure 2772999-3
+  debug:
     msg: "SAP note 2772999 Step 3: Configure Hostname"
 
 - import_tasks: ../../RedHat/generic/configure-hostname.yml

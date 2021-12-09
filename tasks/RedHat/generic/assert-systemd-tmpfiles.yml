@@ -1,8 +1,5 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/assert-systemd-tmpfiles.yml"
-
 - name: Get info about file /etc/tmpfiles.d/sap.conf
   stat:
     path: /etc/tmpfiles.d/sap.conf

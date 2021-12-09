@@ -1,6 +1,7 @@
 ---
 
-- debug:
+- name: Assert 2002167-6
+  debug:
     msg: "SAP note 2002167 Step 6: Additional notes for installing SAP systems"
 
 - name: Get info about file /usr/lib64/libldap.so.199

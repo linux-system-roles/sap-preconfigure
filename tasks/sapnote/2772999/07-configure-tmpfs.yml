@@ -1,6 +1,7 @@
 ---
 
-- debug:
+- name: Configure 2772999-7
+  debug:
     msg: "SAP note 2772999 Step 7: Configure tmpfs;
     memtotal_mb = {{ ansible_memtotal_mb }};
     swaptotal_mb = {{ ansible_swaptotal_mb }};

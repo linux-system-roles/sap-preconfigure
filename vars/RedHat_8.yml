@@ -2,11 +2,9 @@
 
 # vars file for sap-preconfigure
 
-__sap_preconfigure_sapnotes:
-  - "2772999"
-
 __sap_preconfigure_sapnotes_versions:
   - { number: '2772999', version: '17' }
+  - { number: '1771258', version: '6' }
 
 __sap_preconfigure_envgroups:
   - "server-product-environment"
@@ -30,6 +28,7 @@ __sap_preconfigure_packages_x86_64:
   - nfs-utils
   - bind-utils
   - compat-sap-c++-9
+  - compat-sap-c++-10
 
 __sap_preconfigure_packages_ppc64le:
   - uuidd
@@ -39,6 +38,7 @@ __sap_preconfigure_packages_ppc64le:
   - nfs-utils
   - bind-utils
   - compat-sap-c++-9
+  - compat-sap-c++-10
 
 __sap_preconfigure_packages_s390x:
   - uuidd

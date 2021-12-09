@@ -1,8 +1,5 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/assert-kernel-parameters.yml"
-
 - name: Get info about file {{ __sap_preconfigure_etc_sysctl_sap_conf }}
   stat:
     path: "{{ __sap_preconfigure_etc_sysctl_sap_conf }}"

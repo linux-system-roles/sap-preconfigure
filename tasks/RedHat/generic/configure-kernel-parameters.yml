@@ -1,12 +1,10 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/configure-kernel-parameters.yml"
-
 - name: Set kernel parameters
   lineinfile:
     path: "{{ __sap_preconfigure_etc_sysctl_sap_conf }}"
     create: yes
+    mode: '0644'
     regexp: ^{{ line_item.name }}.*
     line: "{{ line_item.name }}={{ line_item.value }}"
     state: present
@@ -17,7 +15,8 @@
 - name: Reload kernel parameters from file '{{ __sap_preconfigure_etc_sysctl_sap_conf }}'
   command: sysctl -p "{{ __sap_preconfigure_etc_sysctl_sap_conf }}"
   register: __sap_preconfigure_register_sap_conf_sysctl_p_output
+  changed_when: true
 
-- name: Print kernel parameters after setting kernel.pid_max
+- name: Display kernel parameters after setting kernel.pid_max
   debug:
     var: __sap_preconfigure_register_sap_conf_sysctl_p_output.stdout_lines

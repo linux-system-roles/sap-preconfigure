@@ -1,8 +1,5 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/assert-hostname.yml"
-
 - name: Check if hostname is set
   command: hostname
   register: __sap_preconfigure_register_hostname_assert

@@ -1,14 +1,5 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/assert-dns-name-resolution.yml"
-
-- debug:
-    msg:
-      - "sap_hostname = {{ sap_hostname }}"
-      - "sap_domain = {{ sap_domain }}"
-      - "sap_ip = {{ sap_ip }}"
-
 - name: Assert that the DNS domain is set
   assert:
     that: not( (ansible_domain is undefined) or (ansible_domain is none) or (ansible_domain | trim == '') )
@@ -31,7 +22,7 @@
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
 - name: Check if IP address for sap_hostname.sap_domain is resolved correctly
-  shell: dig {{ sap_hostname }}.{{ sap_domain }} +short
+  command: dig {{ sap_hostname }}.{{ sap_domain }} +short
   register: __sap_preconfigure_register_dig_short_assert
   ignore_errors: yes
   changed_when: no
@@ -54,7 +45,7 @@
 
 ### BUG: dig does not use search path in resolv.con on PPCle
 - name: Check if IP address for sap_hostname with search path is resolved correctly
-  shell: dig {{ sap_hostname }} +search +short
+  command: dig {{ sap_hostname }} +search +short
   register: __sap_preconfigure_register_dig_search_short_assert
   changed_when: false
   ignore_errors: true
@@ -69,7 +60,7 @@
   when: "'bind-utils' in ansible_facts.packages"
 
 - name: Check if the reverse name resolution is correct
-  shell: dig -x {{ sap_ip }} +short
+  command: dig -x {{ sap_ip }} +short
   register: __sap_preconfigure_register_dig_reverse_assert
   changed_when: false
   ignore_errors: true
