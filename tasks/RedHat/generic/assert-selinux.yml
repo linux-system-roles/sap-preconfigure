@@ -1,8 +1,5 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/assert-selinux.yml"
-
 - name: Get info about file /etc/selinux/config
   stat:
     path: /etc/selinux/config
@@ -15,12 +12,14 @@
 #    success_msg: "PASS: File /etc/selinux/config exists and is a regular file."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"
 
-- debug:
+- name: Warn about SELinux being set to 'enforcing'
+  debug:
     msg: "WARN: The SELinux state has been set to 'enforcing' (variable sap_preconfigure_selinux_state)."
   ignore_errors: yes
   when: "sap_preconfigure_selinux_state == 'enforcing'"
 
-- debug:
+- name: Warn about how SELinux would be set when role is run in normal mode
+  debug:
     msg: "INFO: When running in normal mode, the role will set the SELinux state to '{{ sap_preconfigure_selinux_state }}'
           (variable sap_preconfigure_selinux_state)."
   ignore_errors: yes
@@ -43,14 +42,14 @@
   when: __sap_preconfigure_register_stat_selinux_conf_assert.stat.isreg
 
 - name: Check for the current SELinux state
-  shell: getenforce | awk '{print tolower ($0)}'
+  command: getenforce
   register: __sap_preconfigure_register_getenforce_assert
   changed_when: no
 
 - name: Assert that SELinux is set correctly
   assert:
-    that: __sap_preconfigure_register_getenforce_assert.stdout == "{{ sap_preconfigure_selinux_state }}"
+    that: __sap_preconfigure_register_getenforce_assert.stdout | lower == "{{ sap_preconfigure_selinux_state }}"
     fail_msg: "FAIL: SELinux is currently not '{{ sap_preconfigure_selinux_state }}'!
-               The current SELinux state is: '{{ __sap_preconfigure_register_getenforce_assert.stdout }}'."
+               The current SELinux state is: '{{ __sap_preconfigure_register_getenforce_assert.stdout | lower }}'."
     success_msg: "PASS: SELinux is currently {{ sap_preconfigure_selinux_state }}."
   ignore_errors: "{{ sap_preconfigure_assert_ignore_errors|d(false) }}"

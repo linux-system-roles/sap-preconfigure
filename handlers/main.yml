@@ -43,6 +43,7 @@
   register: __sap_preconfigure_command_df_shm_result
   listen: __sap_preconfigure_mount_tmpfs_handler
 
-- debug:
+- name: Show the result of df -h /dev/shm
+  debug:
     var: __sap_preconfigure_command_df_shm_result.stdout_lines, __sap_preconfigure_command_df_shm_result.stderr_lines
   listen: __sap_preconfigure_mount_tmpfs_handler

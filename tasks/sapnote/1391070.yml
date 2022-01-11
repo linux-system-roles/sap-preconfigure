@@ -1,9 +1,8 @@
 ---
-# tasks file for sap-preconfigure: configuration
 
 # Linux-UUID-solutions
 - block:
-  - name: Show note number and version
+  - name: Configure - Display SAP note number 1391070 and its version
     debug:
       msg: "SAP note {{ (__sap_preconfigure_sapnotes_versions | selectattr('number', 'match', '^1391070$') | first).number }}
             (version {{ (__sap_preconfigure_sapnotes_versions | selectattr('number', 'match', '^1391070$') | first).version }}): Configure uuidd"

@@ -2,11 +2,9 @@
 
 # vars file for sap-preconfigure
 
-__sap_preconfigure_sapnotes:
-  - "2772999"
-
 __sap_preconfigure_sapnotes_versions:
   - { number: '2772999', version: '17' }
+  - { number: '1771258', version: '6' }
 
 __sap_preconfigure_envgroups:
   - "server-product-environment"
@@ -51,7 +49,7 @@ __sap_preconfigure_packages_s390x:
 __sap_preconfigure_packages: "{{ lookup('vars','__sap_preconfigure_packages_' + ansible_architecture ) }}"
 
 __sap_preconfigure_min_pkgs:
-  - [ 'setup' , '2.12.2-2.el8_1.1' ]
+  - [ 'setup', '2.12.2-2.el8_1.1' ]
 
 __sap_preconfigure_kernel_parameters_default:
   - { name: vm.max_map_count, value: '2147483647' }

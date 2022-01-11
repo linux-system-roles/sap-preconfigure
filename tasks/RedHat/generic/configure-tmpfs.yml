@@ -1,8 +1,5 @@
 ---
 
-- debug:
-    msg: "imported RedHat/generic/configure-tmpfs.yml"
-
 - name: Configure tmpfs in /etc/fstab
   lineinfile:
     path: /etc/fstab

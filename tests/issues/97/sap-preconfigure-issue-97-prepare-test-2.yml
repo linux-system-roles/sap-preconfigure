@@ -1,7 +1,0 @@
-- hosts: all
-  tasks:
-  - name: Set the value for vm.max_map_count to 2000000 in /etc/sysctl.d/sap.conf
-    lineinfile:
-      path: /etc/sysctl.d/sap.conf
-      regexp: '^vm.max_map_count='
-      line: vm.max_map_count=2000000
