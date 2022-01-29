@@ -1,4 +1,6 @@
 # **NOTE:** Development and maintenance of this software has stopped.
+The successor role is [sap_general_preconfigure](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_general_preconfigure).
+
 For more information, see [DISCONTINUATION_NOTICE.md](DISCONTINUATION_NOTICE.md).
 ***
 
